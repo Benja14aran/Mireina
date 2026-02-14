@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestros Reencuentros ✈️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Aviones flotantes */
+        .aviones-fondo {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.1;
+        }
+
+        .avion {
+            position: absolute;
+            font-size: 3em;
+            animation: volarAvion 30s linear infinite;
+        }
+
+        @keyframes volarAvion {
+            0% { transform: translateX(-100px) translateY(0); }
+            100% { transform: translateX(calc(100vw + 100px)) translateY(-50px); }
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-volver {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.95);
+            color: #ff9a9e;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-volver:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+            background: white;
+        }
+
+        .contenido {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 40px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 1s ease-out;
+        }
+
+        h1 {
+            color: #ff9a9e;
+            font-size: 3.5em;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #fecfef;
+            font-size: 1.3em;
+            margin-bottom: 50px;
+            font-style: italic;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Notificación de mensaje */
+        .mensaje-notificacion {
+            background: linear-gradient(135deg, #fff5f8 0%, #ffe6f0 100%);
+            padding: 40px;
+            border-radius: 25px;
+            margin: 50px 0;
+            box-shadow: 0 15px 40px rgba(255, 154, 158, 0.3);
+            border-left: 8px solid #ff9a9e;
+            position: relative;
+            animation: vibrar 0.3s ease-in-out infinite alternate;
+        }
+
+        @keyframes vibrar {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(2px); }
+        }
+
+        .mensaje-notificacion::before {
+            content: '📱';
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 4em;
+            opacity: 0.2;
+        }
+
+        .mensaje-notificacion .texto-mensaje {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 1.5em;
+            color: #ff9a9e;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+
+        .mensaje-notificacion p {
+            color: #555;
+            font-size: 1.2em;
+            line-height: 1.8;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        /* Mapa de viajes */
+        .mapa-viajes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+            margin: 50px 0;
+        }
+
+        .destino {
+            background: linear-gradient(135deg, #fff8fb 0%, #ffe6f0 100%);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(255, 154, 158, 0.15);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid transparent;
+        }
+
+        .destino::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 154, 158, 0.1) 0%, transparent 70%);
+            transition: all 0.6s ease;
+        }
+
+        .destino:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 45px rgba(255, 154, 158, 0.25);
+            border-color: #ff9a9e;
+        }
+
+        .destino:hover::before {
+            top: -30%;
+            right: -30%;
+        }
+
+        .destino .icono-lugar {
+            font-size: 4em;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .destino h3 {
+            color: #ff9a9e;
+            font-size: 2em;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .destino .ubicacion {
+            color: #fecfef;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .destino p {
+            color: #555;
+            font-size: 1.15em;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .destino.destacado {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: white;
+            border-color: white;
+        }
+
+        .destino.destacado h3,
+        .destino.destacado .ubicacion,
+        .destino.destacado p {
+            color: white;
+        }
+
+        /* Rutas */
+        .rutas-section {
+            margin: 60px 0;
+            background: linear-gradient(135deg, #fff5f8 0%, #ffe6f0 100%);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 15px 40px rgba(255, 154, 158, 0.2);
+        }
+
+        .rutas-section h2 {
+            color: #ff9a9e;
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        .ruta {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 25px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .ruta:hover {
+            transform: translateX(10px);
+            box-shadow: 0 12px 35px rgba(255, 154, 158, 0.3);
+        }
+
+        .ruta .icono-ruta {
+            font-size: 3em;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .ruta .info-ruta h4 {
+            color: #ff9a9e;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .ruta .info-ruta p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        /* Galería mejorada */
+        .galeria-imagenes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .imagen-item {
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            background: white;
+            position: relative;
+        }
+
+        .imagen-item::after {
+            content: '✈️';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2.5em;
+            opacity: 0;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+        }
+
+        .imagen-item:hover::after {
+            opacity: 1;
+            transform: scale(1.2) rotate(15deg);
+        }
+
+        .imagen-item:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 25px 50px rgba(255, 154, 158, 0.3);
+        }
+
+        .imagen-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Mensaje principal */
+        .mensaje-principal {
+            background: linear-gradient(135deg, #fff8fb 0%, #ffe6f0 100%);
+            padding: 50px;
+            border-radius: 30px;
+            margin: 50px 0;
+            border-left: 8px solid #ff9a9e;
+            box-shadow: 0 15px 40px rgba(255, 154, 158, 0.2);
+            position: relative;
+        }
+
+        .mensaje-principal::before {
+            content: '🗺️';
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 8em;
+            opacity: 0.1;
+        }
+
+        .mensaje-principal p {
+            color: #555;
+            font-size: 1.35em;
+            line-height: 2;
+            text-align: justify;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mensaje-principal .destacado {
+            background: linear-gradient(135deg, rgba(255, 154, 158, 0.15), rgba(254, 207, 239, 0.15));
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            border-left: 5px solid #fecfef;
+        }
+
+        /* Promesa final */
+        .promesa-final {
+            text-align: center;
+            margin: 60px 0 40px 0;
+            padding: 60px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            border-radius: 35px;
+            color: white;
+            box-shadow: 0 20px 50px rgba(255, 154, 158, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .promesa-final::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .promesa-final h2 {
+            font-size: 2.8em;
+            margin-bottom: 25px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .promesa-final p {
+            font-size: 1.5em;
+            line-height: 1.9;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            margin: 15px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .corazon {
+            position: fixed;
+            font-size: 2em;
+            pointer-events: none;
+            z-index: 999;
+            animation: floatUp 4s linear;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(-1000px) rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .contenido { padding: 40px 25px; }
+            h1 { font-size: 2.5em; }
+            .mapa-viajes { grid-template-columns: 1fr; }
+            .galeria-imagenes { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+            .ruta { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="aviones-fondo" id="aviones"></div>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <a href="Index.html" class="btn-volver">← Volver al inicio</a>
+
+        <div class="contenido">
+            <h1>✈️ Nuestros Reencuentros ✈️</h1>
+            <p class="subtitulo">Cada viaje nos acerca más, cada kilómetro vale la pena</p>
+
+            <div class="mensaje-notificacion">
+                <div class="texto-mensaje">
+                    "Amor, voy en camino" 💕
+                </div>
+                <div class="texto-mensaje">
+                    "Amor, llego en una hora" ❤️
+                </div>
+                <p><strong>No sabes lo lindo que es recibir estos mensajes.</strong> Hacen que vuelva a la vida en tan solo 1 milisegundo. Mi corazón se acelera, la emoción me invade, y sé que pronto estaremos juntos de nuevo.</p>
+            </div>
+
+            <div class="rutas-section">
+                <h2>🗺️ Nuestras Rutas de Amor 🗺️</h2>
+                
+                <div class="ruta">
+                    <div class="icono-ruta">🚌</div>
+                    <div class="info-ruta">
+                        <h4>Santiago ↔ La Serena</h4>
+                        <p>Los viajes que forjaron nuestro amor eterno. Kilómetros de carretera que recorremos con las ganas de vernos, de abrazarnos, de estar juntos.</p>
+                    </div>
+                </div>
+
+                <div class="ruta">
+                    <div class="icono-ruta">🚗</div>
+                    <div class="info-ruta">
+                        <h4>Santiago ↔ Ovalle</h4>
+                        <p>Otra ruta más de nuestro amor. Sin importar la distancia, siempre encontramos el camino para estar juntos.</p>
+                    </div>
+                </div>
+
+                <div class="ruta">
+                    <div class="icono-ruta">✈️</div>
+                    <div class="info-ruta">
+                        <h4>Viajes al Sur</h4>
+                        <p>Villarrica, Pucón, Licanray, Coñaripe, Valdivia... cada destino sur es una nueva aventura juntos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mapa-viajes">
+                <div class="destino">
+                    <div class="icono-lugar">🏞️</div>
+                    <h3>Villarrica</h3>
+                    <div class="ubicacion">
+                        <span>📍</span>
+                        <span>Región de La Araucanía</span>
+                    </div>
+                    <p>Donde comenzaron nuestras aventuras en el sur. Los paisajes, los momentos, todo fue perfecto contigo.</p>
+                </div>
+
+                <div class="destino">
+                    <div class="icono-lugar">🏔️</div>
+                    <h3>Pucón</h3>
+                    <div class="ubicacion">
+                        <span>📍</span>
+                        <span>Tierra de Aventuras</span>
+                    </div>
+                    <p>La magia de estar juntos rodeados de naturaleza. Cada vista era más hermosa porque estabas a mi lado.</p>
+                </div>
+
+                <div class="destino">
+                    <div class="icono-lugar">🌊</div>
+                    <h3>Licanray</h3>
+                    <div class="ubicacion">
+                        <span>📍</span>
+                        <span>Lago Calafquén</span>
+                    </div>
+                    <p>Aguas cristalinas y momentos únicos. Cada segundo contigo en este lugar quedó grabado en mi corazón.</p>
+                </div>
+
+                <div class="destino">
+                    <div class="icono-lugar">🌲</div>
+                    <h3>Coñaripe</h3>
+                    <div class="ubicacion">
+                        <span>📍</span>
+                        <span>Termas y Naturaleza</span>
+                    </div>
+                    <p>Relax y amor en medio de la naturaleza. Contigo todo es mejor, hasta el simple hecho de caminar.</p>
+                </div>
+
+                <div class="destino destacado">
+                    <div class="icono-lugar">🦌</div>
+                    <h3>Tour del Huilo Huilo</h3>
+                    <div class="ubicacion">
+                        <span>⭐</span>
+                        <span>El Viaje Soñado</span>
+                    </div>
+                    <p>Después de tanto esfuerzo, después de sangrar y sufrir, todo salió como queríamos. Este tour fue la recompensa a nuestra perseverancia y amor.</p>
+                </div>
+
+                <div class="destino destacado">
+                    <div class="icono-lugar">🏛️</div>
+                    <h3>Valdivia</h3>
+                    <div class="ubicacion">
+                        <span>⭐</span>
+                        <span>Ciudad de los Ríos</span>
+                    </div>
+                    <p>Las fotos que sacamos, los lugares lindos, las comidas perfectas que comimos ese día fueron lo mejor. Los paisajes verdes y las playas de la costa... pura magia.</p>
+                </div>
+            </div>
+
+            <div class="galeria-imagenes">
+                <div class="imagen-item">
+                    <img src="assent/GIF13.gif" alt="Reencuentro">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/JPG9.jpg" alt="Reencuentro">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/GIF14.gif" alt="Reencuentro">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/GIF15.gif" alt="Reencuentro">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/JPG1.jpg" alt="Momento especial">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/GIF16.gif" alt="Reencuentro">
+                </div>
+            </div>
+
+            <div class="mensaje-principal">
+                <p>Cada viaje que hacemos es una memoria más, un recuerdo andante que nos hace recordar por qué somos tan felices juntos.</p>
+                
+                <div class="destacado">
+                    <p><strong>Los viajes de Santiago a La Serena o a Ovalle</strong> forjaron nuestro amor eterno y las ganas que nos tenemos. Cada kilómetro recorrido es una prueba más de que nuestro amor puede con todo, incluso con la distancia.</p>
+                </div>
+                
+                <p>Los viajes al sur - Villarrica, Pucón, Licanray, Coñaripe - cada momento es único. Pero especialmente el tour del Huilo Huilo que hicimos después de tanto esfuerzo, después de sangrar y sufrir... todo salió como queríamos. Ese viaje fue la recompensa perfecta.</p>
+                
+                <p>El viaje a Valdivia, las fotos que sacamos, los lugares lindos y las comidas perfectas que comimos ese día fueron lo mejor. Esos paisajes verdes y las playas de la costa quedaron grabados en mi memoria junto con tu sonrisa.</p>
+                
+                <p>Cada viaje que hacemos es una memoria más, un recuerdo andante que nos hace recordar por qué somos tan felices. Porque no importa el destino, lo importante es que estamos juntos, creando recuerdos que durarán para siempre.</p>
+            </div>
+
+            <div class="promesa-final">
+                <h2>🌍 Mi Promesa de Viajes 🌍</h2>
+                <p>Seguiremos viajando juntos.</p>
+                <p>Creando más recuerdos en cada destino.</p>
+                <p>Porque cada viaje contigo es una nueva aventura.</p>
+                <p>Cada reencuentro es volver a enamorarme.</p>
+                <p><strong>Y pronto, ya no habrá más despedidas, solo un viaje eterno juntos. 💕</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function crearEstrellas() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function crearAviones() {
+            const avionesContainer = document.getElementById('aviones');
+            for (let i = 0; i < 5; i++) {
+                const avion = document.createElement('div');
+                avion.className = 'avion';
+                avion.textContent = '✈️';
+                avion.style.top = Math.random() * 100 + '%';
+                avion.style.animationDelay = Math.random() * 30 + 's';
+                avion.style.animationDuration = (20 + Math.random() * 15) + 's';
+                avionesContainer.appendChild(avion);
+            }
+        }
+
+        function crearCorazon() {
+            const corazones = ['❤️', '💕', '💖', '💗', '💓', '💝', '✈️', '🗺️'];
+            const corazon = document.createElement('div');
+            corazon.className = 'corazon';
+            corazon.textContent = corazones[Math.floor(Math.random() * corazones.length)];
+            corazon.style.left = Math.random() * 100 + '%';
+            corazon.style.bottom = '-50px';
+            document.body.appendChild(corazon);
+            setTimeout(() => corazon.remove(), 4000);
+        }
+
+        // Animación de aparición
+        const observador = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            crearEstrellas();
+            crearAviones();
+            setInterval(crearCorazon, 800);
+            
+            // Animar elementos
+            document.querySelectorAll('.destino, .ruta, .imagen-item').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease-out';
+                observador.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

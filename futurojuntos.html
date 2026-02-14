@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestro Futuro Juntos 🌈</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Arcoíris animado */
+        .arcoiris-fondo {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.15;
+        }
+
+        .arcoiris {
+            position: absolute;
+            width: 300px;
+            height: 150px;
+            border-radius: 150px 150px 0 0;
+            border: 15px solid;
+            animation: floatArcoiris 20s ease-in-out infinite;
+        }
+
+        @keyframes floatArcoiris {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-volver {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.95);
+            color: #fcb69f;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-volver:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+            background: white;
+        }
+
+        .contenido {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 40px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 1s ease-out;
+        }
+
+        h1 {
+            color: #fcb69f;
+            font-size: 3.8em;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #ffecd2;
+            font-size: 1.4em;
+            margin-bottom: 50px;
+            font-style: italic;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .mensaje-bienvenida {
+            background: linear-gradient(135deg, #fff8f0 0%, #ffe6e0 100%);
+            padding: 50px;
+            border-radius: 30px;
+            margin: 40px 0;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(252, 182, 159, 0.3);
+            border: 4px solid #fcb69f;
+        }
+
+        .mensaje-bienvenida h2 {
+            color: #fcb69f;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .mensaje-bienvenida p {
+            color: #555;
+            font-size: 1.4em;
+            line-height: 2;
+        }
+
+        /* Imagen destacada mejorada */
+        .imagen-destacada {
+            text-align: center;
+            margin: 50px 0;
+            position: relative;
+        }
+
+        .imagen-destacada img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            transition: all 0.5s ease;
+            border: 5px solid white;
+        }
+
+        .imagen-destacada img:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 25px 60px rgba(252, 182, 159, 0.5);
+        }
+
+        /* Sueños del futuro */
+        .suenos-futuro {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+            margin: 60px 0;
+        }
+
+        .sueno {
+            background: linear-gradient(135deg, #fff8f0 0%, #ffe6e0 100%);
+            padding: 45px;
+            border-radius: 30px;
+            box-shadow: 0 12px 35px rgba(252, 182, 159, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid transparent;
+        }
+
+        .sueno::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(252, 182, 159, 0.15) 0%, transparent 70%);
+            transition: all 0.6s ease;
+        }
+
+        .sueno:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(252, 182, 159, 0.35);
+            border-color: #fcb69f;
+        }
+
+        .sueno:hover::before {
+            top: -30%;
+            right: -30%;
+        }
+
+        .sueno .icono-sueno {
+            font-size: 4.5em;
+            text-align: center;
+            margin-bottom: 25px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .sueno h3 {
+            color: #fcb69f;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .sueno p {
+            color: #555;
+            font-size: 1.25em;
+            line-height: 1.9;
+            text-align: center;
+        }
+
+        /* Mensaje del corazón */
+        .mensaje-corazon {
+            background: linear-gradient(135deg, #fff8f0 0%, #ffe6e0 100%);
+            padding: 60px;
+            border-radius: 35px;
+            margin: 60px 0;
+            border-left: 10px solid #fcb69f;
+            box-shadow: 0 20px 50px rgba(252, 182, 159, 0.3);
+            position: relative;
+        }
+
+        .mensaje-corazon::before {
+            content: '💑';
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 10em;
+            opacity: 0.08;
+        }
+
+        .mensaje-corazon p {
+            color: #555;
+            font-size: 1.45em;
+            line-height: 2.2;
+            text-align: justify;
+            margin: 25px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mensaje-corazon .destacado {
+            background: linear-gradient(135deg, rgba(252, 182, 159, 0.2), rgba(255, 236, 210, 0.2));
+            padding: 35px;
+            border-radius: 25px;
+            margin: 35px 0;
+            border-left: 6px solid #ffecd2;
+        }
+
+        .mensaje-corazon .enfasis {
+            color: #fcb69f;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        /* Timeline de vida juntos */
+        .timeline-vida {
+            position: relative;
+            margin: 70px 0;
+            padding: 50px 0;
+        }
+
+        .timeline-vida::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ffecd2, #fcb69f);
+            border-radius: 3px;
+        }
+
+        .timeline-vida h2 {
+            color: #fcb69f;
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 60px;
+            font-weight: 700;
+        }
+
+        .fase-vida {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 50px 0;
+            position: relative;
+        }
+
+        .fase-content {
+            width: 45%;
+            background: linear-gradient(135deg, #fff8f0 0%, #ffe6e0 100%);
+            padding: 40px;
+            border-radius: 28px;
+            box-shadow: 0 12px 35px rgba(252, 182, 159, 0.25);
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .fase-content:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 18px 45px rgba(252, 182, 159, 0.35);
+        }
+
+        .fase-vida:nth-child(odd) .fase-content {
+            margin-right: auto;
+        }
+
+        .fase-vida:nth-child(even) .fase-content {
+            margin-left: auto;
+        }
+
+        .fase-icon {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: white;
+            border: 6px solid #fcb69f;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            z-index: 10;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .fase-content h3 {
+            color: #fcb69f;
+            font-size: 2em;
+            margin-bottom: 18px;
+            font-weight: 700;
+        }
+
+        .fase-content p {
+            color: #555;
+            font-size: 1.2em;
+            line-height: 1.9;
+        }
+
+        /* Promesa final épica */
+        .promesa-final {
+            text-align: center;
+            margin: 70px 0 50px 0;
+            padding: 70px;
+            background: linear-gradient(135deg, #fcb69f 0%, #ffecd2 100%);
+            border-radius: 40px;
+            color: white;
+            box-shadow: 0 25px 60px rgba(252, 182, 159, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .promesa-final::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .promesa-final h2 {
+            font-size: 3.2em;
+            margin-bottom: 30px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .promesa-final p {
+            font-size: 1.6em;
+            line-height: 2;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            margin: 20px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .promesa-final .grito-amor {
+            font-size: 2.2em;
+            margin-top: 40px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .corazon {
+            position: fixed;
+            font-size: 2em;
+            pointer-events: none;
+            z-index: 999;
+            animation: floatUp 4s linear;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-25px); }
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(-1000px) rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .contenido { padding: 40px 25px; }
+            h1 { font-size: 2.8em; }
+            .suenos-futuro { grid-template-columns: 1fr; }
+            .timeline-vida::before { left: 30px; }
+            .fase-icon { left: 30px; }
+            .fase-content { width: calc(100% - 110px); margin-left: 90px !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="arcoiris-fondo" id="arcoiris"></div>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <a href="Index.html" class="btn-volver">← Volver al inicio</a>
+
+        <div class="contenido">
+            <h1>🌈 Nuestro Futuro Juntos 🌈</h1>
+            <p class="subtitulo">El capítulo más hermoso que escribiremos juntos</p>
+
+            <div class="mensaje-bienvenida">
+                <h2>💕 Llegaste hasta el Futuro Juntos, mi bb 💕</h2>
+                <p>Esto es lo que más quiero: que tengamos una vida adelante nuestros ojos y podamos ser felices con todos, pero <strong>juntos</strong>.</p>
+            </div>
+
+            <div class="imagen-destacada">
+                <img src="assent/GIF17.gif" alt="Nuestro futuro juntos">
+            </div>
+
+            <div class="suenos-futuro">
+                <div class="sueno">
+                    <div class="icono-sueno">🏡</div>
+                    <h3>Nuestro Hogar</h3>
+                    <p>Que tengamos una casa, da lo mismo dónde sea ni cómo sea, pero mientras sea un hogar de ambos, todo cambia y todo se vuelve único. Un lugar donde construir nuestros sueños juntos.</p>
+                </div>
+
+                <div class="sueno">
+                    <div class="icono-sueno">👶</div>
+                    <h3>Nuestros Hijos</h3>
+                    <p>Que tengamos hijos más adelante, es algo que siempre hablamos y nos gustaría tener: 1 niño y 1 niña. Formar una familia hermosa llena de amor.</p>
+                </div>
+
+                <div class="sueno">
+                    <div class="icono-sueno">🐕</div>
+                    <h3>Nuestras Mascotas</h3>
+                    <p>Tener mascotas como un gordo salchicha o un Golden Retriever. Sea cual sea la mascota que nos acompañe en el proceso, será parte de nuestra familia.</p>
+                </div>
+
+                <div class="sueno">
+                    <div class="icono-sueno">☀️</div>
+                    <h3>Despertar Juntos</h3>
+                    <p>Cada mañana poder abrir los ojos y verte a mi lado. Sin distancia, sin despedidas, solo nosotros construyendo cada día juntos.</p>
+                </div>
+
+                <div class="sueno">
+                    <div class="icono-sueno">🌙</div>
+                    <h3>Dormir Abrazados</h3>
+                    <p>Todas las noches poder abrazarte antes de dormir, saber que estarás ahí cuando despierte, sentir tu calor real, no virtual.</p>
+                </div>
+
+                <div class="sueno">
+                    <div class="icono-sueno">∞</div>
+                    <h3>Para Siempre</h3>
+                    <p>Envejecer juntos, crear miles de recuerdos más, vivir aventuras, superar obstáculos... todo juntos, siempre juntos, hasta el infinito.</p>
+                </div>
+            </div>
+
+            <div class="timeline-vida">
+                <h2>📖 Nuestra Historia Futura 📖</h2>
+
+                <div class="fase-vida">
+                    <div class="fase-icon">🏠</div>
+                    <div class="fase-content">
+                        <h3>Nuestro Primer Hogar</h3>
+                        <p>El día que firmemos nuestro primer hogar juntos. Da igual si es grande o pequeño, si es en el norte o en el sur, mientras sea NUESTRO hogar, ahí seremos felices.</p>
+                    </div>
+                </div>
+
+                <div class="fase-vida">
+                    <div class="fase-icon">💍</div>
+                    <div class="fase-content">
+                        <h3>Nuestra Boda</h3>
+                        <p>El día que nos digamos "Sí, quiero" frente a todos. Celebrar nuestro amor con familia y amigos, oficializar lo que nuestros corazones ya saben hace tiempo.</p>
+                    </div>
+                </div>
+
+                <div class="fase-vida">
+                    <div class="fase-icon">🐾</div>
+                    <div class="fase-content">
+                        <h3>Nuestra Primera Mascota</h3>
+                        <p>Ese gordo salchicha o Golden Retriever que nos acompañará en nuestras aventuras. Será nuestro primer "hijo" antes de los humanos jaja.</p>
+                    </div>
+                </div>
+
+                <div class="fase-vida">
+                    <div class="fase-icon">👶</div>
+                    <div class="fase-content">
+                        <h3>Nuestra Familia</h3>
+                        <p>Cuando llegue nuestro primer hijo, y luego el segundo. Un niño y una niña, como siempre hemos soñado. Verlos crecer en un hogar lleno de amor.</p>
+                    </div>
+                </div>
+
+                <div class="fase-vida">
+                    <div class="fase-icon">🌍</div>
+                    <div class="fase-content">
+                        <h3>Viajar por el Mundo</h3>
+                        <p>Conocer juntos todos esos lugares que hemos soñado. Esta vez sin despedirnos, porque estaremos juntos en cada viaje, en cada aventura.</p>
+                    </div>
+                </div>
+
+                <div class="fase-vida">
+                    <div class="fase-icon">👴👵</div>
+                    <div class="fase-content">
+                        <h3>Envejecer Juntos</h3>
+                        <p>Ver nuestros cabellos volverse grises, nuestros nietos correr en el jardín, y recordar toda esta historia de amor que comenzó a distancia.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mensaje-corazon">
+                <p>Mientras tengamos todo y estemos <span class="enfasis">1 a 1 en ese hogar</span>, sabremos que <span class="enfasis">todo valió la pena</span> después de la distancia.</p>
+                
+                <div class="destacado">
+                    <p><strong>Las peleas, las discusiones, los lloros, los mimos, las caricias...</strong> Todo en sí sabremos que dio frutos a algo perfecto. Cada obstáculo que superamos juntos nos hizo más fuertes, cada lágrima derramada valió la pena, cada kilómetro de distancia nos preparó para valorar cada segundo juntos.</p>
+                </div>
+                
+                <p>La distancia nos enseñó a amarnos de formas que nunca imaginamos. Las peleas nos enseñaron a comunicarnos mejor. Los lloros nos enseñaron a consolarnos. Los mimos nos enseñaron a valorar cada caricia. Y todo esto, absolutamente todo, <span class="enfasis">dio frutos a algo perfecto: NOSOTROS</span>.</p>
+                
+                <p>Cuando estemos en ese hogar, con nuestros hijos jugando, con nuestro gordo salchicha o Golden corriendo por ahí, despertando juntos cada mañana y durmiendo abrazados cada noche... miraremos atrás y diremos: <span class="enfasis">"Valió cada segundo de espera"</span>.</p>
+            </div>
+
+            <div class="promesa-final">
+                <h2>💖 Te Amo, Te Amo, TE AMO 💖</h2>
+                <p>Prometo construir ese futuro contigo.</p>
+                <p>Prometo darte ese hogar que tanto soñamos.</p>
+                <p>Prometo ser el mejor padre para nuestros hijos.</p>
+                <p>Prometo amarte en la salud y en la enfermedad.</p>
+                <p>Prometo que cada día de nuestra vida juntos será mejor que el anterior.</p>
+                <p class="grito-amor">¡Nunca me abandones bb!</p>
+                <p class="grito-amor">¡Porque yo nunca te abandonaré!</p>
+                <p style="font-size: 2em; margin-top: 40px;">
+                    <strong>Te amo hoy, te amaré mañana, te amaré siempre.</strong>
+                </p>
+                <p style="font-size: 1.8em;">
+                    🌈 Nuestro mejor capítulo está por comenzar... 💕
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function crearEstrellas() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function crearArcoiris() {
+            const arcoirisContainer = document.getElementById('arcoiris');
+            const colores = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
+            
+            for (let i = 0; i < 3; i++) {
+                const arcoiris = document.createElement('div');
+                arcoiris.className = 'arcoiris';
+                arcoiris.style.borderColor = colores[i % colores.length];
+                arcoiris.style.left = (Math.random() * 80) + '%';
+                arcoiris.style.top = (Math.random() * 80) + '%';
+                arcoiris.style.animationDelay = (i * 3) + 's';
+                arcoirisContainer.appendChild(arcoiris);
+            }
+        }
+
+        function crearCorazon() {
+            const corazones = ['❤️', '💕', '💖', '💗', '💓', '💝', '💍', '🌈', '👶', '🏡', '🐕'];
+            const corazon = document.createElement('div');
+            corazon.className = 'corazon';
+            corazon.textContent = corazones[Math.floor(Math.random() * corazones.length)];
+            corazon.style.left = Math.random() * 100 + '%';
+            corazon.style.bottom = '-50px';
+            document.body.appendChild(corazon);
+            setTimeout(() => corazon.remove(), 4000);
+        }
+
+        // Animación de aparición
+        const observador = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            crearEstrellas();
+            crearArcoiris();
+            setInterval(crearCorazon, 600);
+            
+            // Animar elementos
+            document.querySelectorAll('.sueno, .fase-content').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease-out';
+                observador.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

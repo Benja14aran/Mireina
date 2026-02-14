@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi amor Elsa 💕 | San Valentín 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Corazones flotantes de fondo */
+        .hearts-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.1;
+        }
+
+        .heart-float {
+            position: absolute;
+            font-size: 3em;
+            animation: floatHeart 15s infinite;
+        }
+
+        @keyframes floatHeart {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            margin: 40px 0;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .header h1 {
+            color: #fff;
+            font-size: 4em;
+            text-shadow: 4px 4px 15px rgba(0,0,0,0.4);
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .header .subtitle {
+            color: #ffe6f0;
+            font-size: 1.8em;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            font-weight: 600;
+        }
+
+        .valentine-badge {
+            background: linear-gradient(135deg, #ff0844 0%, #ff6b9d 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            display: inline-block;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(255, 8, 68, 0.5);
+            animation: pulseValentine 2s infinite;
+        }
+
+        @keyframes pulseValentine {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        /* Reloj Digital estilo LED moderno */
+        .digital-clock-container {
+            background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+            border-radius: 35px;
+            padding: 60px 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+            text-align: center;
+            animation: fadeIn 1.5s ease-out;
+            border: 5px solid #ff0844;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .digital-clock-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,8,68,0.8), transparent);
+        }
+
+        .digital-clock-container h2 {
+            color: #ff0844;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            font-weight: 800;
+            text-shadow: 0 0 20px rgba(255,8,68,0.5);
+        }
+
+        .digital-clock-container .fecha-inicio {
+            color: #ff6b9d;
+            font-size: 1.4em;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .led-display {
+            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+            border-radius: 25px;
+            padding: 40px 30px;
+            box-shadow: inset 0 4px 20px rgba(0,0,0,0.6), 0 4px 20px rgba(0,0,0,0.3);
+            border: 2px solid #333;
+            margin: 30px auto;
+            max-width: 900px;
+        }
+
+        .time-display {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .time-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .led-number {
+            font-family: 'DS-Digital', 'Courier New', monospace;
+            font-size: 5.5em;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 
+                0 0 8px rgba(255, 255, 255, 0.4),
+                0 0 15px rgba(255, 255, 255, 0.2);
+            line-height: 1;
+            letter-spacing: 0.05em;
+            background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: brightness(1);
+        }
+
+        .led-label {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 10px;
+            text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .secondary-display {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        .secondary-display .time-unit .led-number {
+            font-size: 4em;
+        }
+
+        .info-display {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            gap: 20px;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #d0d0d0;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+        }
+
+        .info-label {
+            font-size: 0.9em;
+            color: #888;
+            text-transform: uppercase;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+        .bubu-dudu-section {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 35px;
+            padding: 50px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+            border: 5px solid #ff6b9d;
+        }
+
+        .bubu-dudu-section h2 {
+            color: #ff0844;
+            text-align: center;
+            font-size: 2.8em;
+            margin-bottom: 25px;
+            font-weight: 800;
+        }
+
+        .bubu-dudu-section .descripcion {
+            text-align: center;
+            color: #666;
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .personajes {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .personaje {
+            text-align: center;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .personaje:nth-child(2) {
+            animation-delay: 1.5s;
+        }
+
+        .personaje-img {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 15px 45px rgba(255, 8, 68, 0.4);
+            border: 6px solid #ff0844;
+            transition: all 0.4s ease;
+        }
+
+        .personaje-img:hover {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 20px 60px rgba(255, 8, 68, 0.6);
+        }
+
+        .personaje h3 {
+            color: #ff0844;
+            font-size: 1.8em;
+            margin-top: 20px;
+            font-weight: 800;
+        }
+
+        .personaje p {
+            color: #666;
+            font-size: 1.1em;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .corazon-central {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: heartbeat 1.5s infinite;
+            z-index: 10;
+        }
+
+        .corazon-central::before {
+            content: "💕";
+            font-size: 5em;
+            filter: drop-shadow(0 8px 15px rgba(255, 8, 68, 0.5));
+        }
+
+        .mensajes {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 35px;
+            padding: 50px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            border: 5px solid #ff6b9d;
+        }
+
+        .mensajes h2 {
+            color: #ff0844;
+            font-size: 2.8em;
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 800;
+        }
+
+        .mensaje-item {
+            background: linear-gradient(135deg, #ffe6f0 0%, #ffd4e5 100%);
+            padding: 30px;
+            margin: 25px 0;
+            border-radius: 25px;
+            border-left: 8px solid #ff0844;
+            box-shadow: 0 8px 25px rgba(255, 8, 68, 0.2);
+            animation: slideInRight 1s ease-out;
+            animation-fill-mode: both;
+            transition: all 0.3s ease;
+        }
+
+        .mensaje-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 12px 35px rgba(255, 8, 68, 0.3);
+        }
+
+        .mensaje-item:nth-child(1) { animation-delay: 0.2s; }
+        .mensaje-item:nth-child(2) { animation-delay: 0.4s; }
+        .mensaje-item:nth-child(3) { animation-delay: 0.6s; }
+        .mensaje-item:nth-child(4) { animation-delay: 0.8s; }
+        .mensaje-item:nth-child(5) { animation-delay: 1s; }
+        .mensaje-item:nth-child(6) { animation-delay: 1.2s; }
+
+        .mensaje-item p {
+            color: #5a3d7a;
+            font-size: 1.3em;
+            line-height: 1.8;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .mensaje-item .emoji {
+            font-size: 1.8em;
+            margin-right: 15px;
+        }
+
+        .galeria {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 35px;
+            padding: 50px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            border: 5px solid #ff6b9d;
+        }
+
+        .galeria h2 {
+            color: #ff0844;
+            font-size: 2.8em;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 800;
+        }
+
+        .galeria-descripcion {
+            text-align: center;
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+
+        .recuerdos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 10px;
+        }
+
+        .recuerdo {
+            background: white;
+            padding: 0;
+            border-radius: 25px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 12px 35px rgba(255, 8, 68, 0.2);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 4px solid transparent;
+        }
+
+        .recuerdo:hover {
+            transform: translateY(-20px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(255, 8, 68, 0.4);
+            border-color: #ff0844;
+        }
+
+        .recuerdo-img-container {
+            width: 100%;
+            height: 220px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 21px 21px 0 0;
+        }
+
+        .recuerdo-gif {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: white;
+        }
+
+        .recuerdo-content {
+            background: linear-gradient(135deg, #ff0844 0%, #ff6b9d 100%);
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .recuerdo h3 {
+            font-size: 1.6em;
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        .recuerdo p {
+            font-size: 1em;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .boton-amor {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .btn-principal {
+            background: linear-gradient(135deg, #ff0844 0%, #ff6b9d 100%);
+            color: white;
+            border: none;
+            padding: 25px 60px;
+            font-size: 1.7em;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 15px 40px rgba(255, 8, 68, 0.5);
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-weight: 800;
+        }
+
+        .btn-principal:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(255, 8, 68, 0.7);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 60px;
+            border-radius: 35px;
+            max-width: 650px;
+            text-align: center;
+            position: relative;
+            animation: zoomIn 0.5s ease-out;
+            border: 6px solid #ff0844;
+        }
+
+        .modal-content h2 {
+            color: #ff0844;
+            font-size: 2.8em;
+            margin-bottom: 25px;
+            font-weight: 800;
+        }
+
+        .modal-content p {
+            color: #666;
+            font-size: 1.4em;
+            line-height: 2;
+            margin: 25px 0;
+            font-weight: 500;
+        }
+
+        .btn-cerrar {
+            background: linear-gradient(135deg, #ff0844 0%, #ff6b9d 100%);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.3em;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            font-weight: 800;
+        }
+
+        .btn-cerrar:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 30px rgba(255, 8, 68, 0.5);
+        }
+
+        .corazon {
+            position: fixed;
+            font-size: 2em;
+            pointer-events: none;
+            z-index: 999;
+            animation: floatUp 4s linear;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            font-size: 1.4em;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-25px); }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            25% { transform: translate(-50%, -50%) scale(1.25); }
+            50% { transform: translate(-50%, -50%) scale(1); }
+            75% { transform: translate(-50%, -50%) scale(1.15); }
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(-1000px) rotate(360deg); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.8em; }
+            .led-number { font-size: 3.5em; }
+            .time-display { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .secondary-display { grid-template-columns: repeat(2, 1fr); }
+            .secondary-display .time-unit:last-child { grid-column: 1 / -1; }
+            .personajes { flex-direction: column; }
+            .modal-content { padding: 40px 30px; margin: 20px; }
+            .personaje-img { width: 170px; height: 170px; }
+            .digital-clock-container { padding: 40px 25px; }
+            .led-display { padding: 30px 20px; }
+            .info-display { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-bg" id="hearts-bg"></div>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>❤️ Para ti, Elsa ❤️</h1>
+            <p class="subtitle">Mi amor a través de la distancia</p>
+            <div class="valentine-badge">
+                💝 Feliz San Valentín 2026 💝
+            </div>
+        </div>
+
+        <div class="digital-clock-container">
+            <h2>⏰ Nuestro Tiempo Juntos 💕</h2>
+            <p class="fecha-inicio">Desde el 04 de Mayo de 2023</p>
+            
+            <div class="led-display">
+                <div class="time-display">
+                    <div class="time-unit">
+                        <div class="led-number" id="years">00</div>
+                        <div class="led-label">AÑOS</div>
+                    </div>
+                    <div class="time-unit">
+                        <div class="led-number" id="months">00</div>
+                        <div class="led-label">MESES</div>
+                    </div>
+                    <div class="time-unit">
+                        <div class="led-number" id="days">00</div>
+                        <div class="led-label">DÍAS</div>
+                    </div>
+                </div>
+                
+                <div class="secondary-display">
+                    <div class="time-unit">
+                        <div class="led-number" id="hours">00</div>
+                        <div class="led-label">HORAS</div>
+                    </div>
+                    <div class="time-unit">
+                        <div class="led-number" id="minutes">00</div>
+                        <div class="led-label">MINUTOS</div>
+                    </div>
+                    <div class="time-unit">
+                        <div class="led-number" id="seconds">00</div>
+                        <div class="led-label">SEGUNDOS</div>
+                    </div>
+                </div>
+
+                <div class="info-display">
+                    <div class="info-item">
+                        <div class="info-value" id="totalDays">0</div>
+                        <div class="info-label">Total Días</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-value" id="totalHours">0</div>
+                        <div class="info-label">Total Horas</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-value" id="totalMinutes">0</div>
+                        <div class="info-label">Total Minutos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bubu-dudu-section">
+            <h2>🐻 Nosotros como Bubu y Dudu 💕</h2>
+            <p class="descripcion">
+                Aunque la distancia nos separe físicamente, nuestro amor nos mantiene unidos como estos adorables ositos
+            </p>
+            <div class="personajes">
+                <div class="personaje">
+                    <img src="assent/portada 1.jpg" alt="Yo" class="personaje-img">
+                    <h3>Tu Bubu</h3>
+                    <p>Loco por ti desde siempre 💝</p>
+                </div>
+                <div class="corazon-central"></div>
+                <div class="personaje">
+                    <img src="assent/portada 2.jpg" alt="Elsa" class="personaje-img">
+                    <h3>Mi Dudu</h3>
+                    <p>La más hermosa del mundo 💖</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mensajes">
+            <h2>💌 Lo que siento por ti 💌</h2>
+            <div class="mensaje-item">
+                <p><span class="emoji">🌟</span>Elsa, cada día que pasa te amo más. La distancia solo hace que mi corazón te extrañe con más fuerza.</p>
+            </div>
+            <div class="mensaje-item">
+                <p><span class="emoji">💫</span>Aunque no pueda abrazarte todos los días, cada mensaje tuyo es como sentir tu calor cerca de mí.</p>
+            </div>
+            <div class="mensaje-item">
+                <p><span class="emoji">🌙</span>Eres la razón por la que sonrío cada mañana. Tu amor trasciende cualquier distancia.</p>
+            </div>
+            <div class="mensaje-item">
+                <p><span class="emoji">✨</span>Cada vez que nos vemos, es como la primera vez. Mi corazón late con la misma emoción.</p>
+            </div>
+            <div class="mensaje-item">
+                <p><span class="emoji">🎀</span>Eres mi persona favorita en todo el mundo. No existe nadie como tú, mi amor.</p>
+            </div>
+            <div class="mensaje-item">
+                <p><span class="emoji">💝</span>Gracias por estar conmigo a pesar de la distancia. Eres mi sueño hecho realidad.</p>
+            </div>
+        </div>
+
+        <div class="galeria">
+            <h2>🎉 Nuestros Momentos Especiales 🎉</h2>
+            <p class="galeria-descripcion">Haz clic en cada momento para revivir nuestros recuerdos</p>
+            <div class="recuerdos">
+                <a href="primerencuentro.html" class="recuerdo">
+                    <div class="recuerdo-img-container">
+                        <img src="assent/momentos 1.gif" alt="Primer Encuentro" class="recuerdo-gif">
+                    </div>
+                    <div class="recuerdo-content">
+                        <h3>Primer Encuentro</h3>
+                        <p>El día que todo comenzó, cuando supe que eras especial</p>
+                    </div>
+                </a>
+                <a href="mensajediarios.html" class="recuerdo">
+                    <div class="recuerdo-img-container">
+                        <img src="assent/momentos 2.gif" alt="Mensajes Diarios" class="recuerdo-gif">
+                    </div>
+                    <div class="recuerdo-content">
+                        <h3>Mensajes Diarios</h3>
+                        <p>Cada "buenos días" y "buenas noches" que nos enviamos</p>
+                    </div>
+                </a>
+                <a href="videollamadas.html" class="recuerdo">
+                    <div class="recuerdo-img-container">
+                        <img src="assent/momentos 3.gif" alt="Videollamadas" class="recuerdo-gif">
+                    </div>
+                    <div class="recuerdo-content">
+                        <h3>Videollamadas</h3>
+                        <p>Esas horas hablando y viéndonos por la pantalla</p>
+                    </div>
+                </a>
+                <a href="sorpresas.html" class="recuerdo">
+                    <div class="recuerdo-img-container">
+                        <img src="assent/momentos 4.gif" alt="Sorpresas" class="recuerdo-gif">
+                    </div>
+                    <div class="recuerdo-content">
+                        <h3>Sorpresas</h3>
+                        <p>Cada detalle que nos damos para demostrar nuestro amor</p>
+                    </div>
+                </a>
+                <a href="reencuentro.html" class="recuerdo">
+                    <div class="recuerdo-img-container">
+                        <img src="assent/momentos 5.gif" alt="Reencuentros" class="recuerdo-gif">
+                    </div>
+                    <div class="recuerdo-content">
+                        <h3>Reencuentros</h3>
+                        <p>Esos momentos mágicos cuando finalmente nos vemos</p>
+                    </div>
+                </a>
+                <a href="futurojuntos.html" class="recuerdo">
+                    <div class="recuerdo-img-container">
+                        <img src="assent/momentos 6.gif" alt="Futuro Juntos" class="recuerdo-gif">
+                    </div>
+                    <div class="recuerdo-content">
+                        <h3>Futuro Juntos</h3>
+                        <p>Todos los planes y sueños que tenemos por cumplir</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="boton-amor">
+            <button class="btn-principal" onclick="mostrarMensajeEspecial()">
+                ✨ Mensaje Especial de San Valentín ✨
+            </button>
+        </div>
+
+        <div class="footer">
+            <p>💕 Con todo mi amor, para ti Elsa 💕</p>
+            <p>Feliz San Valentín 2026 - Te amo para siempre ∞</p>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2>💖 Mi Mensaje Especial de San Valentín 💖</h2>
+            <p>Elsa, mi amor hermoso:</p>
+            <p>En este San Valentín quiero que sepas que aunque los kilómetros nos separen, mi corazón siempre está contigo. Cada día que pasa, me enamoro más de ti.</p>
+            <p>Eres mi persona, mi compañera, mi todo. La distancia es solo temporal, pero nuestro amor es para siempre.</p>
+            <p><strong>Feliz San Valentín, mi amor. Te amo más que a nada en este mundo. ❤️💕</strong></p>
+            <button class="btn-cerrar" onclick="cerrarModal()">💕 Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        function crearEstrellas() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function crearCorazonesFondo() {
+            const heartsContainer = document.getElementById('hearts-bg');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-float';
+                heart.textContent = ['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.animationDuration = (10 + Math.random() * 10) + 's';
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        function actualizarRelojDigital() {
+            const fechaInicio = new Date('2023-05-04T00:00:00');
+            const ahora = new Date();
+            const diferencia = ahora - fechaInicio;
+
+            // Cálculos totales
+            const totalSegundos = Math.floor(diferencia / 1000);
+            const totalMinutos = Math.floor(totalSegundos / 60);
+            const totalHoras = Math.floor(totalMinutos / 60);
+            const totalDias = Math.floor(totalHoras / 24);
+
+            // Cálculos para el display principal
+            const años = Math.floor(totalDias / 365);
+            const diasDespuesAños = totalDias % 365;
+            const meses = Math.floor(diasDespuesAños / 30);
+            const dias = diasDespuesAños % 30;
+
+            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+            // Actualizar display principal
+            document.getElementById('years').textContent = String(años).padStart(2, '0');
+            document.getElementById('months').textContent = String(meses).padStart(2, '0');
+            document.getElementById('days').textContent = String(dias).padStart(2, '0');
+            document.getElementById('hours').textContent = String(horas).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutos).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(segundos).padStart(2, '0');
+
+            // Actualizar información adicional
+            document.getElementById('totalDays').textContent = totalDias.toLocaleString();
+            document.getElementById('totalHours').textContent = totalHoras.toLocaleString();
+            document.getElementById('totalMinutes').textContent = totalMinutos.toLocaleString();
+        }
+
+        function crearCorazon() {
+            const corazones = ['❤️', '💕', '💖', '💗', '💓', '💝', '💘', '💞'];
+            const corazon = document.createElement('div');
+            corazon.className = 'corazon';
+            corazon.textContent = corazones[Math.floor(Math.random() * corazones.length)];
+            corazon.style.left = Math.random() * 100 + '%';
+            corazon.style.bottom = '-50px';
+            document.body.appendChild(corazon);
+            setTimeout(() => corazon.remove(), 4000);
+        }
+
+        function mostrarMensajeEspecial() {
+            document.getElementById('modal').classList.add('active');
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => crearCorazon(), i * 80);
+            }
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) cerrarModal();
+        });
+
+        setInterval(crearCorazon, 1500);
+
+        window.addEventListener('DOMContentLoaded', () => {
+            crearEstrellas();
+            crearCorazonesFondo();
+            actualizarRelojDigital();
+            setInterval(actualizarRelojDigital, 1000);
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.95) {
+                const corazon = document.createElement('div');
+                corazon.textContent = '💕';
+                corazon.style.position = 'fixed';
+                corazon.style.left = e.pageX + 'px';
+                corazon.style.top = e.pageY + 'px';
+                corazon.style.fontSize = '25px';
+                corazon.style.pointerEvents = 'none';
+                corazon.style.zIndex = '999';
+                corazon.style.animation = 'floatUp 2s linear';
+                document.body.appendChild(corazon);
+                setTimeout(() => corazon.remove(), 2000);
+            }
+        });
+
+        let clickCount = 0;
+        document.querySelector('.header h1').addEventListener('click', () => {
+            clickCount++;
+            if (clickCount === 3) {
+                for (let i = 0; i < 60; i++) {
+                    setTimeout(() => crearCorazon(), i * 40);
+                }
+                clickCount = 0;
+            }
+            setTimeout(() => clickCount = 0, 1000);
+        });
+    </script>
+</body>
+</html>

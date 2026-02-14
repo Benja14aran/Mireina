@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestros Mensajes Diarios 💌</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Burbujas flotantes de fondo */
+        .burbujas {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .burbuja {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            animation: floatBubble 15s infinite;
+        }
+
+        @keyframes floatBubble {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-volver {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.95);
+            color: #fe83a8;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-volver:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+            background: white;
+        }
+
+        .contenido {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 40px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 1s ease-out;
+        }
+
+        h1 {
+            color: #fe83a8;
+            font-size: 3.5em;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #a8edea;
+            font-size: 1.3em;
+            margin-bottom: 50px;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        /* Sección de tipos de mensajes */
+        .tipos-mensajes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .tipo-mensaje {
+            background: linear-gradient(135deg, #fff8fb 0%, #ffe8f5 100%);
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(254, 131, 168, 0.15);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tipo-mensaje::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(254, 131, 168, 0.1) 0%, transparent 70%);
+            transition: all 0.6s ease;
+        }
+
+        .tipo-mensaje:hover::before {
+            top: -30%;
+            right: -30%;
+        }
+
+        .tipo-mensaje:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 45px rgba(254, 131, 168, 0.25);
+        }
+
+        .tipo-mensaje .icono {
+            font-size: 3.5em;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .tipo-mensaje:nth-child(2) .icono { animation-delay: 0.5s; }
+        .tipo-mensaje:nth-child(3) .icono { animation-delay: 1s; }
+        .tipo-mensaje:nth-child(4) .icono { animation-delay: 1.5s; }
+        .tipo-mensaje:nth-child(5) .icono { animation-delay: 2s; }
+        .tipo-mensaje:nth-child(6) .icono { animation-delay: 2.5s; }
+
+        .tipo-mensaje h3 {
+            color: #fe83a8;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .tipo-mensaje p {
+            color: #555;
+            font-size: 1.15em;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        /* Chat simulado mejorado */
+        .chat-container {
+            background: linear-gradient(135deg, #f8fbff 0%, #fff5f8 100%);
+            border-radius: 30px;
+            padding: 40px;
+            margin: 50px 0;
+            box-shadow: inset 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .chat-header {
+            text-align: center;
+            color: #fe83a8;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(254, 131, 168, 0.2);
+        }
+
+        .mensaje-chat {
+            background: white;
+            padding: 20px 25px;
+            border-radius: 20px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            animation: slideIn 0.5s ease-out;
+            position: relative;
+        }
+
+        .mensaje-chat.enviado {
+            background: linear-gradient(135deg, #a8edea 0%, #c8f3f0 100%);
+            margin-left: 15%;
+            border-bottom-right-radius: 5px;
+        }
+
+        .mensaje-chat.recibido {
+            background: linear-gradient(135deg, #fed6e3 0%, #ffe6f0 100%);
+            margin-right: 15%;
+            border-bottom-left-radius: 5px;
+        }
+
+        .mensaje-chat p {
+            margin: 0;
+            color: #333;
+            font-size: 1.15em;
+            line-height: 1.6;
+        }
+
+        .mensaje-chat .hora {
+            font-size: 0.85em;
+            color: #666;
+            text-align: right;
+            margin-top: 8px;
+            opacity: 0.7;
+        }
+
+        /* Galería mejorada */
+        .galeria-imagenes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .imagen-item {
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            background: white;
+            position: relative;
+        }
+
+        .imagen-item::after {
+            content: '💌';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2em;
+            opacity: 0;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+        }
+
+        .imagen-item:hover::after {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .imagen-item:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 25px 50px rgba(254, 131, 168, 0.3);
+        }
+
+        .imagen-item img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Mensaje principal */
+        .mensaje-principal {
+            background: linear-gradient(135deg, #fff5f8 0%, #ffe6f0 100%);
+            padding: 50px;
+            border-radius: 30px;
+            margin: 50px 0;
+            border-left: 8px solid #fe83a8;
+            box-shadow: 0 15px 40px rgba(254, 131, 168, 0.2);
+            position: relative;
+        }
+
+        .mensaje-principal::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 30px;
+            font-size: 8em;
+            color: rgba(254, 131, 168, 0.1);
+            font-family: Georgia, serif;
+        }
+
+        .mensaje-principal p {
+            color: #555;
+            font-size: 1.35em;
+            line-height: 2;
+            text-align: justify;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mensaje-principal .firma {
+            text-align: right;
+            color: #fe83a8;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-top: 30px;
+            font-style: italic;
+        }
+
+        /* Promesa especial */
+        .promesa-especial {
+            text-align: center;
+            margin: 60px 0 40px 0;
+            padding: 60px;
+            background: linear-gradient(135deg, #fe83a8 0%, #a8edea 100%);
+            border-radius: 35px;
+            color: white;
+            box-shadow: 0 20px 50px rgba(254, 131, 168, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .promesa-especial::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .promesa-especial h2 {
+            font-size: 2.8em;
+            margin-bottom: 25px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .promesa-especial p {
+            font-size: 1.5em;
+            line-height: 1.9;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            margin: 15px 0;
+        }
+
+        .corazon {
+            position: fixed;
+            font-size: 2em;
+            pointer-events: none;
+            z-index: 999;
+            animation: floatUp 4s linear;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(-1000px) rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .contenido { padding: 40px 25px; }
+            h1 { font-size: 2.5em; }
+            .tipos-mensajes { grid-template-columns: 1fr; }
+            .galeria-imagenes { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+            .mensaje-chat.enviado { margin-left: 5%; }
+            .mensaje-chat.recibido { margin-right: 5%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="burbujas" id="burbujas"></div>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <a href="Index.html" class="btn-volver">← Volver al inicio</a>
+
+        <div class="contenido">
+            <h1>💌 Nuestros Mensajes Diarios 💌</h1>
+            <p class="subtitulo">El puente que cruza la distancia</p>
+
+            <div class="tipos-mensajes">
+                <div class="tipo-mensaje">
+                    <div class="icono">🌅</div>
+                    <h3>Buenos Días</h3>
+                    <p>Aunque no siempre sean las primeras palabras del día, saber que estás ahí me llena de energía para comenzar.</p>
+                </div>
+                <div class="tipo-mensaje">
+                    <div class="icono">💝</div>
+                    <h3>Sorpresas Inesperadas</h3>
+                    <p>Esos mensajes que llegan cuando menos lo esperas y te sacan una sonrisa en momentos difíciles, o que llenan tus ojos de lágrimas de felicidad.</p>
+                </div>
+                <div class="tipo-mensaje">
+                    <div class="icono">💭</div>
+                    <h3>Te Pienso</h3>
+                    <p>Los mensajes espontáneos que dicen "pensé en ti", recordándonos que siempre estamos presente el uno para el otro.</p>
+                </div>
+                <div class="tipo-mensaje">
+                    <div class="icono">🌙</div>
+                    <h3>Buenas Noches</h3>
+                    <p>Cerrando el día sabiendo que a pesar de la distancia, dormiremos pensando el uno en el otro.</p>
+                </div>
+                <div class="tipo-mensaje">
+                    <div class="icono">📰</div>
+                    <h3>Noticias Inesperadas</h3>
+                    <p>Esos mensajes que llegan diciendo "tengo algo que contarte", buenos o difíciles, siempre los compartimos porque sabemos que estamos juntos en todo.</p>
+                </div>
+                <div class="tipo-mensaje">
+                    <div class="icono">📸</div>
+                    <h3>Fotos de Amor</h3>
+                    <p>Las selfies sorpresa, las fotos de lo que estamos haciendo, cada imagen que enviamos es una forma de decir "desearía que estuvieras aquí viviéndolo conmigo".</p>
+                </div>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-header">
+                    📱 Nuestra Conversación de Siempre 📱
+                </div>
+                <div class="mensaje-chat recibido">
+                    <p>Hola mi amor, te extraño 💕</p>
+                    <div class="hora">10:30 AM</div>
+                </div>
+                <div class="mensaje-chat enviado">
+                    <p>Yo también te extraño muchísimo bb 🥰</p>
+                    <div class="hora">10:35 AM</div>
+                </div>
+                <div class="mensaje-chat recibido">
+                    <p>A veces quisiera estar ahí contigo 💔</p>
+                    <div class="hora">10:40 AM</div>
+                </div>
+                <div class="mensaje-chat enviado">
+                    <p>Lo sé mi amor, pero pronto estaremos juntos. Siempre cuento contigo y tú siempre puedes contar conmigo 💖</p>
+                    <div class="hora">10:45 AM</div>
+                </div>
+                <div class="mensaje-chat recibido">
+                    <p>Te amo tanto 😭💕</p>
+                    <div class="hora">10:50 AM</div>
+                </div>
+                <div class="mensaje-chat enviado">
+                    <p>Yo te amo más, mi bb hermosa ❤️✨</p>
+                    <div class="hora">10:52 AM</div>
+                </div>
+            </div>
+
+            <div class="galeria-imagenes">
+                <div class="imagen-item">
+                    <img src="assent/GIF3.gif" alt="Mensajes de amor">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/JPG3.jpg" alt="Mensajes de amor">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/GIF4.gif" alt="Mensajes de amor">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/JPG4.jpg" alt="Mensajes de amor">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/GIF5.gif" alt="Mensajes de amor">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/JPG2.jpg" alt="Momento especial">
+                </div>
+            </div>
+
+            <div class="mensaje-principal">
+                <p>Aunque no siempre sea un "buenos días" o "buenas noches", siempre sabemos que estamos el uno para el otro. A pesar de las diferencias que tenemos, siempre seremos uno.</p>
+                
+                <p>Esos mensajes sorpresa que a veces llegan y nos llenan de lágrimas los ojos, o esos mensajes que sacan una sonrisa en momentos donde menos lo esperas... cada uno de ellos es un recordatorio de que nuestro amor es real y fuerte.</p>
+                
+                <p>Quiero que sepas que a pesar de no estar siempre a tu lado, o no siempre poder estar donde quieres, siempre contarás con todo mi apoyo, pase lo que pase, mi bb. Y eso tienes que tenerlo más que segura, bb mía.</p>
+                
+                <p>Cada mensaje es una promesa silenciosa de que no importa la distancia, no importa el tiempo, siempre estaré aquí para ti. Porque eres mi persona, mi amor, mi todo.</p>
+                
+                <div class="firma">Con todo mi amor, para siempre 💕</div>
+            </div>
+
+            <div class="promesa-especial">
+                <h2>💖 Mi Promesa 💖</h2>
+                <p>Siempre que me necesites, ahí estaré.</p>
+                <p>En tus alegrías y en tus tristezas.</p>
+                <p>A través de mensajes, llamadas o silencios.</p>
+                <p>Porque somos uno, mi amor.</p>
+                <p><strong>Y eso nunca cambiará. 💕</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function crearEstrellas() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function crearBurbujas() {
+            const burbujasContainer = document.getElementById('burbujas');
+            for (let i = 0; i < 20; i++) {
+                const burbuja = document.createElement('div');
+                burbuja.className = 'burbuja';
+                burbuja.style.left = Math.random() * 100 + '%';
+                burbuja.style.animationDelay = Math.random() * 15 + 's';
+                burbuja.style.animationDuration = (10 + Math.random() * 10) + 's';
+                burbujasContainer.appendChild(burbuja);
+            }
+        }
+
+        function crearCorazon() {
+            const corazones = ['❤️', '💕', '💖', '💗', '💓', '💝', '💌', '💘'];
+            const corazon = document.createElement('div');
+            corazon.className = 'corazon';
+            corazon.textContent = corazones[Math.floor(Math.random() * corazones.length)];
+            corazon.style.left = Math.random() * 100 + '%';
+            corazon.style.bottom = '-50px';
+            document.body.appendChild(corazon);
+            setTimeout(() => corazon.remove(), 4000);
+        }
+
+        // Animación de aparición para elementos
+        const observador = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            crearEstrellas();
+            crearBurbujas();
+            setInterval(crearCorazon, 1200);
+            
+            // Animar elementos cuando aparecen en pantalla
+            document.querySelectorAll('.tipo-mensaje, .mensaje-chat, .imagen-item').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease-out';
+                observador.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestras Sorpresas y Regalos 🎁</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Confeti animado */
+        .confeti-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .confeti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff6b9d;
+            animation: caerConfeti 8s infinite;
+        }
+
+        @keyframes caerConfeti {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-volver {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.95);
+            color: #fa709a;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-volver:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+            background: white;
+        }
+
+        .contenido {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 40px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 1s ease-out;
+        }
+
+        h1 {
+            color: #fa709a;
+            font-size: 3.5em;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #fee140;
+            font-size: 1.3em;
+            margin-bottom: 50px;
+            font-style: italic;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Categorías de regalos */
+        .categorias-regalos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            margin: 50px 0;
+        }
+
+        .categoria {
+            background: linear-gradient(135deg, #fff8fb 0%, #fff3e6 100%);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(250, 112, 154, 0.15);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid transparent;
+        }
+
+        .categoria::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(250, 112, 154, 0.1) 0%, transparent 70%);
+            transition: all 0.6s ease;
+        }
+
+        .categoria:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 20px 45px rgba(250, 112, 154, 0.25);
+            border-color: #fa709a;
+        }
+
+        .categoria:hover::before {
+            top: -30%;
+            right: -30%;
+        }
+
+        .categoria .icono {
+            font-size: 4em;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .categoria h3 {
+            color: #fa709a;
+            font-size: 2em;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .categoria p {
+            color: #555;
+            font-size: 1.2em;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        /* Línea de tiempo de regalos */
+        .timeline-regalos {
+            position: relative;
+            margin: 60px 0;
+            padding: 40px 0;
+        }
+
+        .timeline-regalos::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #fa709a, #fee140);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: linear-gradient(135deg, #fff8fb 0%, #fff3e6 100%);
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(250, 112, 154, 0.2);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(250, 112, 154, 0.3);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: auto;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 70px;
+            background: white;
+            border: 5px solid #fa709a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            z-index: 10;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .timeline-content h3 {
+            color: #fa709a;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .timeline-content p {
+            color: #555;
+            font-size: 1.2em;
+            line-height: 1.8;
+        }
+
+        /* Galería mejorada */
+        .galeria-imagenes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .imagen-item {
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            background: white;
+            position: relative;
+        }
+
+        .imagen-item::after {
+            content: '🎁';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2.5em;
+            opacity: 0;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+        }
+
+        .imagen-item:hover::after {
+            opacity: 1;
+            transform: scale(1.2) rotate(15deg);
+        }
+
+        .imagen-item:hover {
+            transform: translateY(-15px) scale(1.03) rotate(-2deg);
+            box-shadow: 0 25px 50px rgba(250, 112, 154, 0.3);
+        }
+
+        .imagen-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Mensaje principal */
+        .mensaje-principal {
+            background: linear-gradient(135deg, #fff8fb 0%, #fff3e6 100%);
+            padding: 50px;
+            border-radius: 30px;
+            margin: 50px 0;
+            border-left: 8px solid #fa709a;
+            box-shadow: 0 15px 40px rgba(250, 112, 154, 0.2);
+            position: relative;
+        }
+
+        .mensaje-principal::before {
+            content: '💝';
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 8em;
+            opacity: 0.1;
+        }
+
+        .mensaje-principal p {
+            color: #555;
+            font-size: 1.35em;
+            line-height: 2;
+            text-align: justify;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mensaje-principal .destacado {
+            background: linear-gradient(135deg, rgba(250, 112, 154, 0.1), rgba(254, 225, 64, 0.1));
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 4px solid #fee140;
+        }
+
+        /* Promesa especial */
+        .promesa-especial {
+            text-align: center;
+            margin: 60px 0 40px 0;
+            padding: 60px;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            border-radius: 35px;
+            color: white;
+            box-shadow: 0 20px 50px rgba(250, 112, 154, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .promesa-especial::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .promesa-especial h2 {
+            font-size: 2.8em;
+            margin-bottom: 25px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .promesa-especial p {
+            font-size: 1.5em;
+            line-height: 1.9;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            margin: 15px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .corazon {
+            position: fixed;
+            font-size: 2em;
+            pointer-events: none;
+            z-index: 999;
+            animation: floatUp 4s linear;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(-1000px) rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .contenido { padding: 40px 25px; }
+            h1 { font-size: 2.5em; }
+            .categorias-regalos { grid-template-columns: 1fr; }
+            .timeline-regalos::before { left: 30px; }
+            .timeline-icon { left: 30px; }
+            .timeline-content { width: calc(100% - 100px); margin-left: 80px !important; }
+            .galeria-imagenes { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+    <div class="confeti-container" id="confeti"></div>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <a href="Index.html" class="btn-volver">← Volver al inicio</a>
+
+        <div class="contenido">
+            <h1>🎁 Nuestras Sorpresas y Regalos 🎁</h1>
+            <p class="subtitulo">Cada detalle tiene su historia y significado</p>
+
+            <div class="categorias-regalos">
+                <div class="categoria">
+                    <div class="icono">🎮</div>
+                    <h3>Juegos</h3>
+                    <p>Esos juegos que siempre disfruto en cada momento, cada uno elegido con amor y pensando en lo que me gusta. Cada partida es un recuerdo de ti.</p>
+                </div>
+                <div class="categoria">
+                    <div class="icono">👕</div>
+                    <h3>Ropa del Mall</h3>
+                    <p>Esa ropa que me compras en el mall y que ocupo día y noche jaja. Cada prenda tiene tu amor y me hace sentir cerca de ti siempre.</p>
+                </div>
+                <div class="categoria">
+                    <div class="icono">🌹</div>
+                    <h3>Flores de Limpiapipas</h3>
+                    <p>Ramos hechos a mano que valen más que cualquier flor comprada. El tiempo y amor que les dedicas no tiene precio.</p>
+                </div>
+                <div class="categoria">
+                    <div class="icono">🍱</div>
+                    <h3>Comidas Juntos</h3>
+                    <p>Sushi, comida china... cada salida a comer es especial. No importa qué comamos, lo importante es estar juntos.</p>
+                </div>
+                <div class="categoria">
+                    <div class="icono">🎬</div>
+                    <h3>Cine y Salidas</h3>
+                    <p>Salidas al mall a ver películas y pasar al Miniso o DBS. Cada momento explorando tiendas contigo es una aventura.</p>
+                </div>
+                <div class="categoria">
+                    <div class="icono">💌</div>
+                    <h3>Cartas de Amor</h3>
+                    <p>Cuando estamos sin nada de dinero, pero hasta una sola carta significa lo mejor del mundo para ambos. El amor no se compra.</p>
+                </div>
+            </div>
+
+            <div class="timeline-regalos">
+                <div class="timeline-item">
+                    <div class="timeline-icon">🎁</div>
+                    <div class="timeline-content">
+                        <h3>El Primer Regalo</h3>
+                        <p>Cuando nos conocimos y nos dimos nuestro primer regalo. Ese momento marcó el inicio de esta hermosa tradición de demostrarnos amor con detalles.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">💝</div>
+                    <div class="timeline-content">
+                        <h3>Regalos Sin Dinero</h3>
+                        <p>Esos momentos donde no teníamos nada en el bolsillo, pero igual encontrábamos formas de sorprendernos. Cartas escritas a mano, flores de limpiapipas, mensajes especiales... demostrando que el amor no necesita dinero.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">🛍️</div>
+                    <div class="timeline-content">
+                        <h3>Compras en el Mall</h3>
+                        <p>Esos días explorando tiendas juntos, entrando al Miniso, al DBS, probándome ropa que luego me regalas y uso todo el tiempo. Cada salida de compras es una fecha especial.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">🎮</div>
+                    <div class="timeline-content">
+                        <h3>Juegos Especiales</h3>
+                        <p>Cada juego que me has regalado lo he disfrutado al máximo. Sabes exactamente qué me gusta y cada uno tiene un momento especial asociado a nosotros.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="galeria-imagenes">
+                <div class="imagen-item">
+                    <img src="assent/GIF10.gif" alt="Sorpresa">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/JPG7.jpg" alt="Sorpresa">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/GIF11.gif" alt="Sorpresa">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/JPG8.jpg" alt="Sorpresa">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/GIF12.gif" alt="Sorpresa">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/JPG1.jpg" alt="Momento especial">
+                </div>
+            </div>
+
+            <div class="mensaje-principal">
+                <p>No queda más que decir que cada cosa que nos damos tiene su significado y recuerdo especial. Ya sea el primer regalo que nos dimos cuando nos conocimos, o cuando estamos sin nada de dinero pero hasta una sola carta significa lo mejor del mundo para ambos.</p>
+                
+                <div class="destacado">
+                    <p><strong>Todo cuenta en este mundo, bb.</strong> Los ramos de flores de limpiapipas hechos con tus manos, las comidas afuera como sushi o comida china compartiendo risas y miradas, las salidas al mall a ver películas y pasar al Miniso o DBS buscando cosas lindas juntos.</p>
+                </div>
+                
+                <p>Esos juegos que siempre disfruto en cada momento, pensando en ti mientras los juego. Esa ropa que me compras en el mall y que ocupo día y noche jaja, porque cada vez que la uso me siento cerca de ti aunque estemos lejos.</p>
+                
+                <p>Todo lo nuestro es especial, bb. Desde el regalo más caro hasta la carta más simple. Porque lo que importa no es el precio, sino el amor con el que lo das. Cada detalle es una demostración de que piensas en mí, de que me conoces, de que sabes lo que me hace feliz.</p>
+                
+                <p>Y yo también amo sorprenderte, verte sonreír cuando recibes algo inesperado, saber que te hice feliz aunque sea por un momento. Porque hacerte feliz a ti es lo que me hace más feliz a mí.</p>
+            </div>
+
+            <div class="promesa-especial">
+                <h2>💖 Mi Promesa 💖</h2>
+                <p>Seguiré sorprendiéndote siempre.</p>
+                <p>Con regalos grandes cuando pueda, con detalles pequeños cuando no.</p>
+                <p>Con cartas cuando no haya dinero, con abrazos cuando estemos juntos.</p>
+                <p>Porque cada sorpresa es una forma de decirte:</p>
+                <p><strong>Te amo y pienso en ti todo el tiempo. 💕</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function crearEstrellas() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function crearConfeti() {
+            const confetiContainer = document.getElementById('confeti');
+            const colores = ['#fa709a', '#fee140', '#ff6b9d', '#ffd700', '#ff69b4'];
+            
+            for (let i = 0; i < 30; i++) {
+                const confeti = document.createElement('div');
+                confeti.className = 'confeti';
+                confeti.style.left = Math.random() * 100 + '%';
+                confeti.style.background = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.animationDelay = Math.random() * 8 + 's';
+                confeti.style.animationDuration = (5 + Math.random() * 3) + 's';
+                confetiContainer.appendChild(confeti);
+            }
+        }
+
+        function crearCorazon() {
+            const corazones = ['❤️', '💕', '💖', '💗', '💓', '💝', '🎁', '🎀'];
+            const corazon = document.createElement('div');
+            corazon.className = 'corazon';
+            corazon.textContent = corazones[Math.floor(Math.random() * corazones.length)];
+            corazon.style.left = Math.random() * 100 + '%';
+            corazon.style.bottom = '-50px';
+            document.body.appendChild(corazon);
+            setTimeout(() => corazon.remove(), 4000);
+        }
+
+        // Animación de aparición
+        const observador = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            crearEstrellas();
+            crearConfeti();
+            setInterval(crearCorazon, 1000);
+            
+            // Animar elementos
+            document.querySelectorAll('.categoria, .timeline-content, .imagen-item').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease-out';
+                observador.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestro Primer Encuentro 💑</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-volver {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.95);
+            color: #f5576c;
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-volver:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+            background: white;
+        }
+
+        .contenido {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 40px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 1s ease-out;
+        }
+
+        h1 {
+            color: #f5576c;
+            font-size: 3.5em;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #f093fb;
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        /* Timeline de la historia */
+        .timeline {
+            position: relative;
+            margin: 50px 0;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #f093fb, #f5576c);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: linear-gradient(135deg, #fff5f8 0%, #ffe6f0 100%);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.2);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(245, 87, 108, 0.3);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: auto;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: white;
+            border: 4px solid #f5576c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .timeline-content h3 {
+            color: #f5576c;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .timeline-content .ubicacion {
+            color: #f093fb;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timeline-content p {
+            color: #555;
+            font-size: 1.15em;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .fecha-especial {
+            text-align: center;
+            color: white;
+            font-size: 2em;
+            font-weight: bold;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+            animation: pulseBox 3s infinite;
+        }
+
+        @keyframes pulseBox {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .galeria-imagenes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+
+        .imagen-item {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            background: white;
+            position: relative;
+        }
+
+        .imagen-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.3), rgba(245, 87, 108, 0.3));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .imagen-item:hover::before {
+            opacity: 1;
+        }
+
+        .imagen-item:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(245, 87, 108, 0.3);
+        }
+
+        .imagen-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .texto-destacado {
+            background: linear-gradient(135deg, #fff5f8 0%, #ffe6f0 100%);
+            padding: 40px;
+            border-radius: 25px;
+            margin: 40px 0;
+            border-left: 6px solid #f5576c;
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.15);
+        }
+
+        .texto-destacado p {
+            color: #555;
+            font-size: 1.3em;
+            line-height: 2;
+            text-align: justify;
+            margin: 15px 0;
+        }
+
+        .texto-destacado .emoji-grande {
+            font-size: 2em;
+            margin-right: 10px;
+        }
+
+        .mensaje-final {
+            text-align: center;
+            margin: 60px 0 40px 0;
+            padding: 50px;
+            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+            border-radius: 30px;
+            color: white;
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.4);
+        }
+
+        .mensaje-final h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .mensaje-final p {
+            font-size: 1.4em;
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .corazon {
+            position: fixed;
+            font-size: 2em;
+            pointer-events: none;
+            z-index: 999;
+            animation: floatUp 4s linear;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(-1000px) rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .contenido { padding: 40px 25px; }
+            h1 { font-size: 2.5em; }
+            .timeline::before { left: 30px; }
+            .timeline-icon { left: 30px; }
+            .timeline-content { width: calc(100% - 100px); margin-left: 80px !important; }
+            .galeria-imagenes { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <a href="Index.html" class="btn-volver">← Volver al inicio</a>
+
+        <div class="contenido">
+            <h1>💑 Nuestro Primer Encuentro 💑</h1>
+            <p class="subtitulo">La historia de cómo comenzó todo...</p>
+
+            <div class="fecha-especial">
+                ✨ 4 de Mayo de 2023 ✨
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-icon">🌟</div>
+                    <div class="timeline-content">
+                        <h3>Todo Comenzó a Distancia</h3>
+                        <div class="ubicacion">
+                            <span>📍</span>
+                            <span>Villarrica ❤️ Ovalle</span>
+                        </div>
+                        <p>Yo en Villarrica, tú en Ovalle. Kilómetros de distancia que no impedían que nuestros corazones se acercaran cada vez más. Cada mensaje, cada llamada, cada "te pienso" construía algo especial entre nosotros.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">💝</div>
+                    <div class="timeline-content">
+                        <h3>La Pregunta Más Importante</h3>
+                        <div class="ubicacion">
+                            <span>🌙</span>
+                            <span>4 de Mayo - En la Noche</span>
+                        </div>
+                        <p>Esa noche, mi corazón latía como nunca antes. ¿Lo estoy haciendo bien? ¿Debería esperar? Pero sabía que no quería perderte de mi vida. Así que, aunque estábamos lejos, reuní todo mi valor y te pregunté: ¿Quieres ser mi novia? Y dijiste que sí. Ese momento cambió mi vida para siempre.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">🏬</div>
+                    <div class="timeline-content">
+                        <h3>Nuestro Primer Encuentro Real</h3>
+                        <div class="ubicacion">
+                            <span>📍</span>
+                            <span>Mall de La Serena</span>
+                        </div>
+                        <p>Y llegó el día más esperado. Te vi llegar al mall, nerviosa y tímida, con esa sonrisa que ilumina mi mundo. Yo también estaba nervioso, pero intentaba ocultarlo para parecer el "macho alfa" (jaja, como si eso importara cuando mi corazón se aceleraba al verte). Pero nada de eso importaba, porque finalmente estábamos juntos.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">🎬</div>
+                    <div class="timeline-content">
+                        <h3>La Cita Perfecta</h3>
+                        <div class="ubicacion">
+                            <span>🎥</span>
+                            <span>Una película que ambos queríamos ver</span>
+                        </div>
+                        <p>Nuestra cita fue simplemente la mejor de la historia. Hablamos, reímos, compartimos miradas cómplices. Y para rematar, vimos juntos esa película que ambos queríamos ver desde hacía tiempo. Pero lo mejor no era la película, era estar a tu lado, sentir tu presencia, saber que finalmente estábamos juntos después de tanto tiempo de espera.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="galeria-imagenes">
+                <div class="imagen-item">
+                    <img src="assent/GIF1.gif" alt="Momento especial">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/GIF22.gif" alt="Momento especial">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/GIF2.gif" alt="Momento especial">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/GIF18.gif" alt="Momento especial">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/GIF19.gif" alt="Momento especial">
+                </div>
+                <div class="imagen-item">
+                    <img src="assent/GIF21.gif" alt="Momento especial">
+                </div>
+            </div>
+
+            <div class="texto-destacado">
+                <p><span class="emoji-grande">💭</span>Recuerdo cada detalle de ese día. Tu mirada cuando nos vimos por primera vez en persona, tu risa nerviosa, la forma en que nuestras manos se encontraron. Todo era perfecto porque estaba contigo.</p>
+                
+                <p><span class="emoji-grande">✨</span>Desde Santiago y Ovalle hasta el Mall de La Serena, nuestra historia ha sido mágica. La distancia nunca fue un obstáculo para lo que sentimos. Y ese 4 de mayo, cuando te propuse ser mi novia, no sabía que estaba comenzando el mejor capítulo de mi vida.</p>
+                
+                <p><span class="emoji-grande">❤️</span>Cada nervio, cada momento de duda antes de preguntarte si querías ser mi novia, cada segundo esperando tu respuesta... todo valió la pena cuando dijiste que sí. Y luego, verte llegar a nuestro primer encuentro, fue confirmar que había tomado la mejor decisión de mi vida.</p>
+            </div>
+
+            <div class="mensaje-final">
+                <h2>💕 Para Siempre 💕</h2>
+                <p>Ese día comenzó nuestra historia de amor...</p>
+                <p>De Santiago a Ovalle, del mensaje en la noche al encuentro en La Serena.</p>
+                <p>Cada momento construyendo lo más hermoso que tengo: tú en mi vida.</p>
+                <p><strong>Te amo, Elsa. Desde aquel 4 de mayo y para siempre. 💖</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function crearEstrellas() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function crearCorazon() {
+            const corazones = ['❤️', '💕', '💖', '💗', '💓', '💝', '💘'];
+            const corazon = document.createElement('div');
+            corazon.className = 'corazon';
+            corazon.textContent = corazones[Math.floor(Math.random() * corazones.length)];
+            corazon.style.left = Math.random() * 100 + '%';
+            corazon.style.bottom = '-50px';
+            document.body.appendChild(corazon);
+            setTimeout(() => corazon.remove(), 4000);
+        }
+
+        // Animación de entrada para elementos del timeline
+        const observador = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            crearEstrellas();
+            setInterval(crearCorazon, 1500);
+            
+            // Animar elementos del timeline
+            document.querySelectorAll('.timeline-content').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease-out';
+                observador.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
