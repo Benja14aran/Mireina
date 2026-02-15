@@ -20,6 +20,46 @@
             overflow-x: hidden;
         }
 
+        /* Estilos para el control de música */
+        #musicControl {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1001;
+            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.5);
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #musicControl #musicNotification {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+
+        #musicControl:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.7);
+        }
+
+        #musicControl.playing {
+            animation: musicPulse 2s infinite;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
         .stars {
             position: fixed;
             width: 100%;
@@ -325,10 +365,30 @@
             .timeline-icon { left: 30px; }
             .timeline-content { width: calc(100% - 100px); margin-left: 80px !important; }
             .galeria-imagenes { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+            #musicControl { bottom: 20px; right: 20px; font-size: 0.9em; padding: 12px 20px; }
         }
     </style>
 </head>
 <body>
+    <!-- Reproductor de música de fondo -->
+    <audio id="backgroundMusic">
+        <source src="" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- Botón de control de música -->
+    <div id="musicControl">
+        <span id="musicIcon">🎵</span>
+        <span id="musicText">Reproducir Música</span>
+        <span id="musicNotification" style="position: absolute; top: -8px; right: -8px; background: #f5576c; color: white; border-radius: 50%; width: 24px; height: 24px; display: none; align-items: center; justify-content: center; font-size: 0.7em; font-weight: 900; animation: pulse 1s infinite; border: 2px solid white;">!</span>
+    </div>
+    
+    <!-- Info de la canción actual -->
+    <div id="songInfo" style="position: fixed; bottom: 90px; right: 30px; z-index: 1001; background: rgba(26, 26, 26, 0.95); color: white; padding: 12px 20px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); font-size: 0.9em; max-width: 250px; display: none; border: 2px solid #f5576c;">
+        <div style="font-weight: 700; margin-bottom: 5px; color: #f093fb;">🎵 Reproduciendo:</div>
+        <div id="currentSongName" style="font-size: 0.95em; color: #fff;"></div>
+    </div>
+
     <div class="stars" id="stars"></div>
 
     <div class="container">
@@ -432,6 +492,281 @@
     </div>
 
     <script>
+        // ============ PLAYLIST DE CANCIONES ============
+        const playlist = [
+            { file: 'assent/WILDFLOWER.mp3', name: 'Wildflower' },
+            { file: 'assent/The-First-Time.mp3', name: 'The First Time' },
+            { file: 'assent/There-You-Are.mp3', name: 'There You Are' },
+            { file: 'assent/Die-With-A-Smile.mp3', name: 'Die With A Smile' },
+            { file: 'assent/i-wish-i-hated-you.mp3', name: 'I Wish I Hated You' },
+            { file: 'assent/blue.mp3', name: 'Blue' },
+            { file: 'assent/Beautiful-Things.mp3', name: 'Beautiful Things' },
+            { file: 'assent/No-One-Noticed.mp3', name: 'No One Noticed' },
+            { file: 'assent/Indigo.mp3', name: 'Indigo' },
+            { file: 'assent/With-You.mp3', name: 'With You' },
+            { file: 'assent/number-one-girl.mp3', name: 'Number One Girl' },
+            { file: 'assent/TWENTIES.mp3', name: 'Twenties' }
+        ];
+
+        // ============ CONTROL DE MÚSICA ============
+        const audio = document.getElementById('backgroundMusic');
+        const musicControl = document.getElementById('musicControl');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicText = document.getElementById('musicText');
+        const songInfo = document.getElementById('songInfo');
+        const currentSongName = document.getElementById('currentSongName');
+        const musicNotification = document.getElementById('musicNotification');
+        let isPlaying = false;
+        let currentSongIndex = 0;
+
+        // Configurar volumen al 70%
+        audio.volume = 0.7;
+
+        // Cargar una canción
+        function loadSong(index) {
+            currentSongIndex = index;
+            audio.src = playlist[index].file;
+            currentSongName.textContent = playlist[index].name;
+            saveMusicState(isPlaying, 0, index);
+        }
+
+        // Reproducir siguiente canción
+        function playNextSong() {
+            currentSongIndex = (currentSongIndex + 1) % playlist.length;
+            loadSong(currentSongIndex);
+            if (isPlaying) {
+                audio.play().catch(e => console.log('Error al reproducir siguiente:', e));
+            }
+        }
+
+        // Cuando termina una canción, reproducir la siguiente
+        audio.addEventListener('ended', playNextSong);
+
+        // Guardar el estado de la música en localStorage
+        function saveMusicState(playing, time, songIndex) {
+            localStorage.setItem('musicPlaying', playing);
+            localStorage.setItem('musicTime', time);
+            localStorage.setItem('currentSong', songIndex);
+        }
+
+        // Cargar el estado de la música desde localStorage
+        function loadMusicState() {
+            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+            const savedSong = parseInt(localStorage.getItem('currentSong')) || 0;
+            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
+            
+            // Cargar la canción guardada
+            loadSong(savedSong);
+            
+            // Precargar el audio para reproducción instantánea
+            audio.load();
+            
+            if (wasPlaying) {
+                // Marcar que estamos navegando entre páginas
+                sessionStorage.setItem('musicNavigating', 'true');
+                
+                // Intentar reproducir inmediatamente
+                audio.currentTime = savedTime;
+                
+                // Si el usuario ya interactuó antes, intentar reproducción agresiva
+                if (hasInteracted) {
+                    // Reproducción inmediata sin esperar promesa
+                    setTimeout(() => {
+                        audio.currentTime = savedTime;
+                        const playAttempt = audio.play();
+                        
+                        if (playAttempt !== undefined) {
+                            playAttempt.then(() => {
+                                isPlaying = true;
+                                updateMusicButton();
+                                showSongInfo();
+                                sessionStorage.removeItem('musicNavigating');
+                            }).catch(err => {
+                                console.log('Reproducción bloqueada, activando plan B...');
+                                activatePlanB(savedTime);
+                            });
+                        }
+                    }, 100);
+                } else {
+                    activatePlanB(savedTime);
+                }
+            }
+        }
+        
+        // Plan B: Intentar reproducir de múltiples formas
+        function activatePlanB(savedTime) {
+            const events = ['click', 'touchstart', 'keydown', 'mousemove', 'scroll'];
+            const resumeMusic = () => {
+                audio.currentTime = savedTime;
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updateMusicButton();
+                    showSongInfo();
+                    sessionStorage.removeItem('musicNavigating');
+                    localStorage.setItem('userHasInteracted', 'true');
+                }).catch(err => console.log('Error al reanudar:', err));
+                
+                events.forEach(event => {
+                    document.removeEventListener(event, resumeMusic);
+                });
+            };
+            
+            events.forEach(event => {
+                document.addEventListener(event, resumeMusic, { once: true, capture: true });
+            });
+            
+            isPlaying = false;
+            updateMusicButton();
+        }
+
+        // Mostrar/ocultar información de la canción
+        function showSongInfo() {
+            songInfo.style.display = 'block';
+        }
+
+        function hideSongInfo() {
+            songInfo.style.display = 'none';
+        }
+
+        // Actualizar el estado visual del botón
+        function updateMusicButton() {
+            if (isPlaying) {
+                musicIcon.textContent = '⏸️';
+                musicText.textContent = 'Pausar Música';
+                musicControl.classList.add('playing');
+                musicControl.style.animation = 'musicPulse 2s infinite';
+                musicNotification.style.display = 'none';
+                showSongInfo();
+            } else {
+                const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+                if (wasPlaying) {
+                    musicIcon.textContent = '▶️';
+                    musicText.textContent = 'Continuar Música';
+                    musicControl.style.animation = 'pulse 1.5s infinite';
+                    musicNotification.style.display = 'flex';
+                } else {
+                    musicIcon.textContent = '🎵';
+                    musicText.textContent = 'Reproducir Música';
+                    musicControl.style.animation = 'none';
+                    musicNotification.style.display = 'none';
+                }
+                musicControl.classList.remove('playing');
+                hideSongInfo();
+            }
+        }
+
+        // Toggle de reproducción
+        musicControl.addEventListener('click', function() {
+            localStorage.setItem('userHasInteracted', 'true');
+            
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                saveMusicState(false, audio.currentTime, currentSongIndex);
+                updateMusicButton();
+            } else {
+                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+                audio.currentTime = savedTime;
+                
+                audio.play().then(() => {
+                    isPlaying = true;
+                    saveMusicState(true, audio.currentTime, currentSongIndex);
+                    updateMusicButton();
+                }).catch(e => {
+                    console.log('Error reproduciendo:', e);
+                });
+            }
+        });
+
+        // Guardar el tiempo actual cada segundo cuando está reproduciéndose
+        audio.addEventListener('timeupdate', function() {
+            if (isPlaying) {
+                saveMusicState(true, audio.currentTime, currentSongIndex);
+            }
+        });
+
+        // Actualizar estado cuando comienza a reproducir
+        audio.addEventListener('play', function() {
+            isPlaying = true;
+            updateMusicButton();
+        });
+
+        // Actualizar estado cuando se pausa
+        audio.addEventListener('pause', function() {
+            if (!audio.ended) {
+                isPlaying = false;
+                updateMusicButton();
+            }
+        });
+
+        // Guardar estado antes de salir de la página
+        window.addEventListener('beforeunload', function() {
+            if (isPlaying) {
+                saveMusicState(true, audio.currentTime, currentSongIndex);
+            }
+        });
+        
+        // Intentar reproducir cuando el audio esté listo
+        audio.addEventListener('canplay', function() {
+            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+            const isNavigating = sessionStorage.getItem('musicNavigating') === 'true';
+            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
+            
+            if (wasPlaying && isNavigating && !isPlaying && hasInteracted) {
+                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+                audio.currentTime = savedTime;
+                
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updateMusicButton();
+                    showSongInfo();
+                    sessionStorage.removeItem('musicNavigating');
+                }).catch(e => {
+                    console.log('Esperando interacción para reproducir');
+                });
+            }
+        });
+        
+        // Forzar reproducción cuando el audio cargue metadatos
+        audio.addEventListener('loadedmetadata', function() {
+            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
+            
+            if (wasPlaying && savedTime > 0 && !isPlaying && hasInteracted) {
+                audio.currentTime = savedTime;
+                
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updateMusicButton();
+                    showSongInfo();
+                }).catch(e => {
+                    console.log('Reproducción pendiente...');
+                });
+            }
+        });
+        
+        // Page Visibility API - reanudar cuando vuelves a la pestaña
+        document.addEventListener('visibilitychange', function() {
+            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
+            
+            if (!document.hidden && wasPlaying && !isPlaying && hasInteracted) {
+                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+                audio.currentTime = savedTime;
+                
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updateMusicButton();
+                    showSongInfo();
+                }).catch(e => {
+                    console.log('Reproducción bloqueada');
+                });
+            }
+        });
+
+        // ============ RESTO DEL CÓDIGO ORIGINAL ============
         function crearEstrellas() {
             const starsContainer = document.getElementById('stars');
             for (let i = 0; i < 150; i++) {
@@ -455,7 +790,7 @@
             setTimeout(() => corazon.remove(), 4000);
         }
 
-        // Animación de entrada para elementos del timeline
+        // Animación de aparición para elementos del timeline
         const observador = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -465,9 +800,17 @@
             });
         }, { threshold: 0.1 });
 
-        window.addEventListener('DOMContentLoaded', () => {
+        // Inicializar todo cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            window.addEventListener('DOMContentLoaded', initializePage);
+        } else {
+            initializePage();
+        }
+        
+        function initializePage() {
             crearEstrellas();
             setInterval(crearCorazon, 1500);
+            loadMusicState();
             
             // Animar elementos del timeline
             document.querySelectorAll('.timeline-content').forEach(el => {
@@ -476,7 +819,7 @@
                 el.style.transition = 'all 0.6s ease-out';
                 observador.observe(el);
             });
-        });
+        }
     </script>
 </body>
 </html>
