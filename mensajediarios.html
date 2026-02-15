@@ -20,6 +20,46 @@
             overflow-x: hidden;
         }
 
+        /* Estilos para el control de música */
+        #musicControl {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1001;
+            background: linear-gradient(135deg, #fe83a8 0%, #a8edea 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(254, 131, 168, 0.5);
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #musicControl #musicNotification {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+
+        #musicControl:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(254, 131, 168, 0.7);
+        }
+
+        #musicControl.playing {
+            animation: musicPulse 2s infinite;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
         /* Burbujas flotantes de fondo */
         .burbujas {
             position: fixed;
@@ -420,10 +460,30 @@
             .galeria-imagenes { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
             .mensaje-chat.enviado { margin-left: 5%; }
             .mensaje-chat.recibido { margin-right: 5%; }
+            #musicControl { bottom: 20px; right: 20px; font-size: 0.9em; padding: 12px 20px; }
         }
     </style>
 </head>
 <body>
+    <!-- Reproductor de música de fondo -->
+    <audio id="backgroundMusic">
+        <source src="" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- Botón de control de música -->
+    <div id="musicControl">
+        <span id="musicIcon">🎵</span>
+        <span id="musicText">Reproducir Música</span>
+        <span id="musicNotification" style="position: absolute; top: -8px; right: -8px; background: #fe83a8; color: white; border-radius: 50%; width: 24px; height: 24px; display: none; align-items: center; justify-content: center; font-size: 0.7em; font-weight: 900; animation: pulse 1s infinite; border: 2px solid white;">!</span>
+    </div>
+    
+    <!-- Info de la canción actual -->
+    <div id="songInfo" style="position: fixed; bottom: 90px; right: 30px; z-index: 1001; background: rgba(26, 26, 26, 0.95); color: white; padding: 12px 20px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); font-size: 0.9em; max-width: 250px; display: none; border: 2px solid #fe83a8;">
+        <div style="font-weight: 700; margin-bottom: 5px; color: #a8edea;">🎵 Reproduciendo:</div>
+        <div id="currentSongName" style="font-size: 0.95em; color: #fff;"></div>
+    </div>
+
     <div class="burbujas" id="burbujas"></div>
     <div class="stars" id="stars"></div>
 
@@ -542,6 +602,196 @@
     </div>
 
     <script>
+        // ============ SISTEMA DE MÚSICA ============
+        const playlist = [
+            { file: 'assent/WILDFLOWER.mp3', name: 'Wildflower' },
+            { file: 'assent/The-First-Time.mp3', name: 'The First Time' },
+            { file: 'assent/There-You-Are.mp3', name: 'There You Are' },
+            { file: 'assent/Die-With-A-Smile.mp3', name: 'Die With A Smile' },
+            { file: 'assent/i-wish-i-hated-you.mp3', name: 'I Wish I Hated You' },
+            { file: 'assent/blue.mp3', name: 'Blue' },
+            { file: 'assent/Beautiful-Things.mp3', name: 'Beautiful Things' },
+            { file: 'assent/No-One-Noticed.mp3', name: 'No One Noticed' },
+            { file: 'assent/Indigo.mp3', name: 'Indigo' },
+            { file: 'assent/With-You.mp3', name: 'With You' },
+            { file: 'assent/number-one-girl.mp3', name: 'Number One Girl' },
+            { file: 'assent/TWENTIES.mp3', name: 'Twenties' }
+        ];
+
+        const audio = document.getElementById('backgroundMusic');
+        const musicControl = document.getElementById('musicControl');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicText = document.getElementById('musicText');
+        const songInfo = document.getElementById('songInfo');
+        const currentSongName = document.getElementById('currentSongName');
+        const musicNotification = document.getElementById('musicNotification');
+        let isPlaying = false;
+        let currentSongIndex = 0;
+
+        audio.volume = 0.7;
+
+        function loadSong(index) {
+            currentSongIndex = index;
+            audio.src = playlist[index].file;
+            currentSongName.textContent = playlist[index].name;
+            saveMusicState(isPlaying, 0, index);
+        }
+
+        function playNextSong() {
+            currentSongIndex = (currentSongIndex + 1) % playlist.length;
+            loadSong(currentSongIndex);
+            if (isPlaying) { audio.play().catch(e => console.log('Error:', e)); }
+        }
+
+        audio.addEventListener('ended', playNextSong);
+
+        function saveMusicState(playing, time, songIndex) {
+            localStorage.setItem('musicPlaying', playing);
+            localStorage.setItem('musicTime', time);
+            localStorage.setItem('currentSong', songIndex);
+        }
+
+        function loadMusicState() {
+            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+            const savedSong = parseInt(localStorage.getItem('currentSong')) || 0;
+            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
+            
+            loadSong(savedSong);
+            audio.load();
+            
+            if (wasPlaying) {
+                sessionStorage.setItem('musicNavigating', 'true');
+                audio.currentTime = savedTime;
+                
+                if (hasInteracted) {
+                    setTimeout(() => {
+                        audio.currentTime = savedTime;
+                        audio.play().then(() => {
+                            isPlaying = true;
+                            updateMusicButton();
+                            showSongInfo();
+                            sessionStorage.removeItem('musicNavigating');
+                        }).catch(() => activatePlanB(savedTime));
+                    }, 100);
+                } else {
+                    activatePlanB(savedTime);
+                }
+            }
+        }
+        
+        function activatePlanB(savedTime) {
+            const events = ['click', 'touchstart', 'keydown', 'mousemove', 'scroll'];
+            const resumeMusic = () => {
+                audio.currentTime = savedTime;
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updateMusicButton();
+                    showSongInfo();
+                    sessionStorage.removeItem('musicNavigating');
+                    localStorage.setItem('userHasInteracted', 'true');
+                });
+                events.forEach(e => document.removeEventListener(e, resumeMusic));
+            };
+            events.forEach(e => document.addEventListener(e, resumeMusic, { once: true, capture: true }));
+            isPlaying = false;
+            updateMusicButton();
+        }
+
+        function showSongInfo() { songInfo.style.display = 'block'; }
+        function hideSongInfo() { songInfo.style.display = 'none'; }
+
+        function updateMusicButton() {
+            if (isPlaying) {
+                musicIcon.textContent = '⏸️';
+                musicText.textContent = 'Pausar Música';
+                musicControl.classList.add('playing');
+                musicControl.style.animation = 'musicPulse 2s infinite';
+                musicNotification.style.display = 'none';
+                showSongInfo();
+            } else {
+                const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+                if (wasPlaying) {
+                    musicIcon.textContent = '▶️';
+                    musicText.textContent = 'Continuar Música';
+                    musicControl.style.animation = 'pulse 1.5s infinite';
+                    musicNotification.style.display = 'flex';
+                } else {
+                    musicIcon.textContent = '🎵';
+                    musicText.textContent = 'Reproducir Música';
+                    musicControl.style.animation = 'none';
+                    musicNotification.style.display = 'none';
+                }
+                musicControl.classList.remove('playing');
+                hideSongInfo();
+            }
+        }
+
+        musicControl.addEventListener('click', function() {
+            localStorage.setItem('userHasInteracted', 'true');
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                saveMusicState(false, audio.currentTime, currentSongIndex);
+            } else {
+                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+                audio.currentTime = savedTime;
+                audio.play().then(() => {
+                    isPlaying = true;
+                    saveMusicState(true, audio.currentTime, currentSongIndex);
+                });
+            }
+            updateMusicButton();
+        });
+
+        audio.addEventListener('timeupdate', () => { if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIndex); });
+        audio.addEventListener('play', () => { isPlaying = true; updateMusicButton(); });
+        audio.addEventListener('pause', () => { if (!audio.ended) { isPlaying = false; updateMusicButton(); } });
+        window.addEventListener('beforeunload', () => { if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIndex); });
+        
+        audio.addEventListener('canplay', function() {
+            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+            const isNavigating = sessionStorage.getItem('musicNavigating') === 'true';
+            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
+            if (wasPlaying && isNavigating && !isPlaying && hasInteracted) {
+                audio.currentTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updateMusicButton();
+                    showSongInfo();
+                    sessionStorage.removeItem('musicNavigating');
+                });
+            }
+        });
+        
+        audio.addEventListener('loadedmetadata', function() {
+            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
+            if (wasPlaying && savedTime > 0 && !isPlaying && hasInteracted) {
+                audio.currentTime = savedTime;
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updateMusicButton();
+                    showSongInfo();
+                });
+            }
+        });
+        
+        document.addEventListener('visibilitychange', function() {
+            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
+            if (!document.hidden && wasPlaying && !isPlaying && hasInteracted) {
+                audio.currentTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updateMusicButton();
+                    showSongInfo();
+                });
+            }
+        });
+
+        // ============ RESTO DEL CÓDIGO ORIGINAL ============
         function crearEstrellas() {
             const starsContainer = document.getElementById('stars');
             for (let i = 0; i < 150; i++) {
@@ -577,7 +827,6 @@
             setTimeout(() => corazon.remove(), 4000);
         }
 
-        // Animación de aparición para elementos
         const observador = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -587,19 +836,25 @@
             });
         }, { threshold: 0.1 });
 
-        window.addEventListener('DOMContentLoaded', () => {
+        if (document.readyState === 'loading') {
+            window.addEventListener('DOMContentLoaded', initializePage);
+        } else {
+            initializePage();
+        }
+        
+        function initializePage() {
             crearEstrellas();
             crearBurbujas();
             setInterval(crearCorazon, 1200);
+            loadMusicState();
             
-            // Animar elementos cuando aparecen en pantalla
             document.querySelectorAll('.tipo-mensaje, .mensaje-chat, .imagen-item').forEach(el => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(30px)';
                 el.style.transition = 'all 0.6s ease-out';
                 observador.observe(el);
             });
-        });
+        }
     </script>
 </body>
 </html>
