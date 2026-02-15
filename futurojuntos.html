@@ -39,6 +39,12 @@
             align-items: center;
             gap: 10px;
         }
+        
+        #musicControl #musicNotification {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
 
         #musicControl:hover {
             transform: translateY(-5px);
@@ -506,6 +512,7 @@
     <div id="musicControl">
         <span id="musicIcon">🎵</span>
         <span id="musicText">Reproducir Música</span>
+        <span id="musicNotification" style="position: absolute; top: -8px; right: -8px; background: #fcb69f; color: white; border-radius: 50%; width: 24px; height: 24px; display: none; align-items: center; justify-content: center; font-size: 0.7em; font-weight: 900; animation: pulse 1s infinite; border: 2px solid white;">!</span>
     </div>
     
     <!-- Info de la canción actual -->
@@ -657,14 +664,14 @@
     <script>
         // ============ PLAYLIST DE CANCIONES ============
         const playlist = [
+            { file: 'assent/WILDFLOWER.mp3', name: 'Wildflower' },
+            { file: 'assent/The-First-Time.mp3', name: 'The First Time' },
+            { file: 'assent/There-You-Are.mp3', name: 'There You Are' },
             { file: 'assent/Die-With-A-Smile.mp3', name: 'Die With A Smile' },
             { file: 'assent/i-wish-i-hated-you.mp3', name: 'I Wish I Hated You' },
             { file: 'assent/blue.mp3', name: 'Blue' },
             { file: 'assent/Beautiful-Things.mp3', name: 'Beautiful Things' },
-            { file: 'assent/There-You-Are.mp3', name: 'There You Are' },
-            { file: 'assent/WILDFLOWER.mp3', name: 'Wildflower' },
             { file: 'assent/No-One-Noticed.mp3', name: 'No One Noticed' },
-            { file: 'assent/The-First-Time.mp3', name: 'The First Time' },
             { file: 'assent/Indigo.mp3', name: 'Indigo' },
             { file: 'assent/With-You.mp3', name: 'With You' },
             { file: 'assent/number-one-girl.mp3', name: 'Number One Girl' },
@@ -678,6 +685,7 @@
         const musicText = document.getElementById('musicText');
         const songInfo = document.getElementById('songInfo');
         const currentSongName = document.getElementById('currentSongName');
+        const musicNotification = document.getElementById('musicNotification');
         let isPlaying = false;
         let currentSongIndex = 0;
 
@@ -716,18 +724,73 @@
             const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
             const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
             const savedSong = parseInt(localStorage.getItem('currentSong')) || 0;
+            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
             
             // Cargar la canción guardada
             loadSong(savedSong);
             
+            // Precargar el audio para reproducción instantánea
+            audio.load();
+            
             if (wasPlaying) {
+                // Marcar que estamos navegando entre páginas
+                sessionStorage.setItem('musicNavigating', 'true');
+                
+                // Intentar reproducir inmediatamente
+                audio.currentTime = savedTime;
+                
+                // Si el usuario ya interactuó antes, intentar reproducción agresiva
+                if (hasInteracted) {
+                    // Reproducción inmediata sin esperar promesa
+                    setTimeout(() => {
+                        audio.currentTime = savedTime;
+                        const playAttempt = audio.play();
+                        
+                        if (playAttempt !== undefined) {
+                            playAttempt.then(() => {
+                                isPlaying = true;
+                                updateMusicButton();
+                                showSongInfo();
+                                sessionStorage.removeItem('musicNavigating');
+                            }).catch(err => {
+                                console.log('Reproducción bloqueada, activando plan B...');
+                                activatePlanB(savedTime);
+                            });
+                        }
+                    }, 100); // Pequeño delay para que el audio cargue
+                } else {
+                    // Primera vez, necesita interacción
+                    activatePlanB(savedTime);
+                }
+            }
+        }
+        
+        // Plan B: Intentar reproducir de múltiples formas
+        function activatePlanB(savedTime) {
+            const events = ['click', 'touchstart', 'keydown', 'mousemove', 'scroll'];
+            const resumeMusic = () => {
                 audio.currentTime = savedTime;
                 audio.play().then(() => {
                     isPlaying = true;
                     updateMusicButton();
                     showSongInfo();
-                }).catch(e => console.log('Error auto-reproduciendo:', e));
-            }
+                    sessionStorage.removeItem('musicNavigating');
+                    localStorage.setItem('userHasInteracted', 'true');
+                }).catch(err => console.log('Error al reanudar:', err));
+                
+                // Remover todos los listeners
+                events.forEach(event => {
+                    document.removeEventListener(event, resumeMusic);
+                });
+            };
+            
+            // Añadir múltiples listeners para cualquier interacción
+            events.forEach(event => {
+                document.addEventListener(event, resumeMusic, { once: true, capture: true });
+            });
+            
+            isPlaying = false;
+            updateMusicButton();
         }
 
         // Mostrar/ocultar información de la canción
@@ -745,10 +808,24 @@
                 musicIcon.textContent = '⏸️';
                 musicText.textContent = 'Pausar Música';
                 musicControl.classList.add('playing');
+                musicControl.style.animation = 'musicPulse 2s infinite';
+                musicNotification.style.display = 'none';
                 showSongInfo();
             } else {
-                musicIcon.textContent = '🎵';
-                musicText.textContent = 'Reproducir Música';
+                const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+                if (wasPlaying) {
+                    // Música pausada pero estaba reproduciéndose
+                    musicIcon.textContent = '▶️';
+                    musicText.textContent = 'Continuar Música';
+                    musicControl.style.animation = 'pulse 1.5s infinite';
+                    musicNotification.style.display = 'flex';
+                } else {
+                    // Música detenida
+                    musicIcon.textContent = '🎵';
+                    musicText.textContent = 'Reproducir Música';
+                    musicControl.style.animation = 'none';
+                    musicNotification.style.display = 'none';
+                }
                 musicControl.classList.remove('playing');
                 hideSongInfo();
             }
@@ -756,17 +833,29 @@
 
         // Toggle de reproducción
         musicControl.addEventListener('click', function() {
+            // Marcar que el usuario ha interactuado (permite reproducción automática después)
+            localStorage.setItem('userHasInteracted', 'true');
+            
             if (isPlaying) {
+                // Pausar música
                 audio.pause();
                 isPlaying = false;
                 saveMusicState(false, audio.currentTime, currentSongIndex);
+                updateMusicButton();
             } else {
+                // Reproducir o continuar música
+                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+                audio.currentTime = savedTime;
+                
                 audio.play().then(() => {
                     isPlaying = true;
                     saveMusicState(true, audio.currentTime, currentSongIndex);
-                }).catch(e => console.log('Error reproduciendo:', e));
+                    updateMusicButton();
+                }).catch(e => {
+                    console.log('Error reproduciendo:', e);
+                    alert('Por favor, activa el sonido en tu navegador');
+                });
             }
-            updateMusicButton();
         });
 
         // Guardar el tiempo actual cada segundo cuando está reproduciéndose
@@ -794,6 +883,66 @@
         window.addEventListener('beforeunload', function() {
             if (isPlaying) {
                 saveMusicState(true, audio.currentTime, currentSongIndex);
+            }
+        });
+        
+        // Intentar reproducir cuando el audio esté listo
+        audio.addEventListener('canplay', function() {
+            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+            const isNavigating = sessionStorage.getItem('musicNavigating') === 'true';
+            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
+            
+            if (wasPlaying && isNavigating && !isPlaying && hasInteracted) {
+                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+                audio.currentTime = savedTime;
+                
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updateMusicButton();
+                    showSongInfo();
+                    sessionStorage.removeItem('musicNavigating');
+                }).catch(e => {
+                    console.log('Esperando interacción para reproducir');
+                });
+            }
+        });
+        
+        // Forzar reproducción cuando el audio cargue metadatos
+        audio.addEventListener('loadedmetadata', function() {
+            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
+            
+            if (wasPlaying && savedTime > 0 && !isPlaying && hasInteracted) {
+                audio.currentTime = savedTime;
+                
+                // Intentar reproducir
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updateMusicButton();
+                    showSongInfo();
+                }).catch(e => {
+                    console.log('Reproducción pendiente...');
+                });
+            }
+        });
+        
+        // Page Visibility API - reanudar cuando vuelves a la pestaña
+        document.addEventListener('visibilitychange', function() {
+            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
+            
+            if (!document.hidden && wasPlaying && !isPlaying && hasInteracted) {
+                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+                audio.currentTime = savedTime;
+                
+                audio.play().then(() => {
+                    isPlaying = true;
+                    updateMusicButton();
+                    showSongInfo();
+                }).catch(e => {
+                    console.log('Reproducción bloqueada');
+                });
             }
         });
 
@@ -846,7 +995,15 @@
             });
         }, { threshold: 0.1 });
 
-        window.addEventListener('DOMContentLoaded', () => {
+        // Inicializar todo cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            window.addEventListener('DOMContentLoaded', initializePage);
+        } else {
+            // DOM ya está cargado
+            initializePage();
+        }
+        
+        function initializePage() {
             crearEstrellas();
             crearArcoiris();
             setInterval(crearCorazon, 600);
@@ -859,7 +1016,7 @@
                 el.style.transition = 'all 0.6s ease-out';
                 observador.observe(el);
             });
-        });
+        }
     </script>
 </body>
 </html>
