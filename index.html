@@ -1,1318 +1,1302 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para mi amor Elsa 💕 | San Valentín 2026</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
-            overflow-x: hidden;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        /* Corazones flotantes de fondo */
-        .hearts-bg {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.1;
-        }
-
-        .heart-float {
-            position: absolute;
-            font-size: 3em;
-            animation: floatHeart 15s infinite;
-        }
-
-        @keyframes floatHeart {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
-        }
-
-        .stars {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .star {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        /* Estilos para el control de música */
-        #musicControl {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1001;
-            background: linear-gradient(135deg, #ff0844 0%, #ff6b9d 100%);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(255, 8, 68, 0.5);
-            font-weight: 700;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        #musicControl #musicNotification {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-        }
-
-        #musicControl:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(255, 8, 68, 0.7);
-        }
-
-        #musicControl.playing {
-            animation: musicPulse 2s infinite;
-        }
-
-        @keyframes musicPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .header {
-            text-align: center;
-            margin: 40px 0;
-            animation: fadeInDown 1s ease-out;
-        }
-
-        .header h1 {
-            color: #fff;
-            font-size: 4em;
-            text-shadow: 4px 4px 15px rgba(0,0,0,0.4);
-            margin-bottom: 15px;
-            animation: pulse 2s infinite;
-            font-weight: 800;
-            letter-spacing: 2px;
-        }
-
-        .header .subtitle {
-            color: #ffe6f0;
-            font-size: 1.8em;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-            font-weight: 600;
-        }
-
-        .valentine-badge {
-            background: linear-gradient(135deg, #ff0844 0%, #ff6b9d 100%);
-            color: white;
-            padding: 15px 40px;
-            border-radius: 50px;
-            display: inline-block;
-            font-size: 1.3em;
-            font-weight: 700;
-            margin: 20px 0;
-            box-shadow: 0 10px 30px rgba(255, 8, 68, 0.5);
-            animation: pulseValentine 2s infinite;
-        }
-
-        @keyframes pulseValentine {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
-
-        /* Reloj Digital estilo LED moderno */
-        .digital-clock-container {
-            background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
-            border-radius: 35px;
-            padding: 60px 40px;
-            margin: 40px 0;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
-            text-align: center;
-            animation: fadeIn 1.5s ease-out;
-            border: 5px solid #ff0844;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .digital-clock-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255,8,68,0.8), transparent);
-        }
-
-        .digital-clock-container h2 {
-            color: #ff0844;
-            font-size: 2.8em;
-            margin-bottom: 15px;
-            font-weight: 800;
-            text-shadow: 0 0 20px rgba(255,8,68,0.5);
-        }
-
-        .digital-clock-container .fecha-inicio {
-            color: #ff6b9d;
-            font-size: 1.4em;
-            margin-bottom: 40px;
-            font-weight: 600;
-        }
-
-        .led-display {
-            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
-            border-radius: 25px;
-            padding: 40px 30px;
-            box-shadow: inset 0 4px 20px rgba(0,0,0,0.6), 0 4px 20px rgba(0,0,0,0.3);
-            border: 2px solid #333;
-            margin: 30px auto;
-            max-width: 900px;
-        }
-
-        .time-display {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .time-unit {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .led-number {
-            font-family: 'DS-Digital', 'Courier New', monospace;
-            font-size: 5.5em;
-            font-weight: bold;
-            color: #ffffff;
-            text-shadow: 
-                0 0 8px rgba(255, 255, 255, 0.4),
-                0 0 15px rgba(255, 255, 255, 0.2);
-            line-height: 1;
-            letter-spacing: 0.05em;
-            background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: brightness(1);
-        }
-
-        .led-label {
-            font-size: 1.1em;
-            font-weight: 700;
-            color: #ffffff;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-top: 10px;
-            text-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
-        }
-
-        .secondary-display {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            padding-top: 25px;
-            border-top: 1px solid #2a2a2a;
-        }
-
-        .secondary-display .time-unit .led-number {
-            font-size: 4em;
-        }
-
-        .info-display {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 25px;
-            padding: 20px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 15px;
-            gap: 20px;
-        }
-
-        .info-item {
-            text-align: center;
-        }
-
-        .info-value {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #d0d0d0;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
-        }
-
-        .info-label {
-            font-size: 0.9em;
-            color: #888;
-            text-transform: uppercase;
-            margin-top: 5px;
-            letter-spacing: 1px;
-        }
-
-        .bubu-dudu-section {
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 35px;
-            padding: 50px;
-            margin: 40px 0;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-            position: relative;
-            overflow: hidden;
-            border: 5px solid #ff6b9d;
-        }
-
-        .bubu-dudu-section h2 {
-            color: #ff0844;
-            text-align: center;
-            font-size: 2.8em;
-            margin-bottom: 25px;
-            font-weight: 800;
-        }
-
-        .bubu-dudu-section .descripcion {
-            text-align: center;
-            color: #666;
-            font-size: 1.3em;
-            margin-bottom: 40px;
-            line-height: 1.8;
-        }
-
-        .personajes {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            margin: 40px 0;
-            flex-wrap: wrap;
-            gap: 40px;
-        }
-
-        .personaje {
-            text-align: center;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .personaje:nth-child(2) {
-            animation-delay: 1.5s;
-        }
-
-        .personaje-img {
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            object-fit: cover;
-            box-shadow: 0 15px 45px rgba(255, 8, 68, 0.4);
-            border: 6px solid #ff0844;
-            transition: all 0.4s ease;
-        }
-
-        .personaje-img:hover {
-            transform: scale(1.15) rotate(5deg);
-            box-shadow: 0 20px 60px rgba(255, 8, 68, 0.6);
-        }
-
-        .personaje h3 {
-            color: #ff0844;
-            font-size: 1.8em;
-            margin-top: 20px;
-            font-weight: 800;
-        }
-
-        .personaje p {
-            color: #666;
-            font-size: 1.1em;
-            margin-top: 8px;
-            font-weight: 600;
-        }
-
-        .corazon-central {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: heartbeat 1.5s infinite;
-            z-index: 10;
-        }
-
-        .corazon-central::before {
-            content: "💕";
-            font-size: 5em;
-            filter: drop-shadow(0 8px 15px rgba(255, 8, 68, 0.5));
-        }
-
-        .mensajes {
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 35px;
-            padding: 50px;
-            margin: 40px 0;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-            border: 5px solid #ff6b9d;
-        }
-
-        .mensajes h2 {
-            color: #ff0844;
-            font-size: 2.8em;
-            text-align: center;
-            margin-bottom: 40px;
-            font-weight: 800;
-        }
-
-        .mensaje-item {
-            background: linear-gradient(135deg, #ffe6f0 0%, #ffd4e5 100%);
-            padding: 30px;
-            margin: 25px 0;
-            border-radius: 25px;
-            border-left: 8px solid #ff0844;
-            box-shadow: 0 8px 25px rgba(255, 8, 68, 0.2);
-            animation: slideInRight 1s ease-out;
-            animation-fill-mode: both;
-            transition: all 0.3s ease;
-        }
-
-        .mensaje-item:hover {
-            transform: translateX(10px);
-            box-shadow: 0 12px 35px rgba(255, 8, 68, 0.3);
-        }
-
-        .mensaje-item:nth-child(1) { animation-delay: 0.2s; }
-        .mensaje-item:nth-child(2) { animation-delay: 0.4s; }
-        .mensaje-item:nth-child(3) { animation-delay: 0.6s; }
-        .mensaje-item:nth-child(4) { animation-delay: 0.8s; }
-        .mensaje-item:nth-child(5) { animation-delay: 1s; }
-        .mensaje-item:nth-child(6) { animation-delay: 1.2s; }
-
-        .mensaje-item p {
-            color: #5a3d7a;
-            font-size: 1.3em;
-            line-height: 1.8;
-            margin: 0;
-            font-weight: 500;
-        }
-
-        .mensaje-item .emoji {
-            font-size: 1.8em;
-            margin-right: 15px;
-        }
-
-        .galeria {
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 35px;
-            padding: 50px;
-            margin: 40px 0;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-            border: 5px solid #ff6b9d;
-        }
-
-        .galeria h2 {
-            color: #ff0844;
-            font-size: 2.8em;
-            text-align: center;
-            margin-bottom: 25px;
-            font-weight: 800;
-        }
-
-        .galeria-descripcion {
-            text-align: center;
-            color: #666;
-            font-size: 1.2em;
-            margin-bottom: 40px;
-        }
-
-        .recuerdos {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 10px;
-        }
-
-        .recuerdo {
-            background: white;
-            padding: 0;
-            border-radius: 25px;
-            text-align: center;
-            color: white;
-            box-shadow: 0 12px 35px rgba(255, 8, 68, 0.2);
-            transition: all 0.4s ease;
-            cursor: pointer;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: 4px solid transparent;
-        }
-
-        .recuerdo:hover {
-            transform: translateY(-20px) scale(1.05);
-            box-shadow: 0 25px 50px rgba(255, 8, 68, 0.4);
-            border-color: #ff0844;
-        }
-
-        .recuerdo-img-container {
-            width: 100%;
-            height: 220px;
-            background: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border-radius: 21px 21px 0 0;
-        }
-
-        .recuerdo-gif {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            background: white;
-        }
-
-        .recuerdo-content {
-            background: linear-gradient(135deg, #ff0844 0%, #ff6b9d 100%);
-            padding: 25px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .recuerdo h3 {
-            font-size: 1.6em;
-            margin-bottom: 12px;
-            font-weight: 800;
-        }
-
-        .recuerdo p {
-            font-size: 1em;
-            line-height: 1.6;
-            opacity: 0.95;
-        }
-
-        .boton-amor {
-            text-align: center;
-            margin: 50px 0;
-        }
-
-        .btn-principal {
-            background: linear-gradient(135deg, #ff0844 0%, #ff6b9d 100%);
-            color: white;
-            border: none;
-            padding: 25px 60px;
-            font-size: 1.7em;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 15px 40px rgba(255, 8, 68, 0.5);
-            transition: all 0.3s ease;
-            font-family: inherit;
-            font-weight: 800;
-        }
-
-        .btn-principal:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 20px 50px rgba(255, 8, 68, 0.7);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 60px;
-            border-radius: 35px;
-            max-width: 650px;
-            text-align: center;
-            position: relative;
-            animation: zoomIn 0.5s ease-out;
-            border: 6px solid #ff0844;
-        }
-
-        .modal-content h2 {
-            color: #ff0844;
-            font-size: 2.8em;
-            margin-bottom: 25px;
-            font-weight: 800;
-        }
-
-        .modal-content p {
-            color: #666;
-            font-size: 1.4em;
-            line-height: 2;
-            margin: 25px 0;
-            font-weight: 500;
-        }
-
-        .btn-cerrar {
-            background: linear-gradient(135deg, #ff0844 0%, #ff6b9d 100%);
-            color: white;
-            border: none;
-            padding: 18px 50px;
-            font-size: 1.3em;
-            border-radius: 30px;
-            cursor: pointer;
-            margin-top: 25px;
-            transition: all 0.3s ease;
-            font-weight: 800;
-        }
-
-        .btn-cerrar:hover {
-            transform: scale(1.08);
-            box-shadow: 0 10px 30px rgba(255, 8, 68, 0.5);
-        }
-
-        .corazon {
-            position: fixed;
-            font-size: 2em;
-            pointer-events: none;
-            z-index: 999;
-            animation: floatUp 4s linear;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 40px;
-            color: white;
-            font-size: 1.4em;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
-            font-weight: 600;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(100px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.06); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-25px); }
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            25% { transform: translate(-50%, -50%) scale(1.25); }
-            50% { transform: translate(-50%, -50%) scale(1); }
-            75% { transform: translate(-50%, -50%) scale(1.15); }
-        }
-
-        @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0) rotate(0deg); }
-            100% { opacity: 0; transform: translateY(-1000px) rotate(360deg); }
-        }
-
-        @keyframes zoomIn {
-            from { opacity: 0; transform: scale(0.5); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        @media (max-width: 768px) {
-            .header h1 { font-size: 2.8em; }
-            .led-number { font-size: 3.5em; }
-            .time-display { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-            .secondary-display { grid-template-columns: repeat(2, 1fr); }
-            .secondary-display .time-unit:last-child { grid-column: 1 / -1; }
-            .personajes { flex-direction: column; }
-            .modal-content { padding: 40px 30px; margin: 20px; }
-            .personaje-img { width: 170px; height: 170px; }
-            .digital-clock-container { padding: 40px 25px; }
-            .led-display { padding: 30px 20px; }
-            .info-display { flex-direction: column; gap: 15px; }
-            #musicControl { bottom: 20px; right: 20px; font-size: 0.9em; padding: 12px 20px; }
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Para mi amor Elsa 💕 | San Valentín 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════════════════
+   VARIABLES
+═══════════════════════════════════════════════════════ */
+:root {
+  --bg:         #0d0208;
+  --r1:         #ff0844;
+  --r2:         #ff6b9d;
+  --r3:         #ffb3cc;
+  --rs:         rgba(255,8,68,0.22);
+  --gold:       #f59e0b;
+  --gold2:      #fde68a;
+  --glass-bg:   rgba(255,255,255,0.04);
+  --glass-bd:   rgba(255,255,255,0.11);
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: #fff;
+  position: relative;
+}
+
+/* ── Fondo: gradiente + puntos ── */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 55% at 15% 5%,  rgba(255,8,68,0.18)   0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 85% 90%, rgba(255,107,157,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 35% at 50% 50%, rgba(180,10,50,0.10)   0%, transparent 55%);
+}
+body::after {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.055) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+/* ══════════════════════════════════════════════════════
+   PARTÍCULAS
+══════════════════════════════════════════════════════ */
+#particles { position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+.particle  { position:absolute; border-radius:50%; opacity:0; animation:pDrift linear infinite; }
+@keyframes pDrift {
+  0%   { transform:translateY(108vh) scale(.3); opacity:0; }
+  5%   { opacity:1; }
+  95%  { opacity:.6; }
+  100% { transform:translateY(-8vh) scale(1.2); opacity:0; }
+}
+
+/* Corazones flotantes de fondo */
+#hearts-bg { position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+.heart-float {
+  position:absolute; font-size:2.4em; opacity:.07;
+  animation:floatHeart linear infinite;
+}
+@keyframes floatHeart {
+  0%   { transform:translateY(105vh) rotate(0deg); opacity:0; }
+  8%   { opacity:.08; }
+  92%  { opacity:.08; }
+  100% { transform:translateY(-5vh) rotate(360deg); opacity:0; }
+}
+
+/* Estrellas */
+#stars { position:fixed; inset:0; z-index:1; pointer-events:none; }
+.star {
+  position:absolute; width:2px; height:2px;
+  background:#fff; border-radius:50%;
+  animation:twinkle 3s ease-in-out infinite;
+}
+@keyframes twinkle { 0%,100%{opacity:.2} 50%{opacity:.9} }
+
+/* ══════════════════════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════════════════════ */
+.container {
+  position:relative; z-index:2;
+  max-width:1100px;
+  margin:0 auto;
+  padding:20px 20px 80px;
+}
+
+/* ══════════════════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════════════════ */
+.header {
+  text-align:center;
+  padding:50px 0 10px;
+  animation:fadeInDown .9s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes fadeInDown { from{opacity:0;transform:translateY(-45px)} to{opacity:1;transform:translateY(0)} }
+
+.header-eyebrow {
+  font-family:'Rajdhani',sans-serif;
+  font-size:.82rem; letter-spacing:.3em;
+  text-transform:uppercase; color:rgba(255,255,255,.3);
+  margin-bottom:14px;
+}
+.header h1 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(2.4rem,6.5vw,5rem);
+  font-weight:900; line-height:1.05;
+  background:linear-gradient(135deg,#ff6b9d 0%,#ff0844 40%,#ffb3cc 80%,#ff6b9d 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  filter:drop-shadow(0 0 35px rgba(255,8,68,.55));
+  letter-spacing:.06em;
+  animation:hPulse 3s ease-in-out infinite;
+}
+@keyframes hPulse { 0%,100%{filter:drop-shadow(0 0 35px rgba(255,8,68,.55))} 50%{filter:drop-shadow(0 0 55px rgba(255,8,68,.85))} }
+
+.header-sub {
+  margin-top:12px; font-size:1.15rem;
+  color:rgba(255,179,204,.7); letter-spacing:.14em;
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+}
+.valentine-badge {
+  display:inline-block; margin:22px 0 0;
+  padding:14px 40px; border-radius:50px;
+  background:linear-gradient(135deg,rgba(255,8,68,.25),rgba(255,107,157,.2));
+  border:1px solid rgba(255,107,157,.45);
+  backdrop-filter:blur(12px);
+  font-size:1.15em; font-weight:700; color:#ffb3cc;
+  box-shadow:0 0 30px rgba(255,8,68,.2), inset 0 1px 0 rgba(255,255,255,.08);
+  animation:badgePulse 2.5s ease-in-out infinite;
+}
+@keyframes badgePulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+.header-line {
+  width:220px; height:1px; margin:24px auto 0;
+  background:linear-gradient(90deg,transparent,rgba(255,8,68,.6),rgba(255,107,157,.4),transparent);
+}
+
+/* ══════════════════════════════════════════════════════
+   RELOJ — GLASSMORPHISM CARD
+══════════════════════════════════════════════════════ */
+.clock-card {
+  position:relative;
+  margin:44px 0;
+  border-radius:32px;
+  backdrop-filter:blur(18px) saturate(1.4);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  background:linear-gradient(145deg,rgba(80,5,25,0.38),rgba(15,2,8,0.65));
+  border:1px solid rgba(255,107,157,.3);
+  box-shadow:0 0 70px rgba(255,8,68,.18), 0 30px 80px rgba(0,0,0,.55);
+  overflow:hidden;
+  animation:cardReveal 1s cubic-bezier(.16,1,.3,1) .2s both;
+  transition:transform .35s ease, box-shadow .35s ease;
+}
+.clock-card:hover {
+  transform:translateY(-4px);
+  box-shadow:0 0 100px rgba(255,8,68,.28), 0 36px 90px rgba(0,0,0,.65);
+}
+@keyframes cardReveal { from{opacity:0;transform:translateY(50px) scale(.97)} to{opacity:1;transform:translateY(0) scale(1)} }
+
+/* Línea superior */
+.clock-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:3px; z-index:3;
+  background:linear-gradient(90deg,transparent,#ff0844,#ff6b9d,#ff0844,transparent);
+}
+/* Brillo esquina */
+.clock-card::after {
+  content:'';
+  position:absolute; top:-80px; right:-80px;
+  width:240px; height:240px; border-radius:50%;
+  background:radial-gradient(circle,rgba(255,8,68,.12),transparent 70%);
+  pointer-events:none;
+}
+
+/* Decoraciones corazones dentro de la tarjeta */
+.clock-deco { position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:0; }
+.cdeco-heart {
+  position:absolute; font-size:var(--sz,2em); opacity:.08;
+  animation:cdHeartPulse var(--dur,3s) ease-in-out infinite;
+  animation-delay:var(--del,0s);
+}
+@keyframes cdHeartPulse {
+  0%,100%{transform:scale(1) rotate(var(--rot,0deg)); opacity:.08;}
+  50%{transform:scale(1.3) rotate(var(--rot,0deg)); opacity:.15;}
+}
+
+.clock-inner { position:relative; z-index:2; padding:44px 36px 36px; }
+
+.clock-title-row {
+  text-align:center; margin-bottom:32px;
+}
+.clock-title-row h2 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.6rem,3.5vw,2.6rem);
+  font-weight:700; color:#ff6b9d;
+  text-shadow:0 0 25px rgba(255,107,157,.5);
+  margin-bottom:8px;
+}
+.clock-title-row .fecha-inicio {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem; font-style:italic;
+  color:rgba(255,179,204,.65); letter-spacing:.08em;
+}
+
+/* ── Panel LED ── */
+.led-panel {
+  background:rgba(0,0,0,.5);
+  border-radius:22px;
+  padding:30px 22px 22px;
+  border:1px solid rgba(255,255,255,.07);
+  box-shadow:inset 0 4px 24px rgba(0,0,0,.6);
+  margin-bottom:18px;
+}
+.led-row {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:12px;
+}
+.led-row:last-of-type { margin-bottom:0; }
+.led-unit { display:flex; flex-direction:column; align-items:center; }
+
+.led-number {
+  font-family:'Courier New','Lucida Console',monospace;
+  font-size:clamp(2.8rem,5.5vw,4.8rem);
+  font-weight:bold; line-height:1; letter-spacing:.04em;
+  color:#ff9abb;
+  text-shadow:0 0 8px rgba(255,154,187,.7), 0 0 22px rgba(255,8,68,.5), 0 0 45px rgba(255,8,68,.25);
+  position:relative; transition:transform .12s ease;
+}
+/* Segmentos apagados */
+.led-number::before {
+  content:attr(data-ghost); position:absolute; inset:0;
+  opacity:.08; color:inherit; pointer-events:none;
+}
+.led-number.tick { animation:ledTick .13s ease; }
+@keyframes ledTick { 0%{transform:scaleY(1)} 45%{transform:scaleY(1.07)} 100%{transform:scaleY(1)} }
+
+.led-label {
+  font-size:.68rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.2em;
+  margin-top:7px; color:rgba(255,107,157,.45);
+}
+.panel-sep {
+  height:1px; margin:14px 0;
+  background:linear-gradient(90deg,transparent,rgba(255,8,68,.35),transparent);
+}
+
+/* ── Totales ── */
+.totals-row {
+  display:flex; justify-content:space-around; gap:8px;
+  position:relative; z-index:2;
+}
+.total-item { text-align:center; }
+.total-val {
+  font-family:'Courier New',monospace;
+  font-size:clamp(1rem,2vw,1.3rem); font-weight:bold;
+  color:rgba(255,154,187,.82);
+}
+.total-label {
+  font-size:.62rem; text-transform:uppercase;
+  letter-spacing:.12em; color:rgba(255,255,255,.26); margin-top:3px;
+}
+
+/* ── Barra de progreso anual ── */
+.year-progress {
+  position:relative; z-index:2; margin-top:16px;
+}
+.yp-labels {
+  display:flex; justify-content:space-between;
+  font-size:.62rem; text-transform:uppercase;
+  letter-spacing:.15em; margin-bottom:6px;
+  color:rgba(255,255,255,.28);
+}
+.yp-bar {
+  width:100%; height:5px; border-radius:99px;
+  background:rgba(255,255,255,.07); overflow:hidden;
+}
+.yp-fill {
+  height:100%; border-radius:99px;
+  background:linear-gradient(90deg,#ff0844,#ff6b9d,#ffb3cc);
+  box-shadow:0 0 10px rgba(255,8,68,.6);
+  transition:width 1.4s cubic-bezier(.16,1,.3,1);
+}
+
+/* ── Footer de tarjeta: hitos + countdown ── */
+.clock-footer {
+  position:relative; z-index:2;
+  display:grid; grid-template-columns:1fr 1fr; gap:14px;
+  margin-top:20px;
+}
+@media (max-width:520px) { .clock-footer{ grid-template-columns:1fr; } }
+
+.milestone-panel, .countdown-panel {
+  border-radius:16px; padding:16px 18px;
+  background:rgba(0,0,0,.35);
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(8px);
+}
+.panel-heading {
+  font-size:.63rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.22em;
+  color:rgba(255,107,157,.55); margin-bottom:12px;
+  display:flex; align-items:center; gap:7px;
+}
+.milestone-list { display:flex; flex-direction:column; gap:8px; }
+.milestone-item {
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:.8rem;
+}
+.m-label { color:rgba(255,255,255,.42); }
+.m-value {
+  font-family:'Courier New',monospace; font-weight:bold;
+  font-size:.84rem; color:#ff9abb;
+}
+.countdown-inner { display:flex; flex-direction:column; gap:5px; }
+.cd-title { font-size:.72rem; color:rgba(255,255,255,.45); font-family:'Rajdhani',sans-serif; }
+.cd-days {
+  font-family:'Courier New',monospace;
+  font-size:2.1rem; font-weight:bold; line-height:1;
+  color:#ff6b9d; text-shadow:0 0 18px rgba(255,107,157,.55);
+}
+.cd-sub { font-size:.72rem; color:rgba(255,255,255,.38); }
+.cd-event { font-size:.72rem; font-style:italic; color:rgba(255,154,187,.55); margin-top:2px; }
+
+/* ══════════════════════════════════════════════════════
+   SECCIÓN NOSOTROS (Bubu y Dudu) — Glass
+══════════════════════════════════════════════════════ */
+.section-glass {
+  border-radius:32px;
+  backdrop-filter:blur(16px) saturate(1.3);
+  -webkit-backdrop-filter:blur(16px) saturate(1.3);
+  background:linear-gradient(145deg,rgba(80,5,25,0.3),rgba(10,2,6,0.55));
+  border:1px solid rgba(255,107,157,.25);
+  box-shadow:0 0 55px rgba(255,8,68,.12), 0 25px 65px rgba(0,0,0,.5);
+  margin:36px 0;
+  overflow:hidden;
+  position:relative;
+  animation:cardReveal 1s cubic-bezier(.16,1,.3,1) both;
+}
+.section-glass::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(255,107,157,.5),transparent);
+}
+.section-inner { padding:44px 40px; }
+
+.section-glass h2 {
+  font-family:'Cinzel',serif;
+  color:#ff6b9d; font-size:clamp(1.5rem,3vw,2.4rem);
+  text-align:center; margin-bottom:14px; font-weight:700;
+  text-shadow:0 0 20px rgba(255,107,157,.4);
+}
+.section-desc {
+  text-align:center; color:rgba(255,179,204,.6);
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.15rem; line-height:1.7; margin-bottom:36px;
+}
+
+/* Personajes */
+.personajes {
+  display:flex; justify-content:space-around; align-items:center;
+  flex-wrap:wrap; gap:40px; position:relative;
+}
+.personaje { text-align:center; animation:floatAnim 3.5s ease-in-out infinite; }
+.personaje:nth-child(3) { animation-delay:1.7s; }
+@keyframes floatAnim { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+
+.personaje-img {
+  width:200px; height:200px; border-radius:50%; object-fit:cover;
+  border:3px solid rgba(255,107,157,.5);
+  box-shadow:0 0 40px rgba(255,8,68,.3), 0 15px 40px rgba(0,0,0,.5);
+  transition:all .4s ease;
+  backdrop-filter:blur(4px);
+}
+.personaje-img:hover {
+  transform:scale(1.12) rotate(4deg);
+  box-shadow:0 0 60px rgba(255,8,68,.5), 0 20px 55px rgba(0,0,0,.6);
+  border-color:rgba(255,8,68,.8);
+}
+.personaje h3 {
+  font-family:'Cinzel',serif;
+  color:#ff9abb; font-size:1.4rem; margin-top:16px; font-weight:700;
+}
+.personaje p { color:rgba(255,179,204,.55); font-size:1rem; margin-top:6px; font-style:italic; }
+
+.corazon-central {
+  font-size:3.5em; animation:heartbeat 1.6s ease-in-out infinite;
+  filter:drop-shadow(0 0 16px rgba(255,8,68,.6));
+}
+@keyframes heartbeat {
+  0%,100%{transform:scale(1)}
+  25%{transform:scale(1.25)}
+  50%{transform:scale(1)}
+  75%{transform:scale(1.15)}
+}
+
+/* ══════════════════════════════════════════════════════
+   MENSAJES — Glass
+══════════════════════════════════════════════════════ */
+.mensaje-item {
+  background:linear-gradient(135deg,rgba(255,8,68,.1),rgba(255,107,157,.08));
+  border:1px solid rgba(255,107,157,.2);
+  backdrop-filter:blur(10px);
+  padding:22px 26px;
+  margin:18px 0;
+  border-radius:20px;
+  border-left:4px solid rgba(255,8,68,.6);
+  box-shadow:0 8px 25px rgba(0,0,0,.3);
+  animation:slideInRight 1s cubic-bezier(.16,1,.3,1) both;
+  transition:all .3s ease;
+}
+.mensaje-item:hover { transform:translateX(8px); border-left-color:#ff0844; box-shadow:0 12px 35px rgba(255,8,68,.2); }
+.mensaje-item:nth-child(1){animation-delay:.1s}
+.mensaje-item:nth-child(2){animation-delay:.25s}
+.mensaje-item:nth-child(3){animation-delay:.4s}
+.mensaje-item:nth-child(4){animation-delay:.55s}
+.mensaje-item:nth-child(5){animation-delay:.7s}
+.mensaje-item:nth-child(6){animation-delay:.85s}
+@keyframes slideInRight { from{opacity:0;transform:translateX(80px)} to{opacity:1;transform:translateX(0)} }
+
+.mensaje-item p { color:rgba(255,210,225,.82); font-size:1.1rem; line-height:1.75; }
+.mensaje-item .emoji { font-size:1.6em; margin-right:12px; }
+
+/* ══════════════════════════════════════════════════════
+   GALERÍA — Glass cards
+══════════════════════════════════════════════════════ */
+.recuerdos {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:24px; padding:4px;
+}
+.recuerdo {
+  border-radius:22px; overflow:hidden;
+  border:2px solid rgba(255,107,157,.25);
+  background:#fff;
+  text-decoration:none; color:#fff;
+  display:flex; flex-direction:column;
+  box-shadow:0 10px 40px rgba(255,8,68,.18), 0 4px 16px rgba(0,0,0,.12);
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+}
+.recuerdo:hover {
+  transform:translateY(-14px) scale(1.03);
+  box-shadow:0 28px 60px rgba(255,8,68,.32), 0 0 40px rgba(255,107,157,.2);
+  border-color:rgba(255,8,68,.55);
+}
+.recuerdo-img-container {
+  width:100%; height:240px; overflow:hidden;
+  background:#fff;
+  display:flex; align-items:center; justify-content:center;
+}
+.recuerdo-gif {
+  width:100%; height:100%;
+  object-fit:contain;
+  background:#fff;
+  padding:10px;
+  transition:transform .4s ease;
+}
+.recuerdo:hover .recuerdo-gif { transform:scale(1.07); }
+.recuerdo-content {
+  padding:20px 22px 22px;
+  background:linear-gradient(135deg, #ff0844 0%, #ff6b9d 100%);
+  flex-grow:1;
+}
+.recuerdo h3 {
+  font-family:'Cinzel',serif; font-size:1.1rem;
+  margin-bottom:7px; color:#fff; font-weight:700;
+  text-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+.recuerdo p  { font-size:.88rem; color:rgba(255,255,255,.9); line-height:1.6; }
+
+/* ══════════════════════════════════════════════════════
+   BOTÓN ESPECIAL
+══════════════════════════════════════════════════════ */
+.boton-amor { text-align:center; margin:48px 0 36px; }
+.btn-principal {
+  background:linear-gradient(135deg,rgba(255,8,68,.3),rgba(255,107,157,.25));
+  color:#ffb3cc; border:1px solid rgba(255,107,157,.5);
+  padding:22px 55px; font-size:1.4em; border-radius:50px;
+  cursor:pointer; font-family:'Cinzel',serif; font-weight:700;
+  box-shadow:0 0 30px rgba(255,8,68,.25), 0 15px 40px rgba(0,0,0,.4);
+  backdrop-filter:blur(12px);
+  transition:all .35s ease; letter-spacing:.04em;
+}
+.btn-principal:hover {
+  transform:translateY(-7px) scale(1.04);
+  background:linear-gradient(135deg,rgba(255,8,68,.45),rgba(255,107,157,.38));
+  box-shadow:0 0 55px rgba(255,8,68,.45), 0 20px 50px rgba(0,0,0,.5);
+  color:#fff;
+}
+
+/* ══════════════════════════════════════════════════════
+   MODAL — Glass
+══════════════════════════════════════════════════════ */
+.modal {
+  display:none; position:fixed; inset:0; z-index:1000;
+  background:rgba(0,0,0,.8); backdrop-filter:blur(6px);
+  justify-content:center; align-items:center;
+}
+.modal.active { display:flex; }
+.modal-content {
+  backdrop-filter:blur(22px) saturate(1.4);
+  background:linear-gradient(145deg,rgba(80,5,25,.55),rgba(10,2,8,.75));
+  border:1px solid rgba(255,107,157,.35);
+  padding:56px 50px; border-radius:32px;
+  max-width:620px; text-align:center; position:relative;
+  animation:zoomIn .45s cubic-bezier(.16,1,.3,1);
+  box-shadow:0 0 80px rgba(255,8,68,.25), 0 30px 80px rgba(0,0,0,.7);
+}
+.modal-content::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px; border-radius:32px 32px 0 0;
+  background:linear-gradient(90deg,transparent,#ff0844,#ff6b9d,transparent);
+}
+@keyframes zoomIn { from{opacity:0;transform:scale(.55)} to{opacity:1;transform:scale(1)} }
+.modal-content h2 {
+  font-family:'Cinzel',serif; color:#ff6b9d;
+  font-size:clamp(1.5rem,3vw,2.2rem); margin-bottom:22px; font-weight:700;
+  text-shadow:0 0 20px rgba(255,107,157,.4);
+}
+.modal-content p {
+  color:rgba(255,200,215,.78); font-size:1.1rem; line-height:1.9; margin:16px 0;
+  font-family:'Cormorant Garamond',serif;
+}
+.modal-content p strong { color:#ffb3cc; font-style:italic; }
+.btn-cerrar {
+  background:linear-gradient(135deg,rgba(255,8,68,.35),rgba(255,107,157,.28));
+  color:#ffb3cc; border:1px solid rgba(255,107,157,.4);
+  padding:15px 45px; font-size:1.1em; border-radius:30px;
+  cursor:pointer; margin-top:22px; font-family:'Cinzel',serif;
+  font-weight:700; backdrop-filter:blur(8px);
+  transition:all .3s ease; letter-spacing:.04em;
+}
+.btn-cerrar:hover { transform:scale(1.06); box-shadow:0 0 30px rgba(255,8,68,.4); color:#fff; }
+
+/* ══════════════════════════════════════════════════════
+   CORAZONES CLICK + MOUSE
+══════════════════════════════════════════════════════ */
+.corazon {
+  position:fixed; font-size:2em; pointer-events:none;
+  z-index:999; animation:floatUp 4s linear;
+}
+@keyframes floatUp {
+  0%{opacity:1;transform:translateY(0) rotate(0deg)}
+  100%{opacity:0;transform:translateY(-900px) rotate(360deg)}
+}
+
+/* ══════════════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════════════ */
+.footer {
+  text-align:center; padding:36px 20px;
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  color:rgba(255,179,204,.4); font-size:1.1rem; line-height:2;
+  animation:pulseFade 3s ease infinite;
+}
+@keyframes pulseFade { 0%,100%{opacity:.35} 50%{opacity:.75} }
+
+/* ══════════════════════════════════════════════════════
+   MÚSICA
+══════════════════════════════════════════════════════ */
+#musicControl {
+  position:fixed; bottom:28px; right:28px; z-index:1001;
+  background:linear-gradient(135deg,rgba(255,8,68,.4),rgba(255,107,157,.35));
+  border:1px solid rgba(255,107,157,.45); backdrop-filter:blur(14px);
+  color:#ffb3cc; padding:14px 24px; border-radius:50px;
+  cursor:pointer; font-weight:700; font-size:1rem;
+  box-shadow:0 0 30px rgba(255,8,68,.25), 0 10px 30px rgba(0,0,0,.4);
+  transition:all .3s ease; display:flex; align-items:center; gap:9px;
+}
+#musicControl:hover { transform:translateY(-4px); box-shadow:0 0 50px rgba(255,8,68,.4), 0 14px 40px rgba(0,0,0,.5); }
+#musicControl.playing { animation:musicPulse 2s ease-in-out infinite; }
+@keyframes musicPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+#musicNotification {
+  position:absolute; top:-8px; right:-8px;
+  background:#ff0844; color:#fff; border-radius:50%;
+  width:22px; height:22px; display:none;
+  align-items:center; justify-content:center;
+  font-size:.68em; font-weight:900; border:2px solid rgba(255,255,255,.3);
+  animation:notifPulse 1.2s ease-in-out infinite;
+}
+@keyframes notifPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+#songInfo {
+  position:fixed; bottom:86px; right:28px; z-index:1001;
+  background:rgba(10,2,6,.92); backdrop-filter:blur(14px);
+  border:1px solid rgba(255,107,157,.3); color:#fff;
+  padding:12px 18px; border-radius:18px;
+  box-shadow:0 8px 25px rgba(0,0,0,.4);
+  font-size:.88em; max-width:240px; display:none;
+}
+#songInfo .si-label { font-weight:700; margin-bottom:4px; color:#ff6b9d; font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; }
+#currentSongName { color:rgba(255,200,215,.85); }
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════════ */
+@media (max-width:768px) {
+  .section-inner { padding:30px 22px; }
+  .clock-inner   { padding:30px 20px 24px; }
+  .led-number    { font-size:2.5rem; }
+  .personaje-img { width:155px; height:155px; }
+  .personajes    { gap:24px; }
+  .modal-content { padding:36px 24px; margin:16px; }
+  #musicControl  { bottom:18px; right:18px; font-size:.88rem; padding:12px 18px; }
+  #songInfo      { bottom:76px; right:18px; }
+}
+@media (max-width:500px) {
+  .led-number    { font-size:2rem; }
+  .recuerdos     { grid-template-columns:1fr; }
+}
+</style>
 </head>
 <body>
-    <!-- Reproductor de música de fondo -->
-    <audio id="backgroundMusic">
-        <source src="" type="audio/mpeg">
-        Tu navegador no soporta el elemento de audio.
-    </audio>
 
-    <!-- Botón de control de música -->
-    <div id="musicControl">
-        <span id="musicIcon">🎵</span>
-        <span id="musicText">Reproducir Música</span>
-        <span id="musicNotification" style="position: absolute; top: -8px; right: -8px; background: #ff0844; color: white; border-radius: 50%; width: 24px; height: 24px; display: none; align-items: center; justify-content: center; font-size: 0.7em; font-weight: 900; animation: pulse 1s infinite; border: 2px solid white;">!</span>
+<!-- Audio -->
+<audio id="backgroundMusic">
+  <source src="" type="audio/mpeg">
+</audio>
+
+<!-- Botón música -->
+<div id="musicControl" role="button" aria-label="Control de música">
+  <span id="musicIcon">🎵</span>
+  <span id="musicText">Reproducir Música</span>
+  <span id="musicNotification" aria-hidden="true">!</span>
+</div>
+<!-- Info canción -->
+<div id="songInfo">
+  <div class="si-label">🎵 Reproduciendo</div>
+  <div id="currentSongName"></div>
+</div>
+
+<!-- Fondos generativos -->
+<div id="hearts-bg" aria-hidden="true"></div>
+<div id="stars"     aria-hidden="true"></div>
+<div id="particles" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════════════════════════
+     CONTENIDO PRINCIPAL
+═══════════════════════════════════════════════════ -->
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <p class="header-eyebrow">San Valentín · 2026</p>
+    <h1>❤️ Para ti, Elsa ❤️</h1>
+    <p class="header-sub">Mi amor a través de la distancia</p>
+    <div class="valentine-badge">💝 Feliz San Valentín 2026 💝</div>
+    <div class="header-line"></div>
+  </header>
+
+  <!-- ═══ RELOJ GLASSMORPHISM ═══ -->
+  <div class="clock-card">
+    <!-- Decoraciones de corazones -->
+    <div class="clock-deco" id="clock-deco" aria-hidden="true"></div>
+
+    <div class="clock-inner">
+      <div class="clock-title-row">
+        <h2>⏰ Nuestro Tiempo Juntos 💕</h2>
+        <p class="fecha-inicio">Desde el 04 de Mayo de 2023</p>
+      </div>
+
+      <!-- Pantalla LED -->
+      <div class="led-panel">
+        <div class="led-row">
+          <div class="led-unit">
+            <div class="led-number" id="years"   data-ghost="88">00</div>
+            <div class="led-label">Años</div>
+          </div>
+          <div class="led-unit">
+            <div class="led-number" id="months"  data-ghost="88">00</div>
+            <div class="led-label">Meses</div>
+          </div>
+          <div class="led-unit">
+            <div class="led-number" id="days"    data-ghost="88">00</div>
+            <div class="led-label">Días</div>
+          </div>
+        </div>
+        <div class="panel-sep"></div>
+        <div class="led-row">
+          <div class="led-unit">
+            <div class="led-number" id="hours"   data-ghost="88">00</div>
+            <div class="led-label">Horas</div>
+          </div>
+          <div class="led-unit">
+            <div class="led-number" id="minutes" data-ghost="88">00</div>
+            <div class="led-label">Min</div>
+          </div>
+          <div class="led-unit">
+            <div class="led-number" id="seconds" data-ghost="88">00</div>
+            <div class="led-label">Seg</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Totales -->
+      <div class="totals-row">
+        <div class="total-item">
+          <div class="total-val" id="totalDays">—</div>
+          <div class="total-label">Total días</div>
+        </div>
+        <div class="total-item">
+          <div class="total-val" id="totalHours">—</div>
+          <div class="total-label">Total horas</div>
+        </div>
+        <div class="total-item">
+          <div class="total-val" id="totalMinutes">—</div>
+          <div class="total-label">Total min</div>
+        </div>
+      </div>
+
+      <!-- Barra progreso -->
+      <div class="year-progress">
+        <div class="yp-labels">
+          <span>Año actual de relación</span>
+          <span id="yearPct">0%</span>
+        </div>
+        <div class="yp-bar">
+          <div class="yp-fill" id="yearBar" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Hitos + Countdown -->
+      <div class="clock-footer">
+        <div class="milestone-panel">
+          <div class="panel-heading">💫 Hitos curiosos</div>
+          <div class="milestone-list">
+            <div class="milestone-item">
+              <span class="m-label">Semanas juntos</span>
+              <span class="m-value" id="totalWeeks">—</span>
+            </div>
+            <div class="milestone-item">
+              <span class="m-label">Fines de semana</span>
+              <span class="m-value" id="totalWeekends">—</span>
+            </div>
+            <div class="milestone-item">
+              <span class="m-label">Meses compartidos</span>
+              <span class="m-value" id="totalMonths">—</span>
+            </div>
+            <div class="milestone-item">
+              <span class="m-label">Total de minutos</span>
+              <span class="m-value" id="totalMinutesMini">—</span>
+            </div>
+          </div>
+        </div>
+        <div class="countdown-panel">
+          <div class="panel-heading">🗓 Próximo aniversario</div>
+          <div class="countdown-inner">
+            <div class="cd-title">Faltan</div>
+            <div class="cd-days" id="anniversaryCountdown">—</div>
+            <div class="cd-sub">días</div>
+            <div class="cd-event" id="anniversaryDate">—</div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /clock-inner -->
+  </div><!-- /clock-card -->
+
+  <!-- ═══ NOSOTROS (BUBU & DUDU) ═══ -->
+  <div class="section-glass" style="animation-delay:.35s">
+    <div class="section-inner">
+      <h2>🐻 Nosotros como Bubu y Dudu 💕</h2>
+      <p class="section-desc">
+        Aunque la distancia nos separe físicamente,<br>nuestro amor nos mantiene unidos como estos adorables ositos
+      </p>
+      <div class="personajes">
+        <div class="personaje">
+          <img src="assent/portada 1.jpg" alt="Yo" class="personaje-img" onerror="this.style.background='rgba(255,8,68,.15)';this.removeAttribute('src')">
+          <h3>Tu Bubu</h3>
+          <p>Loco por ti desde siempre 💝</p>
+        </div>
+        <div class="corazon-central">💕</div>
+        <div class="personaje">
+          <img src="assent/portada 2.jpg" alt="Elsa" class="personaje-img" onerror="this.style.background='rgba(255,8,68,.15)';this.removeAttribute('src')">
+          <h3>Mi Dudu</h3>
+          <p>La más hermosa del mundo 💖</p>
+        </div>
+      </div>
     </div>
-    
-    <!-- Info de la canción actual -->
-    <div id="songInfo" style="position: fixed; bottom: 90px; right: 30px; z-index: 1001; background: rgba(26, 26, 26, 0.95); color: white; padding: 12px 20px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); font-size: 0.9em; max-width: 250px; display: none; border: 2px solid #ff0844;">
-        <div style="font-weight: 700; margin-bottom: 5px; color: #ff6b9d;">🎵 Reproduciendo:</div>
-        <div id="currentSongName" style="font-size: 0.95em; color: #fff;"></div>
+  </div>
+
+  <!-- ═══ MENSAJES ═══ -->
+  <div class="section-glass" style="animation-delay:.5s">
+    <div class="section-inner">
+      <h2>💌 Lo que siento por ti 💌</h2>
+      <div class="mensaje-item">
+        <p><span class="emoji">🌟</span>Elsa, cada día que pasa te amo más. La distancia solo hace que mi corazón te extrañe con más fuerza.</p>
+      </div>
+      <div class="mensaje-item">
+        <p><span class="emoji">💫</span>Aunque no pueda abrazarte todos los días, cada mensaje tuyo es como sentir tu calor cerca de mí.</p>
+      </div>
+      <div class="mensaje-item">
+        <p><span class="emoji">🌙</span>Eres la razón por la que sonrío cada mañana. Tu amor trasciende cualquier distancia.</p>
+      </div>
+      <div class="mensaje-item">
+        <p><span class="emoji">✨</span>Cada vez que nos vemos, es como la primera vez. Mi corazón late con la misma emoción.</p>
+      </div>
+      <div class="mensaje-item">
+        <p><span class="emoji">🎀</span>Eres mi persona favorita en todo el mundo. No existe nadie como tú, mi amor.</p>
+      </div>
+      <div class="mensaje-item">
+        <p><span class="emoji">💝</span>Gracias por estar conmigo a pesar de la distancia. Eres mi sueño hecho realidad.</p>
+      </div>
     </div>
+  </div>
 
-    <div class="hearts-bg" id="hearts-bg"></div>
-    <div class="stars" id="stars"></div>
-
-    <div class="container">
-        <div class="header">
-            <h1>❤️ Para ti, Elsa ❤️</h1>
-            <p class="subtitle">Mi amor a través de la distancia</p>
-            <div class="valentine-badge">
-                💝 Feliz San Valentín 2026 💝
-            </div>
-        </div>
-
-        <div class="digital-clock-container">
-            <h2>⏰ Nuestro Tiempo Juntos 💕</h2>
-            <p class="fecha-inicio">Desde el 04 de Mayo de 2023</p>
-            
-            <div class="led-display">
-                <div class="time-display">
-                    <div class="time-unit">
-                        <div class="led-number" id="years">00</div>
-                        <div class="led-label">AÑOS</div>
-                    </div>
-                    <div class="time-unit">
-                        <div class="led-number" id="months">00</div>
-                        <div class="led-label">MESES</div>
-                    </div>
-                    <div class="time-unit">
-                        <div class="led-number" id="days">00</div>
-                        <div class="led-label">DÍAS</div>
-                    </div>
-                </div>
-                
-                <div class="secondary-display">
-                    <div class="time-unit">
-                        <div class="led-number" id="hours">00</div>
-                        <div class="led-label">HORAS</div>
-                    </div>
-                    <div class="time-unit">
-                        <div class="led-number" id="minutes">00</div>
-                        <div class="led-label">MINUTOS</div>
-                    </div>
-                    <div class="time-unit">
-                        <div class="led-number" id="seconds">00</div>
-                        <div class="led-label">SEGUNDOS</div>
-                    </div>
-                </div>
-
-                <div class="info-display">
-                    <div class="info-item">
-                        <div class="info-value" id="totalDays">0</div>
-                        <div class="info-label">Total Días</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-value" id="totalHours">0</div>
-                        <div class="info-label">Total Horas</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-value" id="totalMinutes">0</div>
-                        <div class="info-label">Total Minutos</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="bubu-dudu-section">
-            <h2>🐻 Nosotros como Bubu y Dudu 💕</h2>
-            <p class="descripcion">
-                Aunque la distancia nos separe físicamente, nuestro amor nos mantiene unidos como estos adorables ositos
-            </p>
-            <div class="personajes">
-                <div class="personaje">
-                    <img src="assent/portada 1.jpg" alt="Yo" class="personaje-img">
-                    <h3>Tu Bubu</h3>
-                    <p>Loco por ti desde siempre 💝</p>
-                </div>
-                <div class="corazon-central"></div>
-                <div class="personaje">
-                    <img src="assent/portada 2.jpg" alt="Elsa" class="personaje-img">
-                    <h3>Mi Dudu</h3>
-                    <p>La más hermosa del mundo 💖</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="mensajes">
-            <h2>💌 Lo que siento por ti 💌</h2>
-            <div class="mensaje-item">
-                <p><span class="emoji">🌟</span>Elsa, cada día que pasa te amo más. La distancia solo hace que mi corazón te extrañe con más fuerza.</p>
-            </div>
-            <div class="mensaje-item">
-                <p><span class="emoji">💫</span>Aunque no pueda abrazarte todos los días, cada mensaje tuyo es como sentir tu calor cerca de mí.</p>
-            </div>
-            <div class="mensaje-item">
-                <p><span class="emoji">🌙</span>Eres la razón por la que sonrío cada mañana. Tu amor trasciende cualquier distancia.</p>
-            </div>
-            <div class="mensaje-item">
-                <p><span class="emoji">✨</span>Cada vez que nos vemos, es como la primera vez. Mi corazón late con la misma emoción.</p>
-            </div>
-            <div class="mensaje-item">
-                <p><span class="emoji">🎀</span>Eres mi persona favorita en todo el mundo. No existe nadie como tú, mi amor.</p>
-            </div>
-            <div class="mensaje-item">
-                <p><span class="emoji">💝</span>Gracias por estar conmigo a pesar de la distancia. Eres mi sueño hecho realidad.</p>
-            </div>
-        </div>
-
-        <div class="galeria">
-            <h2>🎉 Nuestros Momentos Especiales 🎉</h2>
-            <p class="galeria-descripcion">Haz clic en cada momento para revivir nuestros recuerdos</p>
-            <div class="recuerdos">
-                <a href="primerencuentro.html" class="recuerdo">
-                    <div class="recuerdo-img-container">
-                        <img src="assent/momentos 1.gif" alt="Primer Encuentro" class="recuerdo-gif">
-                    </div>
-                    <div class="recuerdo-content">
-                        <h3>Primer Encuentro</h3>
-                        <p>El día que todo comenzó, cuando supe que eras especial</p>
-                    </div>
-                </a>
-                <a href="mensajediarios.html" class="recuerdo">
-                    <div class="recuerdo-img-container">
-                        <img src="assent/momentos 2.gif" alt="Mensajes Diarios" class="recuerdo-gif">
-                    </div>
-                    <div class="recuerdo-content">
-                        <h3>Mensajes Diarios</h3>
-                        <p>Cada "buenos días" y "buenas noches" que nos enviamos</p>
-                    </div>
-                </a>
-                <a href="videollamadas.html" class="recuerdo">
-                    <div class="recuerdo-img-container">
-                        <img src="assent/momentos 3.gif" alt="Videollamadas" class="recuerdo-gif">
-                    </div>
-                    <div class="recuerdo-content">
-                        <h3>Videollamadas</h3>
-                        <p>Esas horas hablando y viéndonos por la pantalla</p>
-                    </div>
-                </a>
-                <a href="sorpresas.html" class="recuerdo">
-                    <div class="recuerdo-img-container">
-                        <img src="assent/momentos 4.gif" alt="Sorpresas" class="recuerdo-gif">
-                    </div>
-                    <div class="recuerdo-content">
-                        <h3>Sorpresas</h3>
-                        <p>Cada detalle que nos damos para demostrar nuestro amor</p>
-                    </div>
-                </a>
-                <a href="reencuentro.html" class="recuerdo">
-                    <div class="recuerdo-img-container">
-                        <img src="assent/momentos 5.gif" alt="Reencuentros" class="recuerdo-gif">
-                    </div>
-                    <div class="recuerdo-content">
-                        <h3>Reencuentros</h3>
-                        <p>Esos momentos mágicos cuando finalmente nos vemos</p>
-                    </div>
-                </a>
-                <a href="futurojuntos.html" class="recuerdo">
-                    <div class="recuerdo-img-container">
-                        <img src="assent/momentos 6.gif" alt="Futuro Juntos" class="recuerdo-gif">
-                    </div>
-                    <div class="recuerdo-content">
-                        <h3>Futuro Juntos</h3>
-                        <p>Todos los planes y sueños que tenemos por cumplir</p>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-        <div class="boton-amor">
-            <button class="btn-principal" onclick="mostrarMensajeEspecial()">
-                ✨ Mensaje Especial de San Valentín ✨
-            </button>
-        </div>
-
-        <div class="footer">
-            <p>💕 Con todo mi amor, para ti Elsa 💕</p>
-            <p>Feliz San Valentín 2026 - Te amo para siempre ∞</p>
-        </div>
+  <!-- ═══ GALERÍA ═══ -->
+  <div class="section-glass" style="animation-delay:.65s">
+    <div class="section-inner">
+      <h2>🎉 Nuestros Momentos Especiales 🎉</h2>
+      <p class="section-desc" style="margin-bottom:30px">Haz clic en cada momento para revivir nuestros recuerdos</p>
+      <div class="recuerdos">
+        <a href="primerencuentro.html" class="recuerdo">
+          <div class="recuerdo-img-container">
+            <img src="assent/momentos 1.gif" alt="Primer Encuentro" class="recuerdo-gif">
+          </div>
+          <div class="recuerdo-content">
+            <h3>Primer Encuentro</h3>
+            <p>El día que todo comenzó, cuando supe que eras especial</p>
+          </div>
+        </a>
+        <a href="mensajediarios.html" class="recuerdo">
+          <div class="recuerdo-img-container">
+            <img src="assent/momentos 2.gif" alt="Mensajes Diarios" class="recuerdo-gif">
+          </div>
+          <div class="recuerdo-content">
+            <h3>Mensajes Diarios</h3>
+            <p>Cada "buenos días" y "buenas noches" que nos enviamos</p>
+          </div>
+        </a>
+        <a href="videollamadas.html" class="recuerdo">
+          <div class="recuerdo-img-container">
+            <img src="assent/momentos 3.gif" alt="Videollamadas" class="recuerdo-gif">
+          </div>
+          <div class="recuerdo-content">
+            <h3>Videollamadas</h3>
+            <p>Esas horas hablando y viéndonos por la pantalla</p>
+          </div>
+        </a>
+        <a href="sorpresas.html" class="recuerdo">
+          <div class="recuerdo-img-container">
+            <img src="assent/momentos 4.gif" alt="Sorpresas" class="recuerdo-gif">
+          </div>
+          <div class="recuerdo-content">
+            <h3>Sorpresas</h3>
+            <p>Cada detalle que nos damos para demostrar nuestro amor</p>
+          </div>
+        </a>
+        <a href="reencuentro.html" class="recuerdo">
+          <div class="recuerdo-img-container">
+            <img src="assent/momentos 5.gif" alt="Reencuentros" class="recuerdo-gif">
+          </div>
+          <div class="recuerdo-content">
+            <h3>Reencuentros</h3>
+            <p>Esos momentos mágicos cuando finalmente nos vemos</p>
+          </div>
+        </a>
+        <a href="futurojuntos.html" class="recuerdo">
+          <div class="recuerdo-img-container">
+            <img src="assent/momentos 6.gif" alt="Futuro Juntos" class="recuerdo-gif">
+          </div>
+          <div class="recuerdo-content">
+            <h3>Futuro Juntos</h3>
+            <p>Todos los planes y sueños que tenemos por cumplir</p>
+          </div>
+        </a>
+      </div>
     </div>
+  </div>
 
-    <div class="modal" id="modal">
-        <div class="modal-content">
-            <h2>💖 Mi Mensaje Especial de San Valentín 💖</h2>
-            <p>Elsa, mi amor hermoso:</p>
-            <p>En este San Valentín quiero que sepas que aunque los kilómetros nos separen, mi corazón siempre está contigo. Cada día que pasa, me enamoro más de ti.</p>
-            <p>Eres mi persona, mi compañera, mi todo. La distancia es solo temporal, pero nuestro amor es para siempre.</p>
-            <p><strong>Feliz San Valentín, mi amor. Te amo más que a nada en este mundo. ❤️💕</strong></p>
-            <button class="btn-cerrar" onclick="cerrarModal()">💕 Cerrar</button>
-        </div>
-    </div>
+  <!-- Botón mensaje especial -->
+  <div class="boton-amor">
+    <button class="btn-principal" onclick="mostrarMensajeEspecial()">
+      ✨ Mensaje Especial de San Valentín ✨
+    </button>
+  </div>
 
-    <script>
-        // ============ PLAYLIST DE CANCIONES ============
-        const playlist = [
-            { file: 'assent/The-First-Time.mp3', name: 'The First Time' },
-            { file: 'assent/There-You-Are.mp3', name: 'There You Are' },
-            { file: 'assent/Die-With-A-Smile.mp3', name: 'Die With A Smile' },
-            { file: 'assent/i-wish-i-hated-you.mp3', name: 'I Wish I Hated You' },
-            { file: 'assent/blue.mp3', name: 'Blue' },
-            { file: 'assent/Beautiful-Things.mp3', name: 'Beautiful Things' },
-            { file: 'assent/No-One-Noticed.mp3', name: 'No One Noticed' },
-            { file: 'assent/Indigo.mp3', name: 'Indigo' },
-            { file: 'assent/With-You.mp3', name: 'With You' },
-            { file: 'assent/number-one-girl.mp3', name: 'Number One Girl' },
-            { file: 'assent/TWENTIES.mp3', name: 'Twenties' }
-        ];
+  <footer class="footer">
+    <p>💕 Con todo mi amor, para ti Elsa 💕</p>
+    <p>Feliz San Valentín 2026 · Te amo para siempre ∞</p>
+  </footer>
+</div><!-- /container -->
 
-        // ============ CONTROL DE MÚSICA ============
-        const audio = document.getElementById('backgroundMusic');
-        const musicControl = document.getElementById('musicControl');
-        const musicIcon = document.getElementById('musicIcon');
-        const musicText = document.getElementById('musicText');
-        const songInfo = document.getElementById('songInfo');
-        const currentSongName = document.getElementById('currentSongName');
-        const musicNotification = document.getElementById('musicNotification');
-        let isPlaying = false;
-        let currentSongIndex = 0;
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h2>💖 Mi Mensaje Especial de San Valentín 💖</h2>
+    <p>Elsa, mi amor hermoso:</p>
+    <p>En este San Valentín quiero que sepas que aunque los kilómetros nos separen, mi corazón siempre está contigo. Cada día que pasa, me enamoro más de ti.</p>
+    <p>Eres mi persona, mi compañera, mi todo. La distancia es solo temporal, pero nuestro amor es para siempre.</p>
+    <p><strong>Feliz San Valentín, mi amor. Te amo más que a nada en este mundo. ❤️💕</strong></p>
+    <button class="btn-cerrar" onclick="cerrarModal()">💕 Cerrar</button>
+  </div>
+</div>
 
-        // Configurar volumen al 70%
-        audio.volume = 0.7;
+<!-- ═══════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════ -->
+<script>
+'use strict';
 
-        // Cargar una canción
-        function loadSong(index) {
-            currentSongIndex = index;
-            audio.src = playlist[index].file;
-            currentSongName.textContent = playlist[index].name;
-            saveMusicState(isPlaying, 0, index);
-        }
+/* ──────────────────────────────────────────────────
+   GENERADORES DE FONDO
+────────────────────────────────────────────────── */
+(function buildBackground() {
+  // Partículas
+  const pCont  = document.getElementById('particles');
+  const colors = ['#ff0844','#ff6b9d','#ff9abb','#ffb3cc','#ff4d7d','#c2185b'];
+  for (let i = 0; i < 60; i++) {
+    const p   = document.createElement('div');
+    p.className = 'particle';
+    const sz  = Math.random() * 4 + 1.2;
+    const clr = colors[Math.floor(Math.random() * colors.length)];
+    p.style.cssText = `
+      width:${sz}px;height:${sz}px;
+      left:${Math.random()*100}%;
+      background:${clr};
+      box-shadow:0 0 ${sz*2.5}px ${clr};
+      animation-duration:${12+Math.random()*18}s;
+      animation-delay:-${Math.random()*22}s;
+    `;
+    pCont.appendChild(p);
+  }
 
-        // Reproducir siguiente canción
-        function playNextSong() {
-            currentSongIndex = (currentSongIndex + 1) % playlist.length;
-            loadSong(currentSongIndex);
-            if (isPlaying) {
-                audio.play().catch(e => console.log('Error al reproducir siguiente:', e));
-            }
-        }
+  // Estrellas
+  const sCont = document.getElementById('stars');
+  for (let i = 0; i < 140; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${2+Math.random()*2.5}s;
+    `;
+    sCont.appendChild(s);
+  }
 
-        // Cuando termina una canción, reproducir la siguiente
-        audio.addEventListener('ended', playNextSong);
+  // Corazones flotantes
+  const hCont  = document.getElementById('hearts-bg');
+  const hearts = ['❤️','💕','💖','💗','💝','💓','💞'];
+  for (let i = 0; i < 18; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+    h.style.cssText = `
+      left:${Math.random()*100}%;
+      animation-delay:${Math.random()*18}s;
+      animation-duration:${14+Math.random()*10}s;
+    `;
+    hCont.appendChild(h);
+  }
 
-        // Guardar el estado de la música en localStorage
-        function saveMusicState(playing, time, songIndex) {
-            localStorage.setItem('musicPlaying', playing);
-            localStorage.setItem('musicTime', time);
-            localStorage.setItem('currentSong', songIndex);
-        }
+  // Decoraciones corazones dentro del reloj
+  const deco   = document.getElementById('clock-deco');
+  const dHearts= ['💜','💗','♾️','💫','💕','💝','💖','✨'];
+  const dPos   = [
+    {top:'6%', left:'3%',  sz:'2.2em', dur:'2.8s', del:'0s'  },
+    {top:'10%',left:'91%', sz:'1.8em', dur:'3.2s', del:'0.7s'},
+    {top:'55%',left:'2%',  sz:'2em',   dur:'2.5s', del:'1.4s'},
+    {top:'68%',left:'89%', sz:'2.4em', dur:'3s',   del:'0.3s'},
+    {top:'82%',left:'12%', sz:'1.6em', dur:'3.5s', del:'1.9s'},
+    {top:'30%',left:'94%', sz:'1.9em', dur:'2.7s', del:'0.9s'},
+    {top:'88%',left:'78%', sz:'2.1em', dur:'3.1s', del:'2.2s'},
+    {top:'42%',left:'48%', sz:'1.5em', dur:'4s',   del:'1.1s'},
+  ];
+  dPos.forEach((d,i) => {
+    const el = document.createElement('div');
+    el.className = 'cdeco-heart';
+    el.textContent = dHearts[i];
+    el.style.cssText = `top:${d.top};left:${d.left};--sz:${d.sz};--dur:${d.dur};--del:${d.del};font-size:${d.sz};--rot:${(Math.random()*30-15).toFixed(0)}deg;`;
+    deco.appendChild(el);
+  });
+})();
 
-        // Cargar el estado de la música desde localStorage
-        function loadMusicState() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-            const savedSong = parseInt(localStorage.getItem('currentSong')) || 0;
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            
-            // Cargar la canción guardada
-            loadSong(savedSong);
-            
-            // Precargar el audio para reproducción instantánea
-            audio.load();
-            
-            if (wasPlaying) {
-                // Marcar que estamos navegando entre páginas
-                sessionStorage.setItem('musicNavigating', 'true');
-                
-                // Intentar reproducir inmediatamente
-                audio.currentTime = savedTime;
-                
-                // Si el usuario ya interactuó antes, intentar reproducción agresiva
-                if (hasInteracted) {
-                    // Reproducción inmediata sin esperar promesa
-                    setTimeout(() => {
-                        audio.currentTime = savedTime;
-                        const playAttempt = audio.play();
-                        
-                        if (playAttempt !== undefined) {
-                            playAttempt.then(() => {
-                                isPlaying = true;
-                                updateMusicButton();
-                                showSongInfo();
-                                sessionStorage.removeItem('musicNavigating');
-                            }).catch(err => {
-                                console.log('Reproducción bloqueada, activando plan B...');
-                                activatePlanB(savedTime);
-                            });
-                        }
-                    }, 100); // Pequeño delay para que el audio cargue
-                } else {
-                    // Primera vez, necesita interacción
-                    activatePlanB(savedTime);
-                }
-            }
-        }
-        
-        // Plan B: Intentar reproducir de múltiples formas
-        function activatePlanB(savedTime) {
-            const events = ['click', 'touchstart', 'keydown', 'mousemove', 'scroll'];
-            const resumeMusic = () => {
-                audio.currentTime = savedTime;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                    sessionStorage.removeItem('musicNavigating');
-                    localStorage.setItem('userHasInteracted', 'true');
-                }).catch(err => console.log('Error al reanudar:', err));
-                
-                // Remover todos los listeners
-                events.forEach(event => {
-                    document.removeEventListener(event, resumeMusic);
-                });
-            };
-            
-            // Añadir múltiples listeners para cualquier interacción
-            events.forEach(event => {
-                document.addEventListener(event, resumeMusic, { once: true, capture: true });
-            });
-            
-            isPlaying = false;
-            updateMusicButton();
-        }
+/* ──────────────────────────────────────────────────
+   HELPERS MATEMÁTICOS
+────────────────────────────────────────────────── */
+const pad = n => String(n).padStart(2,'0');
+const fmt = n => n.toLocaleString('es-AR');
 
-        // Mostrar/ocultar información de la canción
-        function showSongInfo() {
-            songInfo.style.display = 'block';
-        }
+function calcReloj(startISO) {
+  const start = new Date(startISO);
+  const now   = new Date();
+  const diff  = now - start;
 
-        function hideSongInfo() {
-            songInfo.style.display = 'none';
-        }
+  const totalSec     = Math.floor(diff / 1000);
+  const totalMin     = Math.floor(totalSec / 60);
+  const totalHrs     = Math.floor(totalMin / 60);
+  const totalDays    = Math.floor(totalHrs / 24);
+  const totalWeeks   = Math.floor(totalDays / 7);
+  const totalWeekends= Math.floor(totalDays / 7);
+  const totalMonths  = Math.floor(totalDays / 30.4375);
 
-        // Actualizar el estado visual del botón
-        function updateMusicButton() {
-            if (isPlaying) {
-                musicIcon.textContent = '⏸️';
-                musicText.textContent = 'Pausar Música';
-                musicControl.classList.add('playing');
-                musicControl.style.animation = 'musicPulse 2s infinite';
-                musicNotification.style.display = 'none';
-                showSongInfo();
-            } else {
-                const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-                if (wasPlaying) {
-                    // Música pausada pero estaba reproduciéndose
-                    musicIcon.textContent = '▶️';
-                    musicText.textContent = 'Continuar Música';
-                    musicControl.style.animation = 'pulse 1.5s infinite';
-                    musicNotification.style.display = 'flex';
-                } else {
-                    // Música detenida
-                    musicIcon.textContent = '🎵';
-                    musicText.textContent = 'Reproducir Música';
-                    musicControl.style.animation = 'none';
-                    musicNotification.style.display = 'none';
-                }
-                musicControl.classList.remove('playing');
-                hideSongInfo();
-            }
-        }
+  const years   = Math.floor(totalDays / 365);
+  const remDays = totalDays % 365;
+  const months  = Math.floor(remDays / 30);
+  const days    = remDays % 30;
+  const hours   = Math.floor((diff % 86_400_000) / 3_600_000);
+  const minutes = Math.floor((diff %  3_600_000) /    60_000);
+  const seconds = Math.floor((diff %     60_000) /     1_000);
 
-        // Toggle de reproducción
-        musicControl.addEventListener('click', function() {
-            // Marcar que el usuario ha interactuado (permite reproducción automática después)
-            localStorage.setItem('userHasInteracted', 'true');
-            
-            if (isPlaying) {
-                // Pausar música
-                audio.pause();
-                isPlaying = false;
-                saveMusicState(false, audio.currentTime, currentSongIndex);
-                updateMusicButton();
-            } else {
-                // Reproducir o continuar música
-                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-                audio.currentTime = savedTime;
-                
-                audio.play().then(() => {
-                    isPlaying = true;
-                    saveMusicState(true, audio.currentTime, currentSongIndex);
-                    updateMusicButton();
-                }).catch(e => {
-                    console.log('Error reproduciendo:', e);
-                    alert('Por favor, activa el sonido en tu navegador');
-                });
-            }
-        });
+  // % del año actual de relación
+  const dayInYear = totalDays - years * 365;
+  const pct       = Math.min(100, Math.round((dayInYear / 365) * 100));
 
-        // Guardar el tiempo actual cada segundo cuando está reproduciéndose
-        audio.addEventListener('timeupdate', function() {
-            if (isPlaying) {
-                saveMusicState(true, audio.currentTime, currentSongIndex);
-            }
-        });
+  return { years, months, days, hours, minutes, seconds,
+           totalDays, totalHrs, totalMin,
+           totalWeeks, totalWeekends, totalMonths, pct };
+}
 
-        // Actualizar estado cuando comienza a reproducir
-        audio.addEventListener('play', function() {
-            isPlaying = true;
-            updateMusicButton();
-        });
+function daysUntilAnniversary(month, day) {
+  const now  = new Date();
+  const yr   = now.getFullYear();
+  let next   = new Date(yr, month - 1, day);
+  if (next <= now) next = new Date(yr + 1, month - 1, day);
+  const diff = Math.ceil((next - now) / 86_400_000);
+  const MONTHS_ES = ['enero','febrero','marzo','abril','mayo','junio',
+                     'julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  return {
+    daysLeft: diff,
+    label: `${next.getDate()} de ${MONTHS_ES[next.getMonth()]} de ${next.getFullYear()}`
+  };
+}
 
-        // Actualizar estado cuando se pausa
-        audio.addEventListener('pause', function() {
-            if (!audio.ended) {
-                isPlaying = false;
-                updateMusicButton();
-            }
-        });
+/* ──────────────────────────────────────────────────
+   ACTUALIZACIÓN DOM
+────────────────────────────────────────────────── */
+function setLed(id, val) {
+  const el = document.getElementById(id);
+  if (!el || el.textContent === val) return;
+  el.textContent = val;
+  el.classList.remove('tick');
+  void el.offsetWidth;
+  el.classList.add('tick');
+}
+function setEl(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
 
-        // Cargar el estado de la música cuando se carga la página
-        window.addEventListener('DOMContentLoaded', () => {
-            loadMusicState();
-        });
+function tickReloj() {
+  const v   = calcReloj('2023-05-04T00:00:00');
+  const ann = daysUntilAnniversary(5, 4);  // 4 de mayo
 
-        // Guardar estado antes de salir de la página
-        window.addEventListener('beforeunload', function() {
-            if (isPlaying) {
-                saveMusicState(true, audio.currentTime, currentSongIndex);
-            }
-        });
-        
-        // Intentar reproducir cuando el audio esté listo
-        audio.addEventListener('canplay', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const isNavigating = sessionStorage.getItem('musicNavigating') === 'true';
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            
-            if (wasPlaying && isNavigating && !isPlaying && hasInteracted) {
-                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-                audio.currentTime = savedTime;
-                
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                    sessionStorage.removeItem('musicNavigating');
-                }).catch(e => {
-                    console.log('Esperando interacción para reproducir');
-                });
-            }
-        });
-        
-        // Forzar reproducción cuando el audio cargue metadatos
-        audio.addEventListener('loadedmetadata', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            
-            if (wasPlaying && savedTime > 0 && !isPlaying && hasInteracted) {
-                audio.currentTime = savedTime;
-                
-                // Intentar reproducir
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                }).catch(e => {
-                    console.log('Reproducción pendiente...');
-                });
-            }
-        });
-        
-        // Page Visibility API - reanudar cuando vuelves a la pestaña
-        document.addEventListener('visibilitychange', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            
-            if (!document.hidden && wasPlaying && !isPlaying && hasInteracted) {
-                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-                audio.currentTime = savedTime;
-                
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                }).catch(e => {
-                    console.log('Reproducción bloqueada');
-                });
-            }
-        });
+  setLed('years',   pad(v.years));
+  setLed('months',  pad(v.months));
+  setLed('days',    pad(v.days));
+  setLed('hours',   pad(v.hours));
+  setLed('minutes', pad(v.minutes));
+  setLed('seconds', pad(v.seconds));
 
-        // ============ RESTO DEL CÓDIGO ORIGINAL ============
-        function crearEstrellas() {
-            const starsContainer = document.getElementById('stars');
-            for (let i = 0; i < 150; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                starsContainer.appendChild(star);
-            }
-        }
+  setEl('totalDays',    fmt(v.totalDays));
+  setEl('totalHours',   fmt(v.totalHrs));
+  setEl('totalMinutes', fmt(v.totalMin));
 
-        function crearCorazonesFondo() {
-            const heartsContainer = document.getElementById('hearts-bg');
-            for (let i = 0; i < 20; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'heart-float';
-                heart.textContent = ['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)];
-                heart.style.left = Math.random() * 100 + '%';
-                heart.style.animationDelay = Math.random() * 15 + 's';
-                heart.style.animationDuration = (10 + Math.random() * 10) + 's';
-                heartsContainer.appendChild(heart);
-            }
-        }
+  setEl('totalWeeks',      fmt(v.totalWeeks));
+  setEl('totalWeekends',   fmt(v.totalWeekends));
+  setEl('totalMonths',     fmt(v.totalMonths));
+  setEl('totalMinutesMini',fmt(v.totalMin));
 
-        function actualizarRelojDigital() {
-            const fechaInicio = new Date('2023-05-04T00:00:00');
-            const ahora = new Date();
-            const diferencia = ahora - fechaInicio;
+  // Barra progreso
+  const bar = document.getElementById('yearBar');
+  const pct = document.getElementById('yearPct');
+  if (bar) bar.style.width = v.pct + '%';
+  if (pct) pct.textContent = v.pct + '%';
 
-            // Cálculos totales
-            const totalSegundos = Math.floor(diferencia / 1000);
-            const totalMinutos = Math.floor(totalSegundos / 60);
-            const totalHoras = Math.floor(totalMinutos / 60);
-            const totalDias = Math.floor(totalHoras / 24);
+  // Countdown
+  const countEl = document.getElementById('anniversaryCountdown');
+  const dateEl  = document.getElementById('anniversaryDate');
+  if (countEl) countEl.textContent = ann.daysLeft === 0 ? '¡HOY! 🎉' : fmt(ann.daysLeft);
+  if (dateEl)  dateEl.textContent  = ann.label;
+}
 
-            // Cálculos para el display principal
-            const años = Math.floor(totalDias / 365);
-            const diasDespuesAños = totalDias % 365;
-            const meses = Math.floor(diasDespuesAños / 30);
-            const dias = diasDespuesAños % 30;
+tickReloj();
+setInterval(tickReloj, 1000);
 
-            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-            const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+/* ──────────────────────────────────────────────────
+   CORAZÓN MOUSE + CLICK EN TÍTULO
+────────────────────────────────────────────────── */
+function crearCorazon(x, y) {
+  const items = ['❤️','💕','💖','💗','💓','💝','💘','💞'];
+  const c = document.createElement('div');
+  c.className = 'corazon';
+  c.textContent = items[Math.floor(Math.random() * items.length)];
+  if (x !== undefined) {
+    c.style.left = x + 'px';
+    c.style.top  = y + 'px';
+  } else {
+    c.style.left   = Math.random() * 100 + '%';
+    c.style.bottom = '-50px';
+  }
+  document.body.appendChild(c);
+  setTimeout(() => c.remove(), 4000);
+}
 
-            // Actualizar display principal
-            document.getElementById('years').textContent = String(años).padStart(2, '0');
-            document.getElementById('months').textContent = String(meses).padStart(2, '0');
-            document.getElementById('days').textContent = String(dias).padStart(2, '0');
-            document.getElementById('hours').textContent = String(horas).padStart(2, '0');
-            document.getElementById('minutes').textContent = String(minutos).padStart(2, '0');
-            document.getElementById('seconds').textContent = String(segundos).padStart(2, '0');
+document.addEventListener('mousemove', e => {
+  if (Math.random() > 0.96) crearCorazon(e.pageX - 12, e.pageY - 12);
+});
 
-            // Actualizar información adicional
-            document.getElementById('totalDays').textContent = totalDias.toLocaleString();
-            document.getElementById('totalHours').textContent = totalHoras.toLocaleString();
-            document.getElementById('totalMinutes').textContent = totalMinutos.toLocaleString();
-        }
+setInterval(() => crearCorazon(), 2200);
 
-        function crearCorazon() {
-            const corazones = ['❤️', '💕', '💖', '💗', '💓', '💝', '💘', '💞'];
-            const corazon = document.createElement('div');
-            corazon.className = 'corazon';
-            corazon.textContent = corazones[Math.floor(Math.random() * corazones.length)];
-            corazon.style.left = Math.random() * 100 + '%';
-            corazon.style.bottom = '-50px';
-            document.body.appendChild(corazon);
-            setTimeout(() => corazon.remove(), 4000);
-        }
+let clickCount = 0;
+document.querySelector('.header h1').addEventListener('click', () => {
+  clickCount++;
+  if (clickCount >= 3) {
+    for (let i = 0; i < 55; i++) setTimeout(() => crearCorazon(), i * 45);
+    clickCount = 0;
+  }
+  setTimeout(() => { clickCount = 0; }, 1200);
+});
 
-        function mostrarMensajeEspecial() {
-            document.getElementById('modal').classList.add('active');
-            for (let i = 0; i < 30; i++) {
-                setTimeout(() => crearCorazon(), i * 80);
-            }
-        }
+/* ──────────────────────────────────────────────────
+   MODAL
+────────────────────────────────────────────────── */
+function mostrarMensajeEspecial() {
+  document.getElementById('modal').classList.add('active');
+  for (let i = 0; i < 35; i++) setTimeout(() => crearCorazon(), i * 75);
+}
+function cerrarModal() {
+  document.getElementById('modal').classList.remove('active');
+}
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) cerrarModal();
+});
 
-        function cerrarModal() {
-            document.getElementById('modal').classList.remove('active');
-        }
+/* ──────────────────────────────────────────────────
+   MÚSICA — lógica original 100% preservada
+────────────────────────────────────────────────── */
+const playlist = [
+  { file:'assent/The-First-Time.mp3',       name:'The First Time'       },
+  { file:'assent/There-You-Are.mp3',         name:'There You Are'        },
+  { file:'assent/Die-With-A-Smile.mp3',      name:'Die With A Smile'     },
+  { file:'assent/i-wish-i-hated-you.mp3',    name:'I Wish I Hated You'   },
+  { file:'assent/blue.mp3',                  name:'Blue'                 },
+  { file:'assent/Beautiful-Things.mp3',      name:'Beautiful Things'     },
+  { file:'assent/No-One-Noticed.mp3',        name:'No One Noticed'       },
+  { file:'assent/Indigo.mp3',               name:'Indigo'               },
+  { file:'assent/With-You.mp3',             name:'With You'             },
+  { file:'assent/number-one-girl.mp3',       name:'Number One Girl'      },
+  { file:'assent/TWENTIES.mp3',             name:'Twenties'             }
+];
 
-        document.getElementById('modal').addEventListener('click', function(e) {
-            if (e.target === this) cerrarModal();
-        });
+const audio         = document.getElementById('backgroundMusic');
+const musicControl  = document.getElementById('musicControl');
+const musicIcon     = document.getElementById('musicIcon');
+const musicText     = document.getElementById('musicText');
+const songInfo      = document.getElementById('songInfo');
+const currentSongEl = document.getElementById('currentSongName');
+const musicNotif    = document.getElementById('musicNotification');
+let isPlaying       = false;
+let currentSongIdx  = 0;
 
-        setInterval(crearCorazon, 1500);
+function loadSong(idx) {
+  currentSongIdx = idx;
+  audio.src = playlist[idx].file;
+  if (currentSongEl) currentSongEl.textContent = playlist[idx].name;
+  saveMusicState(isPlaying, 0, idx);
+}
+function playNextSong() {
+  currentSongIdx = (currentSongIdx + 1) % playlist.length;
+  loadSong(currentSongIdx);
+  if (isPlaying) audio.play().catch(() => {});
+}
+audio.addEventListener('ended', playNextSong);
 
-        // Inicializar todo cuando el DOM esté listo
-        if (document.readyState === 'loading') {
-            window.addEventListener('DOMContentLoaded', initializePage);
-        } else {
-            // DOM ya está cargado
-            initializePage();
-        }
-        
-        function initializePage() {
-            crearEstrellas();
-            crearCorazonesFondo();
-            actualizarRelojDigital();
-            setInterval(actualizarRelojDigital, 1000);
-            loadMusicState();
-        }
+function saveMusicState(playing, time, idx) {
+  localStorage.setItem('musicPlaying', playing);
+  localStorage.setItem('musicTime',    time);
+  localStorage.setItem('currentSong',  idx);
+}
+function updateMusicButton() {
+  const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+  if (isPlaying) {
+    musicIcon.textContent = '⏸️';
+    musicText.textContent = 'Pausar Música';
+    musicControl.classList.add('playing');
+    musicNotif.style.display = 'none';
+    songInfo.style.display = 'block';
+  } else {
+    musicIcon.textContent = wasPlaying ? '▶️' : '🎵';
+    musicText.textContent = wasPlaying ? 'Continuar Música' : 'Reproducir Música';
+    musicControl.classList.remove('playing');
+    musicNotif.style.display = wasPlaying ? 'flex' : 'none';
+    songInfo.style.display = 'none';
+  }
+}
 
-        document.addEventListener('mousemove', (e) => {
-            if (Math.random() > 0.95) {
-                const corazon = document.createElement('div');
-                corazon.textContent = '💕';
-                corazon.style.position = 'fixed';
-                corazon.style.left = e.pageX + 'px';
-                corazon.style.top = e.pageY + 'px';
-                corazon.style.fontSize = '25px';
-                corazon.style.pointerEvents = 'none';
-                corazon.style.zIndex = '999';
-                corazon.style.animation = 'floatUp 2s linear';
-                document.body.appendChild(corazon);
-                setTimeout(() => corazon.remove(), 2000);
-            }
-        });
+function activatePlanB(savedTime) {
+  const events = ['click','touchstart','keydown','mousemove','scroll'];
+  const resume = () => {
+    audio.currentTime = savedTime;
+    audio.play().then(() => {
+      isPlaying = true;
+      updateMusicButton();
+      localStorage.setItem('userHasInteracted','true');
+      sessionStorage.removeItem('musicNavigating');
+    }).catch(() => {});
+    events.forEach(ev => document.removeEventListener(ev, resume));
+  };
+  events.forEach(ev => document.addEventListener(ev, resume, { once:true, capture:true }));
+  isPlaying = false;
+  updateMusicButton();
+}
 
-        let clickCount = 0;
-        document.querySelector('.header h1').addEventListener('click', () => {
-            clickCount++;
-            if (clickCount === 3) {
-                for (let i = 0; i < 60; i++) {
-                    setTimeout(() => crearCorazon(), i * 40);
-                }
-                clickCount = 0;
-            }
-            setTimeout(() => clickCount = 0, 1000);
-        });
-    </script>
+function loadMusicState() {
+  const wasPlaying   = localStorage.getItem('musicPlaying') === 'true';
+  const savedTime    = parseFloat(localStorage.getItem('musicTime')) || 0;
+  const savedSong    = parseInt(localStorage.getItem('currentSong')) || 0;
+  const hasInteracted= localStorage.getItem('userHasInteracted') === 'true';
+  loadSong(savedSong);
+  audio.load();
+  if (wasPlaying) {
+    sessionStorage.setItem('musicNavigating','true');
+    audio.currentTime = savedTime;
+    if (hasInteracted) {
+      setTimeout(() => {
+        audio.currentTime = savedTime;
+        audio.play().then(() => {
+          isPlaying = true;
+          updateMusicButton();
+          sessionStorage.removeItem('musicNavigating');
+        }).catch(() => activatePlanB(savedTime));
+      }, 100);
+    } else {
+      activatePlanB(savedTime);
+    }
+  }
+}
+
+musicControl.addEventListener('click', () => {
+  localStorage.setItem('userHasInteracted','true');
+  if (isPlaying) {
+    audio.pause();
+    isPlaying = false;
+    saveMusicState(false, audio.currentTime, currentSongIdx);
+    updateMusicButton();
+  } else {
+    const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+    audio.currentTime = savedTime;
+    audio.play().then(() => {
+      isPlaying = true;
+      saveMusicState(true, audio.currentTime, currentSongIdx);
+      updateMusicButton();
+    }).catch(() => alert('Por favor, activa el sonido en tu navegador'));
+  }
+});
+
+audio.addEventListener('timeupdate', () => {
+  if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIdx);
+});
+audio.addEventListener('play',  () => { isPlaying = true;  updateMusicButton(); });
+audio.addEventListener('pause', () => { if (!audio.ended) { isPlaying = false; updateMusicButton(); } });
+
+window.addEventListener('beforeunload', () => {
+  if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIdx);
+});
+
+['canplay','loadedmetadata'].forEach(ev => {
+  audio.addEventListener(ev, () => {
+    const wasPlaying   = localStorage.getItem('musicPlaying') === 'true';
+    const savedTime    = parseFloat(localStorage.getItem('musicTime')) || 0;
+    const hasInteracted= localStorage.getItem('userHasInteracted') === 'true';
+    const isNav        = sessionStorage.getItem('musicNavigating') === 'true';
+    if (wasPlaying && !isPlaying && hasInteracted && (ev === 'canplay' ? isNav : savedTime > 0)) {
+      audio.currentTime = savedTime;
+      audio.play().then(() => {
+        isPlaying = true; updateMusicButton();
+        sessionStorage.removeItem('musicNavigating');
+      }).catch(() => {});
+    }
+  });
+});
+
+document.addEventListener('visibilitychange', () => {
+  const wasPlaying   = localStorage.getItem('musicPlaying') === 'true';
+  const hasInteracted= localStorage.getItem('userHasInteracted') === 'true';
+  if (!document.hidden && wasPlaying && !isPlaying && hasInteracted) {
+    audio.currentTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+    audio.play().then(() => { isPlaying = true; updateMusicButton(); }).catch(() => {});
+  }
+});
+
+// Inicializar
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', loadMusicState);
+} else {
+  loadMusicState();
+}
+window.addEventListener('DOMContentLoaded', () => loadMusicState());
+</script>
 </body>
 </html>
