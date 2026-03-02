@@ -1,881 +1,1055 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuestras Videollamadas 📱</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nuestras Videollamadas 📱</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════════
+   RESET
+══════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
+/* ══════════════════════════════════════════
+   FONDO — violeta/índigo profundo
+══════════════════════════════════════════ */
+body {
+  font-family:'Rajdhani',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+  padding:28px 20px 90px;
+  background:#4527a0;
+}
 
-        /* Estilos para el control de música */
-        #musicControl {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1001;
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(118, 75, 162, 0.5);
-            font-weight: 700;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        #musicControl #musicNotification {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-        }
+body::before {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 72% 52% at 5%  7%,  #ede7f6 0%, transparent 50%),
+    radial-gradient(ellipse 58% 42% at 95% 4%,  #d1c4e9 0%, transparent 48%),
+    radial-gradient(ellipse 50% 38% at 50% 14%, rgba(179,157,219,.7) 0%, transparent 52%),
+    radial-gradient(ellipse 45% 48% at 0%  62%, #1a0050 0%, transparent 50%),
+    radial-gradient(ellipse 52% 43% at 100% 78%, #311b92 0%, transparent 50%),
+    radial-gradient(ellipse 65% 42% at 50% 100%, #0d0030 0%, transparent 55%),
+    linear-gradient(155deg, #9575cd 0%, #673ab7 28%, #512da8 55%, #7e57c2 80%, #5e35b1 100%);
+}
 
-        #musicControl:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(118, 75, 162, 0.7);
-        }
+body::after {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:radial-gradient(circle, rgba(255,255,255,.07) 1px, transparent 1px);
+  background-size:32px 32px;
+}
 
-        #musicControl.playing {
-            animation: musicPulse 2s infinite;
-        }
+/* ══════════════════════════════════════════
+   BLOBS CSS ANIMADOS
+══════════════════════════════════════════ */
+#blobs { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.blob { position:absolute; border-radius:50%; filter:blur(72px); }
 
-        @keyframes musicPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
+.blob-1 { width:500px; height:500px; background:#ede7f6; top:-130px; left:-90px; opacity:.48;
+  animation:b1 14s ease-in-out infinite alternate; }
+@keyframes b1 {
+  0%  { transform:translate(0,0) scale(1);       opacity:.46; }
+  50% { transform:translate(75px,55px) scale(1.12);  opacity:.60; }
+  100%{ transform:translate(-35px,95px) scale(.92); opacity:.38; }
+}
+.blob-2 { width:370px; height:370px; background:#d1c4e9; top:-70px; right:-70px; opacity:.44;
+  animation:b2 18s ease-in-out infinite alternate; }
+@keyframes b2 {
+  0%  { transform:translate(0,0) scale(1);       opacity:.42; }
+  50% { transform:translate(-55px,85px) scale(1.18); opacity:.56; }
+  100%{ transform:translate(45px,35px) scale(.88);   opacity:.34; }
+}
+.blob-3 { width:440px; height:440px; background:#1a0050; bottom:-110px; left:-90px; opacity:.52;
+  animation:b3 16s ease-in-out infinite alternate; }
+@keyframes b3 {
+  0%  { transform:translate(0,0) scale(1);       opacity:.50; }
+  50% { transform:translate(95px,-65px) scale(1.15); opacity:.65; }
+  100%{ transform:translate(25px,55px) scale(.9);    opacity:.42; }
+}
+.blob-4 { width:390px; height:390px; background:#311b92; bottom:-95px; right:-70px; opacity:.50;
+  animation:b4 20s ease-in-out infinite alternate; }
+@keyframes b4 {
+  0%  { transform:translate(0,0) scale(1);     opacity:.48; }
+  50% { transform:translate(-85px,-45px) scale(1.1);  opacity:.60; }
+  100%{ transform:translate(35px,75px) scale(.95);    opacity:.38; }
+}
+.blob-5 { width:310px; height:310px; background:#ede7f6; top:35%; left:37%; opacity:.20;
+  animation:b5 22s ease-in-out infinite alternate; }
+@keyframes b5 {
+  0%  { transform:translate(0,0) scale(.85);  opacity:.20; }
+  50% { transform:translate(-65px,75px) scale(1.05); opacity:.34; }
+  100%{ transform:translate(85px,-45px) scale(.8);   opacity:.16; }
+}
+.blob-6 { width:270px; height:270px; background:#7c4dff; top:56%; right:10%; opacity:.32;
+  animation:b6 12s ease-in-out infinite alternate; }
+@keyframes b6 {
+  0%  { transform:translate(0,0) scale(1);    opacity:.30; }
+  100%{ transform:translate(-45px,-75px) scale(1.22); opacity:.48; }
+}
 
-        /* Pantallas simuladas flotantes */
-        .pantallas-fondo {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.05;
-        }
+/* ══════════════════════════════════════════
+   PARTÍCULAS / ESTRELLAS / CORAZONES BG
+══════════════════════════════════════════ */
+#particles { position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+.particle  { position:absolute; border-radius:50%; opacity:0; animation:pDrift linear infinite; }
+@keyframes pDrift {
+  0%  { transform:translateY(108vh) scale(.3); opacity:0; }
+  5%  { opacity:.9; }
+  95% { opacity:.6; }
+  100%{ transform:translateY(-8vh) scale(1.2); opacity:0; }
+}
 
-        .pantalla-flotante {
-            position: absolute;
-            width: 100px;
-            height: 150px;
-            background: white;
-            border-radius: 15px;
-            animation: floatScreen 20s infinite;
-        }
+#hearts-bg { position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+.heart-float { position:absolute; opacity:.13; animation:floatHeart linear infinite; }
+@keyframes floatHeart {
+  0%  { transform:translateY(105vh) rotate(0deg); opacity:0; }
+  8%  { opacity:.13; }
+  92% { opacity:.13; }
+  100%{ transform:translateY(-5vh) rotate(360deg); opacity:0; }
+}
 
-        @keyframes floatScreen {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(50px, -50px) rotate(5deg); }
-            50% { transform: translate(-30px, -100px) rotate(-5deg); }
-            75% { transform: translate(80px, -70px) rotate(3deg); }
-        }
+#stars-bg { position:fixed; inset:0; z-index:1; pointer-events:none; }
+.star  { position:absolute; border-radius:50%; animation:twinkle ease-in-out infinite; }
+@keyframes twinkle { 0%,100%{opacity:.15} 50%{opacity:1} }
 
-        .stars {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 1;
-        }
+.corazon {
+  position:fixed; font-size:1.9em; pointer-events:none;
+  z-index:999; animation:floatUp 4s linear forwards;
+}
+@keyframes floatUp {
+  0%  { opacity:1; transform:translateY(0) rotate(0deg); }
+  100%{ opacity:0; transform:translateY(-900px) rotate(360deg); }
+}
 
-        .star {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
+/* ══════════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════════ */
+.container {
+  position:relative; z-index:2;
+  max-width:1020px;
+  margin:0 auto;
+}
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
+/* ── Botón volver ── */
+.btn-volver {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:13px 30px; border-radius:30px;
+  background:rgba(255,255,255,.18);
+  border:1.5px solid rgba(255,255,255,.50);
+  backdrop-filter:blur(16px) saturate(1.5);
+  color:#fff; font-weight:700; font-size:.95rem;
+  text-decoration:none; letter-spacing:.05em;
+  box-shadow:0 6px 20px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.28);
+  transition:all .3s ease;
+  margin-bottom:32px;
+  text-shadow:0 1px 4px rgba(0,0,0,.25);
+}
+.btn-volver:hover {
+  transform:translateY(-3px);
+  background:rgba(255,255,255,.28);
+  box-shadow:0 12px 35px rgba(0,0,0,.26), 0 0 20px rgba(255,255,255,.08);
+}
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
+/* ══════════════════════════════════════════
+   HERO HEADER
+══════════════════════════════════════════ */
+.hero {
+  text-align:center;
+  padding:54px 36px 46px;
+  border-radius:36px;
+  backdrop-filter:blur(24px) saturate(1.6);
+  background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.06));
+  border:1.5px solid rgba(255,255,255,.34);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.10),
+    0 8px 36px rgba(0,0,0,.24),
+    0 30px 75px rgba(20,0,80,.28),
+    inset 0 1px 0 rgba(255,255,255,.28);
+  position:relative; overflow:hidden;
+  margin-bottom:36px;
+  animation:revealUp .9s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes revealUp {
+  from{opacity:0;transform:translateY(45px) scale(.97)}
+  to  {opacity:1;transform:translateY(0) scale(1)}
+}
+.hero::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:36px 36px 0 0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.80),rgba(200,180,255,.9),rgba(255,255,255,.80),transparent);
+}
+.hero::after {
+  content:''; position:absolute; top:-70px; right:-70px;
+  width:240px; height:240px; border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.10),transparent 70%);
+}
 
-        .btn-volver {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.95);
-            color: #764ba2;
-            padding: 15px 35px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
+#hero-deco { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.hdeco {
+  position:absolute; opacity:.1;
+  animation:hdPulse var(--dur,3s) ease-in-out infinite;
+  animation-delay:var(--del,0s);
+}
+@keyframes hdPulse {
+  0%,100%{transform:scale(1) rotate(var(--rot,0deg)); opacity:.10}
+  50%    {transform:scale(1.3) rotate(var(--rot,0deg)); opacity:.22}
+}
 
-        .btn-volver:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.35);
-            background: white;
-        }
+.hero-eyebrow {
+  font-size:.78rem; letter-spacing:.35em; text-transform:uppercase;
+  color:rgba(255,255,255,.58); margin-bottom:16px;
+}
+.hero h1 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.9rem,5.5vw,3.7rem);
+  font-weight:900; line-height:1.06;
+  color:#fff;
+  text-shadow:0 0 40px rgba(255,255,255,.50), 0 0 80px rgba(150,100,255,.55), 0 4px 20px rgba(20,0,80,.40);
+  animation:hGlow 3s ease-in-out infinite;
+}
+@keyframes hGlow {
+  0%,100%{text-shadow:0 0 40px rgba(255,255,255,.50),0 0 80px rgba(150,100,255,.55),0 4px 20px rgba(20,0,80,.40)}
+  50%    {text-shadow:0 0 65px rgba(255,255,255,.75),0 0 120px rgba(150,100,255,.80),0 4px 24px rgba(20,0,80,.55)}
+}
+.hero-sub {
+  margin-top:12px;
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.2rem; color:rgba(255,255,255,.75); letter-spacing:.08em;
+  text-shadow:0 1px 6px rgba(0,0,0,.2);
+}
+.fecha-badge {
+  display:inline-block; margin-top:26px;
+  padding:14px 44px; border-radius:50px;
+  background:rgba(255,255,255,.18);
+  border:1.5px solid rgba(255,255,255,.50);
+  backdrop-filter:blur(14px);
+  font-family:'Cinzel',serif; font-size:1.05rem; font-weight:700;
+  color:#fff; letter-spacing:.08em;
+  box-shadow:0 6px 28px rgba(0,0,0,.20), 0 0 0 1px rgba(255,255,255,.08), inset 0 1px 0 rgba(255,255,255,.25);
+  animation:badgePulse 2.5s ease-in-out infinite;
+  text-shadow:0 1px 6px rgba(0,0,0,.22);
+}
+@keyframes badgePulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+.header-line {
+  width:200px; height:1.5px; margin:20px auto 0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.60),transparent);
+}
 
-        .contenido {
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 40px;
-            padding: 60px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: fadeIn 1s ease-out;
-        }
+/* ══════════════════════════════════════════
+   SIMULADOR DE VIDEOLLAMADA — REDISEÑADO
+══════════════════════════════════════════ */
+.simulador-section { margin:44px 0; }
 
-        h1 {
-            color: #764ba2;
-            font-size: 3.5em;
-            text-align: center;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
+.videollamada-simulador {
+  border-radius:32px;
+  overflow:hidden;
+  backdrop-filter:blur(24px) saturate(1.6);
+  background:linear-gradient(145deg,rgba(20,0,60,.88),rgba(40,10,90,.80));
+  border:1.5px solid rgba(255,255,255,.22);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08),
+    0 8px 36px rgba(0,0,0,.35),
+    0 30px 75px rgba(20,0,80,.40),
+    inset 0 1px 0 rgba(255,255,255,.18);
+  position:relative;
+  animation:revealUp .9s cubic-bezier(.16,1,.3,1) .15s both;
+}
 
-        .subtitulo {
-            text-align: center;
-            color: #667eea;
-            font-size: 1.3em;
-            margin-bottom: 50px;
-            font-style: italic;
-            font-weight: 500;
-        }
+/* Barra superior del simulador */
+.sim-topbar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 28px;
+  background:linear-gradient(90deg, rgba(103,58,183,.9), rgba(74,20,140,.9));
+  border-bottom:1px solid rgba(255,255,255,.15);
+}
+.sim-topbar-left { display:flex; align-items:center; gap:10px; }
+.sim-dot { width:12px; height:12px; border-radius:50%; }
+.sim-dot.red   { background:#ff5f57; }
+.sim-dot.amber { background:#febc2e; }
+.sim-dot.green { background:#28c840; }
+.sim-topbar-title {
+  font-family:'Cinzel',serif; font-size:.85rem; color:rgba(255,255,255,.75);
+  letter-spacing:.12em; margin-left:14px;
+}
+.sim-timer {
+  font-family:'Rajdhani',sans-serif; font-size:.9rem; font-weight:700;
+  color:rgba(255,255,255,.6); letter-spacing:.1em;
+  animation:timerTick 1s steps(1) infinite;
+}
+@keyframes timerTick { 0%{opacity:1} 50%{opacity:.4} 100%{opacity:1} }
 
-        /* Simulador de videollamada */
-        .videollamada-simulador {
-            background: #000;
-            border-radius: 25px;
-            padding: 30px;
-            margin: 50px 0;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            position: relative;
-            overflow: hidden;
-        }
+/* Pantallas de video */
+.video-pantallas {
+  display:grid; grid-template-columns:2fr 1fr;
+  gap:18px; padding:22px 22px 14px;
+  min-height:320px;
+}
+@media(max-width:600px){ .video-pantallas{ grid-template-columns:1fr; min-height:auto; } }
 
-        .videollamada-simulador::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-        }
+.video-principal, .video-pequeño {
+  border-radius:20px; overflow:hidden;
+  position:relative; display:flex;
+  align-items:center; justify-content:center;
+}
+.video-principal {
+  background:linear-gradient(135deg, #3d1a78 0%, #1a0050 50%, #4a1a8a 100%);
+  min-height:260px;
+}
+.video-pequeño {
+  background:linear-gradient(135deg, #512da8 0%, #311b92 100%);
+  min-height:140px;
+}
 
-        .video-pantallas {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-            margin-top: 70px;
-            min-height: 350px;
-        }
+/* Efecto ruido de cámara */
+.video-principal::before, .video-pequeño::before {
+  content:''; position:absolute; inset:0; z-index:1;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  opacity:.06; pointer-events:none;
+}
+.video-principal::after {
+  content:''; position:absolute; inset:0; z-index:1;
+  background:radial-gradient(ellipse 80% 80% at 50% 50%, transparent 55%, rgba(0,0,0,.45) 100%);
+}
 
-        .video-principal, .video-pequeño {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 4em;
-            position: relative;
-            overflow: hidden;
-        }
+.video-texto {
+  position:relative; z-index:2;
+  text-align:center; padding:20px;
+}
+.video-emoji {
+  font-size:3.6rem; line-height:1; display:block;
+  filter:drop-shadow(0 0 18px rgba(200,150,255,.6));
+  animation:vcPulse 2.8s ease-in-out infinite;
+}
+@keyframes vcPulse {
+  0%,100%{transform:scale(1) translateY(0)} 50%{transform:scale(1.07) translateY(-6px)}
+}
+.video-nombre {
+  font-family:'Cinzel',serif; font-size:.78rem; font-weight:700;
+  color:rgba(255,255,255,.70); letter-spacing:.18em; text-transform:uppercase;
+  margin-top:10px; display:block;
+}
+.video-pequeño .video-emoji { font-size:2.2rem; }
+.video-pequeño .video-nombre { font-size:.68rem; }
 
-        .video-principal::after, .video-pequeño::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.3) 100%);
-        }
+/* Indicador de señal en vivo */
+.live-badge {
+  position:absolute; top:14px; left:14px; z-index:5;
+  display:flex; align-items:center; gap:6px;
+  background:rgba(0,0,0,.55); border-radius:20px;
+  padding:5px 11px; font-size:.7rem; font-weight:700;
+  color:#fff; letter-spacing:.1em; backdrop-filter:blur(6px);
+}
+.live-dot {
+  width:7px; height:7px; border-radius:50%; background:#ff4444;
+  animation:livePulse 1.1s ease-in-out infinite;
+}
+@keyframes livePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.75)} }
 
-        .video-texto {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-        }
+/* Controles del simulador */
+.controles-video {
+  display:flex; justify-content:center; gap:18px;
+  padding:14px 22px 22px;
+}
+.boton-control {
+  width:58px; height:58px; border-radius:50%;
+  backdrop-filter:blur(12px) saturate(1.4);
+  background:rgba(255,255,255,.18);
+  border:1.5px solid rgba(255,255,255,.35);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.6rem; cursor:pointer;
+  transition:all .3s ease;
+  box-shadow:0 4px 16px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.2);
+}
+.boton-control:hover {
+  transform:scale(1.15) translateY(-3px);
+  background:rgba(255,255,255,.28);
+  box-shadow:0 10px 30px rgba(0,0,0,.3), 0 0 20px rgba(200,150,255,.2);
+}
+.boton-control.terminar {
+  background:rgba(220,50,50,.75);
+  border-color:rgba(255,100,100,.45);
+}
+.boton-control.terminar:hover {
+  background:rgba(220,50,50,.9);
+  box-shadow:0 10px 30px rgba(200,0,0,.4);
+}
 
-        .video-texto h3 {
-            font-size: 0.3em;
-            margin-top: 10px;
-        }
+/* ══════════════════════════════════════════
+   MOMENTOS — TIMELINE DE TARJETAS
+══════════════════════════════════════════ */
+.momentos-section { margin:50px 0; }
+.section-title {
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.3rem,3vw,2rem); font-weight:700;
+  text-align:center; margin-bottom:32px;
+  color:#fff; text-shadow:0 0 22px rgba(255,255,255,.38), 0 2px 10px rgba(0,0,0,.22);
+}
 
-        .controles-video {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-            padding-bottom: 20px;
-        }
+.momentos-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+@media(max-width:760px){ .momentos-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:480px){ .momentos-grid{ grid-template-columns:1fr; } }
 
-        .boton-control {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+.momento {
+  backdrop-filter:blur(22px) saturate(1.6);
+  background:linear-gradient(145deg,rgba(255,255,255,.15),rgba(255,255,255,.06));
+  border:1.5px solid rgba(255,255,255,.28);
+  border-radius:26px; padding:32px 24px 26px;
+  position:relative; overflow:hidden;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08),
+    0 8px 30px rgba(0,0,0,.20),
+    0 20px 55px rgba(20,0,80,.20),
+    inset 0 1px 0 rgba(255,255,255,.22);
+  transition:transform .35s ease, box-shadow .35s ease;
+  text-align:center;
+}
+.momento::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.60),transparent);
+}
+.momento:hover {
+  transform:translateY(-9px);
+  box-shadow:0 0 0 1px rgba(255,255,255,.16), 0 16px 48px rgba(0,0,0,.26), 0 28px 65px rgba(20,0,80,.26), inset 0 1px 0 rgba(255,255,255,.28);
+}
+.momento .icono {
+  font-size:2.8rem; display:block; margin-bottom:14px;
+  filter:drop-shadow(0 0 12px rgba(200,150,255,.5));
+  animation:iFloat var(--fd,3s) ease-in-out infinite;
+  animation-delay:var(--fdel,0s);
+}
+@keyframes iFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.momento h3 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(.88rem,1.6vw,1.1rem); font-weight:700;
+  color:#fff; margin-bottom:12px;
+  text-shadow:0 0 14px rgba(255,255,255,.3), 0 2px 6px rgba(0,0,0,.2);
+}
+.momento p {
+  color:rgba(255,255,255,.82);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem; line-height:1.85;
+  text-shadow:0 1px 4px rgba(0,0,0,.15);
+}
 
-        .boton-control:hover {
-            transform: scale(1.15);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
+/* ══════════════════════════════════════════
+   GALERÍA DE IMÁGENES/GIFs — fondo preservado
+══════════════════════════════════════════ */
+.galeria-section { margin:50px 0; }
+.galeria-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
+}
+@media(max-width:680px){ .galeria-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:440px){ .galeria-grid{ grid-template-columns:1fr; } }
 
-        .boton-control.terminar {
-            background: #ff4444;
-            color: white;
-        }
+.gif-card {
+  border-radius:28px; overflow:hidden;
+  background:#fff;
+  border:2px solid rgba(255,255,255,.55);
+  box-shadow:0 8px 30px rgba(0,0,0,.22), 0 0 0 1px rgba(255,255,255,.12);
+  transition:all .4s cubic-bezier(.16,1,.3,1); position:relative;
+}
+.gif-card::before {
+  content:''; position:absolute; inset:0; z-index:1; border-radius:20px;
+  background:linear-gradient(135deg,rgba(126,87,194,.22),rgba(103,58,183,.22));
+  opacity:0; transition:opacity .3s ease;
+}
+.gif-card:hover::before { opacity:1; }
+.gif-card:hover {
+  transform:translateY(-13px) scale(1.04);
+  box-shadow:0 24px 55px rgba(0,0,0,.30), 0 0 35px rgba(255,255,255,.18);
+  border-color:rgba(255,255,255,.80);
+}
+.gif-card img {
+  width:100%; height:250px;
+  object-fit:cover;
+  display:block;
+  transition:transform .4s ease;
+}
+/* JPG cover, GIF contain */
+.gif-card img[src*=".gif"] {
+  object-fit:contain;
+  background:#fff;
+}
+.gif-card:hover img { transform:scale(1.06); }
 
-        /* Momentos de videollamada */
-        .momentos-videollamada {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
-        }
+/* ══════════════════════════════════════════
+   MENSAJE PRINCIPAL — bloque de texto glass
+══════════════════════════════════════════ */
+.texto-destacado {
+  backdrop-filter:blur(22px) saturate(1.5);
+  background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.06));
+  border:1.5px solid rgba(255,255,255,.28);
+  border-radius:28px; padding:40px 40px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 8px 30px rgba(0,0,0,.18), 0 22px 55px rgba(20,0,80,.20), inset 0 1px 0 rgba(255,255,255,.24);
+  position:relative; overflow:hidden;
+  margin:50px 0;
+}
+.texto-destacado::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.60),transparent);
+}
+.texto-destacado::after {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:4px; border-radius:0 2px 2px 0;
+  background:linear-gradient(to bottom,transparent,rgba(255,255,255,.65) 30%,rgba(255,255,255,.85) 70%,transparent);
+}
+.texto-destacado .bg-deco {
+  position:absolute; font-size:8em; opacity:.04;
+  bottom:-20px; right:-10px;
+  animation:hdPulse 5s ease-in-out infinite;
+}
+.texto-destacado p {
+  color:rgba(255,255,255,.90);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.16rem; line-height:2.05;
+  text-align:justify; margin:18px 0;
+  padding-left:10px;
+  text-shadow:0 1px 5px rgba(0,0,0,.15);
+}
+.texto-destacado p:first-of-type { margin-top:0; }
+.texto-destacado p:last-of-type  { margin-bottom:0; }
+.emoji-grande { font-size:1.55em; margin-right:10px; vertical-align:middle; }
 
-        .momento {
-            background: linear-gradient(135deg, #f5f7ff 0%, #f0f3ff 100%);
-            padding: 35px;
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
+/* Destacado secundario dentro del mensaje */
+.inner-highlight {
+  backdrop-filter:blur(12px);
+  background:rgba(255,255,255,.10);
+  border-left:3px solid rgba(255,255,255,.55);
+  border-radius:0 14px 14px 0;
+  padding:18px 20px; margin:20px 0;
+}
+.inner-highlight p {
+  color:rgba(255,255,255,.95);
+  font-weight:600; margin:0 !important;
+  text-shadow:0 1px 5px rgba(0,0,0,.18);
+}
 
-        .momento::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
-            transition: all 0.6s ease;
-        }
+/* ══════════════════════════════════════════
+   MENSAJE FINAL
+══════════════════════════════════════════ */
+.mensaje-final {
+  text-align:center; margin:50px 0 30px;
+  padding:54px 40px;
+  border-radius:32px;
+  backdrop-filter:blur(22px) saturate(1.6);
+  background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.07));
+  border:1.5px solid rgba(255,255,255,.38);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.10),
+    0 8px 36px rgba(0,0,0,.22),
+    0 28px 70px rgba(20,0,80,.28),
+    inset 0 1px 0 rgba(255,255,255,.28);
+  position:relative; overflow:hidden;
+  animation:revealUp .9s cubic-bezier(.16,1,.3,1) .3s both;
+}
+.mensaje-final::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:32px 32px 0 0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);
+}
+.mensaje-final::after {
+  content:'💻'; position:absolute;
+  font-size:9em; opacity:.04;
+  bottom:-25px; right:-15px;
+  animation:hdPulse 4s ease-in-out infinite;
+}
+.mensaje-final h2 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.5rem,3.5vw,2.5rem); font-weight:700; margin-bottom:22px;
+  color:#fff; text-shadow:0 0 20px rgba(255,255,255,.40), 0 2px 12px rgba(0,0,0,.20);
+}
+.mensaje-final p {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.22rem; line-height:2;
+  color:rgba(255,255,255,.88); margin:8px 0;
+  text-shadow:0 1px 5px rgba(0,0,0,.18);
+}
+.mensaje-final p strong { color:#fff; font-style:italic; font-weight:600; }
 
-        .momento:hover::before {
-            top: -30%;
-            right: -30%;
-        }
+/* Efecto rotación de fondo en mensaje final */
+.mf-orbit {
+  position:absolute; inset:-100%; pointer-events:none;
+  background:radial-gradient(circle at 50% 50%, rgba(255,255,255,.07) 0%, transparent 55%);
+  animation:mfRotate 20s linear infinite;
+}
+@keyframes mfRotate { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
 
-        .momento:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 45px rgba(102, 126, 234, 0.25);
-        }
+/* ══════════════════════════════════════════
+   CONTROL DE MÚSICA
+══════════════════════════════════════════ */
+#musicControl {
+  position:fixed; bottom:28px; right:28px; z-index:1001;
+  background:rgba(255,255,255,.18);
+  border:1.5px solid rgba(255,255,255,.45); backdrop-filter:blur(16px) saturate(1.5);
+  color:#fff; padding:14px 22px; border-radius:50px;
+  cursor:pointer; font-weight:700; font-size:.98rem;
+  box-shadow:0 8px 30px rgba(0,0,0,.22), 0 0 0 1px rgba(255,255,255,.08), inset 0 1px 0 rgba(255,255,255,.24);
+  transition:all .3s ease; display:flex; align-items:center; gap:9px;
+  text-shadow:0 1px 4px rgba(0,0,0,.22);
+}
+#musicControl:hover {
+  transform:translateY(-4px);
+  background:rgba(255,255,255,.28);
+  box-shadow:0 14px 42px rgba(0,0,0,.26), 0 0 28px rgba(255,255,255,.12);
+}
+#musicControl.playing { animation:mPulse 2s ease-in-out infinite; }
+@keyframes mPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+#musicNotification {
+  position:absolute; top:-8px; right:-8px;
+  background:#7c4dff; color:#fff; border-radius:50%;
+  width:22px; height:22px; display:none;
+  align-items:center; justify-content:center;
+  font-size:.65em; font-weight:900; border:2px solid rgba(255,255,255,.6);
+  animation:nPulse 1.2s ease-in-out infinite;
+}
+@keyframes nPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+#songInfo {
+  position:fixed; bottom:84px; right:28px; z-index:1001;
+  background:rgba(20,0,60,.90); backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.24); color:#fff;
+  padding:12px 18px; border-radius:18px;
+  box-shadow:0 8px 26px rgba(0,0,0,.30); font-size:.87em;
+  max-width:240px; display:none;
+}
+#songInfo .si-label {
+  font-weight:700; margin-bottom:4px; color:#b39ddb;
+  font-size:.78rem; letter-spacing:.1em; text-transform:uppercase;
+}
+#currentSongName { color:rgba(220,200,255,.9); }
 
-        .momento .icono {
-            font-size: 3.5em;
-            text-align: center;
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .momento h3 {
-            color: #764ba2;
-            font-size: 1.8em;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: 700;
-        }
-
-        .momento p {
-            color: #555;
-            font-size: 1.15em;
-            line-height: 1.8;
-            text-align: center;
-        }
-
-        /* Galería mejorada */
-        .galeria-imagenes {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
-        }
-
-        .imagen-item {
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            transition: all 0.4s ease;
-            background: white;
-            position: relative;
-        }
-
-        .imagen-item::after {
-            content: '📱';
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 2em;
-            opacity: 0;
-            transition: all 0.3s ease;
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
-        }
-
-        .imagen-item:hover::after {
-            opacity: 1;
-            transform: scale(1.2);
-        }
-
-        .imagen-item:hover {
-            transform: translateY(-15px) scale(1.03);
-            box-shadow: 0 25px 50px rgba(118, 75, 162, 0.3);
-        }
-
-        .imagen-item img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* Mensaje principal */
-        .mensaje-principal {
-            background: linear-gradient(135deg, #f5f7ff 0%, #f0f3ff 100%);
-            padding: 50px;
-            border-radius: 30px;
-            margin: 50px 0;
-            border-left: 8px solid #764ba2;
-            box-shadow: 0 15px 40px rgba(118, 75, 162, 0.2);
-            position: relative;
-        }
-
-        .mensaje-principal::before {
-            content: '💻';
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 6em;
-            opacity: 0.1;
-        }
-
-        .mensaje-principal p {
-            color: #555;
-            font-size: 1.35em;
-            line-height: 2;
-            text-align: justify;
-            margin: 20px 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .mensaje-principal .destacado {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-            padding: 25px;
-            border-radius: 15px;
-            margin: 25px 0;
-            border-left: 4px solid #667eea;
-        }
-
-        .mensaje-final {
-            text-align: center;
-            margin: 60px 0 40px 0;
-            padding: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 35px;
-            color: white;
-            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .mensaje-final::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .mensaje-final h2 {
-            font-size: 2.8em;
-            margin-bottom: 25px;
-            font-weight: 700;
-            position: relative;
-            z-index: 1;
-        }
-
-        .mensaje-final p {
-            font-size: 1.5em;
-            line-height: 1.9;
-            font-weight: 500;
-            position: relative;
-            z-index: 1;
-            margin: 15px 0;
-        }
-
-        .corazon {
-            position: fixed;
-            font-size: 2em;
-            pointer-events: none;
-            z-index: 999;
-            animation: floatUp 4s linear;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0) rotate(0deg); }
-            100% { opacity: 0; transform: translateY(-1000px) rotate(360deg); }
-        }
-
-        @media (max-width: 768px) {
-            .contenido { padding: 40px 25px; }
-            h1 { font-size: 2.5em; }
-            .video-pantallas { grid-template-columns: 1fr; }
-            .galeria-imagenes { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-            .momentos-videollamada { grid-template-columns: 1fr; }
-        }
-    </style>
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media(max-width:768px){
+  body { padding:20px 16px 80px; }
+  .hero { padding:36px 20px 32px; }
+  .texto-destacado { padding:26px 22px; }
+  .mensaje-final   { padding:38px 22px; }
+  #musicControl    { bottom:18px; right:18px; }
+  #songInfo        { bottom:74px; right:18px; }
+}
+</style>
 </head>
 <body>
-    <!-- Reproductor de música de fondo -->
-    <audio id="backgroundMusic">
-        <source src="" type="audio/mpeg">
-        Tu navegador no soporta el elemento de audio.
-    </audio>
 
-    <!-- Botón de control de música -->
-    <div id="musicControl">
-        <span id="musicIcon">🎵</span>
-        <span id="musicText">Reproducir Música</span>
-        <span id="musicNotification" style="position: absolute; top: -8px; right: -8px; background: #764ba2; color: white; border-radius: 50%; width: 24px; height: 24px; display: none; align-items: center; justify-content: center; font-size: 0.7em; font-weight: 900; animation: pulse 1s infinite; border: 2px solid white;">!</span>
-    </div>
-    
-    <!-- Info de la canción actual -->
-    <div id="songInfo" style="position: fixed; bottom: 90px; right: 30px; z-index: 1001; background: rgba(26, 26, 26, 0.95); color: white; padding: 12px 20px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); font-size: 0.9em; max-width: 250px; display: none; border: 2px solid #764ba2;">
-        <div style="font-weight: 700; margin-bottom: 5px; color: #667eea;">🎵 Reproduciendo:</div>
-        <div id="currentSongName" style="font-size: 0.95em; color: #fff;"></div>
-    </div>
+<!-- AUDIO -->
+<audio id="backgroundMusic"><source src="" type="audio/mpeg"></audio>
 
-    <div class="pantallas-fondo" id="pantallas"></div>
-    <div class="stars" id="stars"></div>
+<!-- MÚSICA UI -->
+<div id="musicControl" role="button">
+  <span id="musicIcon">🎵</span>
+  <span id="musicText">Reproducir Música</span>
+  <span id="musicNotification" aria-hidden="true">!</span>
+</div>
+<div id="songInfo">
+  <div class="si-label">🎵 Reproduciendo</div>
+  <div id="currentSongName"></div>
+</div>
 
-    <div class="container">
-        <a href="index.html" class="btn-volver">← Volver al inicio</a>
+<!-- FONDOS -->
+<div id="blobs" aria-hidden="true">
+  <div class="blob blob-1"></div><div class="blob blob-2"></div>
+  <div class="blob blob-3"></div><div class="blob blob-4"></div>
+  <div class="blob blob-5"></div><div class="blob blob-6"></div>
+</div>
+<div id="hearts-bg" aria-hidden="true"></div>
+<div id="stars-bg"  aria-hidden="true"></div>
+<div id="particles" aria-hidden="true"></div>
 
-        <div class="contenido">
-            <h1>📱 Nuestras Videollamadas 📱</h1>
-            <p class="subtitulo">El momento que hace que todo valga la pena</p>
+<!-- ════════════════════════════════════
+     CONTENIDO
+════════════════════════════════════ -->
+<div class="container">
 
-            <div class="videollamada-simulador">
-                <div class="video-pantallas">
-                    <div class="video-principal">
-                        <div class="video-texto">
-                            <div>💕</div>
-                            <h3>Tú</h3>
-                        </div>
-                    </div>
-                    <div class="video-pequeño">
-                        <div class="video-texto">
-                            <div>😊</div>
-                            <h3>Yo</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="controles-video">
-                    <div class="boton-control">🎥</div>
-                    <div class="boton-control">🎤</div>
-                    <div class="boton-control">💬</div>
-                    <div class="boton-control terminar">📞</div>
-                </div>
-            </div>
+  <a href="index.html" class="btn-volver">← Volver al inicio</a>
 
-            <div class="momentos-videollamada">
-                <div class="momento">
-                    <div class="icono">🏠</div>
-                    <h3>En Casa de tu Mamá</h3>
-                    <p>Siempre encuentras ese tiempo para mí, sin importar dónde estés. Tu dedicación me hace sentir especial.</p>
-                </div>
-                <div class="momento">
-                    <div class="icono">👶</div>
-                    <h3>Cuidando a los Niños</h3>
-                    <p>Incluso cuando estás ocupada, me haces un espacio. Esos momentos robados son los más preciosos.</p>
-                </div>
-                <div class="momento">
-                    <div class="icono">🌃</div>
-                    <h3>En el Depa</h3>
-                    <p>Nuestro momento más íntimo, donde podemos ser completamente nosotros sin interrupciones.</p>
-                </div>
-                <div class="momento">
-                    <div class="icono">🌙</div>
-                    <h3>Hasta Muy Tarde</h3>
-                    <p>Esas noches donde el tiempo no importa, solo existimos tú y yo en nuestra burbuja de amor.</p>
-                </div>
-                <div class="momento">
-                    <div class="icono">🌅</div>
-                    <h3>Hasta Muy Temprano</h3>
-                    <p>Comenzar el día viéndote es la mejor forma de despertar, aunque sea a través de una pantalla.</p>
-                </div>
-                <div class="momento">
-                    <div class="icono">🔥</div>
-                    <h3>Momentos Especiales</h3>
-                    <p>Cuando la llamada toma un giro más íntimo... esos momentos también son parte de nuestra conexión y me hacen tan feliz, mi bubu hermosa 😏💕</p>
-                </div>
-            </div>
+  <!-- HERO -->
+  <section class="hero">
+    <div id="hero-deco" aria-hidden="true"></div>
+    <p class="hero-eyebrow">Nuestra Historia · Capítulo II</p>
+    <h1>📱 Nuestras Videollamadas 📱</h1>
+    <p class="hero-sub">El momento que hace que todo valga la pena...</p>
+    <div class="fecha-badge">✨ Cada noche, juntos ✨</div>
+    <div class="header-line"></div>
+  </section>
 
-            <div class="mensaje-principal">
-                <p>Apenas estamos a distancia, estamos solos con nuestras emociones, y la forma de expresarlas es a través de la pantalla, ya que es la única forma de vernos en este mundo tan solitario.</p>
-                
-                <p>Cada vez que estamos en llamada, mi mundo se calma y todo se pone de colores. La ansiedad desaparece, los problemas se hacen pequeños, y solo existe tu sonrisa iluminando mi pantalla.</p>
-                
-                <div class="destacado">
-                    <p><strong>Tú, sin importar dónde estés</strong> - ya sea donde tu mamá, con los niños, o en el depa - siempre tienes ese tiempo para que estemos en llamadas. Ya sea hasta muy tarde o hasta muy temprano, siempre encuentras la forma de hacerme sentir que soy importante para ti.</p>
-                </div>
-                
-                <p>Con el simple hecho de que nos mostremos uno al otro, esto se vuelve una locura y mi cabeza explota. Verte, escucharte, sentir que estás ahí aunque sea virtualmente... es lo que hace que la distancia sea soportable.</p>
-                
-                <p>Sin contar cuando nos ponemos horny, pero eso ya es otro tema y la llamada pasa a otros lados... pero hasta eso me pone feliz, mi bubu hermosa. Porque cada faceta de nuestra relación, desde las conversaciones más profundas hasta los momentos más íntimos, todo me hace amarte más.</p>
-                
-                <p>Cada videollamada es un recordatorio de que lo nuestro es real, de que vale la pena esperar, de que pronto ya no necesitaremos pantallas para vernos porque estaremos juntos físicamente. Pero hasta ese día, seguiré amando cada segundo que pasamos conectados.</p>
-            </div>
-
-            <div class="galeria-imagenes">
-                <div class="imagen-item">
-                    <img src="assent/GIF6.gif" alt="Videollamada">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/JPG5.jpg" alt="Videollamada">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/GIF7.gif" alt="Videollamada">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/GIF8.gif" alt="Videollamada">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/JPG6.jpg" alt="Videollamada">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/GIF9.gif" alt="Videollamada">
-                </div>
-            </div>
-
-            <div class="mensaje-final">
-                <h2>💖 Gracias por Cada Llamada 💖</h2>
-                <p>Por hacer tiempo para mí sin importar dónde estés.</p>
-                <p>Por quedarte hasta tarde o despertarte temprano solo para verme.</p>
-                <p>Por hacer que mi mundo se llene de colores cada vez que apareces en mi pantalla.</p>
-                <p>Por ser mi paz en medio del caos.</p>
-                <p><strong>Te amo, mi bubu hermosa. Cada llamada contigo es un pedacito de cielo. 💕</strong></p>
-            </div>
+  <!-- SIMULADOR -->
+  <section class="simulador-section">
+    <div class="videollamada-simulador">
+      <div class="sim-topbar">
+        <div class="sim-topbar-left">
+          <div class="sim-dot red"></div>
+          <div class="sim-dot amber"></div>
+          <div class="sim-dot green"></div>
+          <span class="sim-topbar-title">VIDEOLLAMADA EN CURSO</span>
         </div>
+        <span class="sim-timer">● 2:47:13</span>
+      </div>
+
+      <div class="video-pantallas">
+        <div class="video-principal">
+          <span class="live-badge"><span class="live-dot"></span>EN VIVO</span>
+          <div class="video-texto">
+            <span class="video-emoji">💕</span>
+            <span class="video-nombre">Tú</span>
+          </div>
+        </div>
+        <div class="video-pequeño">
+          <div class="video-texto">
+            <span class="video-emoji">😊</span>
+            <span class="video-nombre">Yo</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="controles-video">
+        <div class="boton-control" title="Cámara">🎥</div>
+        <div class="boton-control" title="Micrófono">🎤</div>
+        <div class="boton-control" title="Chat">💬</div>
+        <div class="boton-control terminar" title="Colgar">📞</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOMENTOS -->
+  <section class="momentos-section">
+    <h2 class="section-title">💫 Nuestros Momentos Favoritos 💫</h2>
+    <div class="momentos-grid">
+
+      <div class="momento" style="--fd:3.2s;--fdel:0s">
+        <span class="icono">🏠</span>
+        <h3>En Casa de tu Mamá</h3>
+        <p>Siempre encuentras ese tiempo para mí, sin importar dónde estés. Tu dedicación me hace sentir especial.</p>
+      </div>
+
+      <div class="momento" style="--fd:2.8s;--fdel:.4s">
+        <span class="icono">👶</span>
+        <h3>Cuidando a los Niños</h3>
+        <p>Incluso cuando estás ocupada, me haces un espacio. Esos momentos robados son los más preciosos.</p>
+      </div>
+
+      <div class="momento" style="--fd:3.5s;--fdel:.8s">
+        <span class="icono">🌃</span>
+        <h3>En el Depa</h3>
+        <p>Nuestro momento más íntimo, donde podemos ser completamente nosotros sin interrupciones.</p>
+      </div>
+
+      <div class="momento" style="--fd:3s;--fdel:1.1s">
+        <span class="icono">🌙</span>
+        <h3>Hasta Muy Tarde</h3>
+        <p>Esas noches donde el tiempo no importa, solo existimos tú y yo en nuestra burbuja de amor.</p>
+      </div>
+
+      <div class="momento" style="--fd:3.3s;--fdel:1.5s">
+        <span class="icono">🌅</span>
+        <h3>Hasta Muy Temprano</h3>
+        <p>Comenzar el día viéndote es la mejor forma de despertar, aunque sea a través de una pantalla.</p>
+      </div>
+
+      <div class="momento" style="--fd:2.6s;--fdel:1.9s">
+        <span class="icono">🔥</span>
+        <h3>Momentos Especiales</h3>
+        <p>Cuando la llamada toma un giro más íntimo... esos momentos también son parte de nuestra conexión y me hacen tan feliz, mi bubu hermosa 😏💕</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GALERÍA -->
+  <section class="galeria-section">
+    <h2 class="section-title">💜 Capturas del Corazón 💜</h2>
+    <div class="galeria-grid">
+      <div class="gif-card"><img src="assent/GIF6.gif"  alt="Videollamada"></div>
+      <div class="gif-card"><img src="assent/JPG5.jpg"  alt="Videollamada"></div>
+      <div class="gif-card"><img src="assent/GIF7.gif"  alt="Videollamada"></div>
+      <div class="gif-card"><img src="assent/GIF8.gif"  alt="Videollamada"></div>
+      <div class="gif-card"><img src="assent/JPG6.jpg"  alt="Videollamada"></div>
+      <div class="gif-card"><img src="assent/GIF9.gif"  alt="Videollamada"></div>
+    </div>
+  </section>
+
+  <!-- TEXTO DESTACADO -->
+  <div class="texto-destacado">
+    <div class="bg-deco">📱</div>
+
+    <p><span class="emoji-grande">💭</span>Apenas estamos a distancia, estamos solos con nuestras emociones, y la forma de expresarlas es a través de la pantalla, ya que es la única forma de vernos en este mundo tan solitario.</p>
+
+    <p><span class="emoji-grande">✨</span>Cada vez que estamos en llamada, mi mundo se calma y todo se pone de colores. La ansiedad desaparece, los problemas se hacen pequeños, y solo existe tu sonrisa iluminando mi pantalla.</p>
+
+    <div class="inner-highlight">
+      <p><strong>Tú, sin importar dónde estés</strong> — ya sea donde tu mamá, con los niños, o en el depa — siempre tienes ese tiempo para que estemos en llamadas. Ya sea hasta muy tarde o hasta muy temprano, siempre encuentras la forma de hacerme sentir que soy importante para ti.</p>
     </div>
 
-    <script>
-        // ============ SISTEMA DE MÚSICA ============
-        const playlist = [
-            { file: 'assent/The-First-Time.mp3', name: 'The First Time' },
-            { file: 'assent/There-You-Are.mp3', name: 'There You Are' },
-            { file: 'assent/Die-With-A-Smile.mp3', name: 'Die With A Smile' },
-            { file: 'assent/i-wish-i-hated-you.mp3', name: 'I Wish I Hated You' },
-            { file: 'assent/blue.mp3', name: 'Blue' },
-            { file: 'assent/Beautiful-Things.mp3', name: 'Beautiful Things' },
-            { file: 'assent/No-One-Noticed.mp3', name: 'No One Noticed' },
-            { file: 'assent/Indigo.mp3', name: 'Indigo' },
-            { file: 'assent/With-You.mp3', name: 'With You' },
-            { file: 'assent/number-one-girl.mp3', name: 'Number One Girl' },
-            { file: 'assent/TWENTIES.mp3', name: 'Twenties' }
-        ];
+    <p><span class="emoji-grande">💜</span>Con el simple hecho de que nos mostremos uno al otro, esto se vuelve una locura y mi cabeza explota. Verte, escucharte, sentir que estás ahí aunque sea virtualmente... es lo que hace que la distancia sea soportable.</p>
 
-        const audio = document.getElementById('backgroundMusic');
-        const musicControl = document.getElementById('musicControl');
-        const musicIcon = document.getElementById('musicIcon');
-        const musicText = document.getElementById('musicText');
-        const songInfo = document.getElementById('songInfo');
-        const currentSongName = document.getElementById('currentSongName');
-        const musicNotification = document.getElementById('musicNotification');
-        let isPlaying = false;
-        let currentSongIndex = 0;
+    <p><span class="emoji-grande">❤️</span>Sin contar cuando nos ponemos horny, pero eso ya es otro tema y la llamada pasa a otros lados... pero hasta eso me pone feliz, mi bubu hermosa. Porque cada faceta de nuestra relación, desde las conversaciones más profundas hasta los momentos más íntimos, todo me hace amarte más.</p>
 
-        audio.volume = 0.7;
+    <p><span class="emoji-grande">🌟</span>Cada videollamada es un recordatorio de que lo nuestro es real, de que vale la pena esperar, de que pronto ya no necesitaremos pantallas para vernos porque estaremos juntos físicamente. Pero hasta ese día, seguiré amando cada segundo que pasamos conectados.</p>
+  </div>
 
-        function loadSong(index) {
-            currentSongIndex = index;
-            audio.src = playlist[index].file;
-            currentSongName.textContent = playlist[index].name;
-            saveMusicState(isPlaying, 0, index);
-        }
+  <!-- MENSAJE FINAL -->
+  <div class="mensaje-final">
+    <div class="mf-orbit"></div>
+    <h2>💖 Gracias por Cada Llamada 💖</h2>
+    <p>Por hacer tiempo para mí sin importar dónde estés.</p>
+    <p>Por quedarte hasta tarde o despertarte temprano solo para verme.</p>
+    <p>Por hacer que mi mundo se llene de colores cada vez que apareces en mi pantalla.</p>
+    <p>Por ser mi paz en medio del caos.</p>
+    <p><strong>Te amo, mi bubu hermosa. Cada llamada contigo es un pedacito de cielo. 💕</strong></p>
+  </div>
 
-        function playNextSong() {
-            currentSongIndex = (currentSongIndex + 1) % playlist.length;
-            loadSong(currentSongIndex);
-            if (isPlaying) { audio.play().catch(e => console.log('Error:', e)); }
-        }
+</div><!-- /container -->
 
-        audio.addEventListener('ended', playNextSong);
+<script>
+'use strict';
 
-        function saveMusicState(playing, time, songIndex) {
-            localStorage.setItem('musicPlaying', playing);
-            localStorage.setItem('musicTime', time);
-            localStorage.setItem('currentSong', songIndex);
-        }
+/* ── FONDOS GENERATIVOS ── */
+(function buildBg() {
 
-        function loadMusicState() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-            const savedSong = parseInt(localStorage.getItem('currentSong')) || 0;
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            
-            loadSong(savedSong);
-            audio.load();
-            
-            if (wasPlaying) {
-                sessionStorage.setItem('musicNavigating', 'true');
-                audio.currentTime = savedTime;
-                
-                if (hasInteracted) {
-                    setTimeout(() => {
-                        audio.currentTime = savedTime;
-                        audio.play().then(() => {
-                            isPlaying = true;
-                            updateMusicButton();
-                            showSongInfo();
-                            sessionStorage.removeItem('musicNavigating');
-                        }).catch(() => activatePlanB(savedTime));
-                    }, 100);
-                } else {
-                    activatePlanB(savedTime);
-                }
-            }
-        }
-        
-        function activatePlanB(savedTime) {
-            const events = ['click', 'touchstart', 'keydown', 'mousemove', 'scroll'];
-            const resumeMusic = () => {
-                audio.currentTime = savedTime;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                    sessionStorage.removeItem('musicNavigating');
-                    localStorage.setItem('userHasInteracted', 'true');
-                });
-                events.forEach(e => document.removeEventListener(e, resumeMusic));
-            };
-            events.forEach(e => document.addEventListener(e, resumeMusic, { once: true, capture: true }));
-            isPlaying = false;
-            updateMusicButton();
-        }
+  // Partículas — blancas/violetas claras
+  const pCont   = document.getElementById('particles');
+  const pColors = ['rgba(255,255,255,.95)','#d1c4e9','#b39ddb','rgba(255,255,255,.7)','#e8d5ff','#f3e8ff'];
+  for (let i = 0; i < 70; i++) {
+    const p  = document.createElement('div');
+    p.className = 'particle';
+    const sz  = Math.random() * 3.5 + .8;
+    const clr = pColors[Math.floor(Math.random() * pColors.length)];
+    p.style.cssText = `
+      width:${sz}px;height:${sz}px;
+      left:${Math.random()*100}%;
+      background:${clr};
+      box-shadow:0 0 ${sz*3}px ${clr};
+      animation-duration:${10+Math.random()*18}s;
+      animation-delay:-${Math.random()*22}s;
+    `;
+    pCont.appendChild(p);
+  }
 
-        function showSongInfo() { songInfo.style.display = 'block'; }
-        function hideSongInfo() { songInfo.style.display = 'none'; }
+  // Estrellas
+  const sCont = document.getElementById('stars-bg');
+  for (let i = 0; i < 160; i++) {
+    const s  = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 2.5 + .8;
+    s.style.cssText = `
+      width:${sz}px; height:${sz}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      background:rgba(255,255,255,${.35+Math.random()*.55});
+      animation-delay:${Math.random()*5}s;
+      animation-duration:${1.5+Math.random()*3}s;
+    `;
+    sCont.appendChild(s);
+  }
 
-        function updateMusicButton() {
-            if (isPlaying) {
-                musicIcon.textContent = '⏸️';
-                musicText.textContent = 'Pausar Música';
-                musicControl.classList.add('playing');
-                musicControl.style.animation = 'musicPulse 2s infinite';
-                musicNotification.style.display = 'none';
-                showSongInfo();
-            } else {
-                const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-                if (wasPlaying) {
-                    musicIcon.textContent = '▶️';
-                    musicText.textContent = 'Continuar Música';
-                    musicControl.style.animation = 'pulse 1.5s infinite';
-                    musicNotification.style.display = 'flex';
-                } else {
-                    musicIcon.textContent = '🎵';
-                    musicText.textContent = 'Reproducir Música';
-                    musicControl.style.animation = 'none';
-                    musicNotification.style.display = 'none';
-                }
-                musicControl.classList.remove('playing');
-                hideSongInfo();
-            }
-        }
+  // Corazones flotantes de fondo — temática violeta
+  const hCont  = document.getElementById('hearts-bg');
+  const hearts = ['💜','💙','💕','💖','✨','🌟','📱','💻'];
+  for (let i = 0; i < 22; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+    h.style.cssText = `
+      left:${Math.random()*100}%;
+      animation-delay:${Math.random()*18}s;
+      animation-duration:${12+Math.random()*12}s;
+      font-size:${1.5+Math.random()*2}em;
+    `;
+    hCont.appendChild(h);
+  }
 
-        musicControl.addEventListener('click', function() {
-            localStorage.setItem('userHasInteracted', 'true');
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                saveMusicState(false, audio.currentTime, currentSongIndex);
-            } else {
-                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-                audio.currentTime = savedTime;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    saveMusicState(true, audio.currentTime, currentSongIndex);
-                });
-            }
-            updateMusicButton();
-        });
+  // Decoraciones del hero
+  const decoEl = document.getElementById('hero-deco');
+  const dItems = ['💜','💙','✨','📱','🌟','💫','💻','❤️'];
+  const dPos   = [
+    {top:'8%',  left:'3%',  sz:'2em',   dur:'2.8s', del:'0s',   rot:'-12deg'},
+    {top:'12%', left:'90%', sz:'1.7em', dur:'3.2s', del:'0.6s', rot:'15deg' },
+    {top:'60%', left:'2%',  sz:'1.9em', dur:'2.5s', del:'1.3s', rot:'-8deg' },
+    {top:'65%', left:'91%', sz:'2.2em', dur:'3s',   del:'0.3s', rot:'10deg' },
+    {top:'82%', left:'14%', sz:'1.5em', dur:'3.5s', del:'1.8s', rot:'5deg'  },
+    {top:'30%', left:'94%', sz:'1.8em', dur:'2.7s', del:'0.9s', rot:'-5deg' },
+    {top:'87%', left:'80%', sz:'2em',   dur:'3.1s', del:'2.1s', rot:'18deg' },
+    {top:'42%', left:'46%', sz:'1.4em', dur:'4s',   del:'1s',   rot:'-3deg' },
+  ];
+  dPos.forEach((d,i) => {
+    const el = document.createElement('div');
+    el.className = 'hdeco';
+    el.textContent = dItems[i];
+    el.style.cssText = `top:${d.top};left:${d.left};font-size:${d.sz};--dur:${d.dur};--del:${d.del};--rot:${d.rot};`;
+    decoEl.appendChild(el);
+  });
+})();
 
-        audio.addEventListener('timeupdate', () => { if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIndex); });
-        audio.addEventListener('play', () => { isPlaying = true; updateMusicButton(); });
-        audio.addEventListener('pause', () => { if (!audio.ended) { isPlaying = false; updateMusicButton(); } });
-        window.addEventListener('beforeunload', () => { if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIndex); });
-        
-        audio.addEventListener('canplay', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const isNavigating = sessionStorage.getItem('musicNavigating') === 'true';
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            if (wasPlaying && isNavigating && !isPlaying && hasInteracted) {
-                audio.currentTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                    sessionStorage.removeItem('musicNavigating');
-                });
-            }
-        });
-        
-        audio.addEventListener('loadedmetadata', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            if (wasPlaying && savedTime > 0 && !isPlaying && hasInteracted) {
-                audio.currentTime = savedTime;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                });
-            }
-        });
-        
-        document.addEventListener('visibilitychange', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            if (!document.hidden && wasPlaying && !isPlaying && hasInteracted) {
-                audio.currentTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                });
-            }
-        });
+/* ── CORAZONES FLOTANTES AL HOVER ── */
+function crearCorazon() {
+  const items = ['💜','💙','💕','💖','💓','📱','✨'];
+  const c = document.createElement('div');
+  c.className = 'corazon';
+  c.textContent = items[Math.floor(Math.random() * items.length)];
+  c.style.left   = Math.random() * 100 + '%';
+  c.style.bottom = '-50px';
+  document.body.appendChild(c);
+  setTimeout(() => c.remove(), 4000);
+}
+setInterval(crearCorazon, 1800);
 
-        // ============ RESTO DEL CÓDIGO ORIGINAL ============
-        function crearEstrellas() {
-            const starsContainer = document.getElementById('stars');
-            for (let i = 0; i < 150; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                starsContainer.appendChild(star);
-            }
-        }
+/* ── SCROLL REVEAL ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
 
-        function crearPantallas() {
-            const pantallasContainer = document.getElementById('pantallas');
-            for (let i = 0; i < 8; i++) {
-                const pantalla = document.createElement('div');
-                pantalla.className = 'pantalla-flotante';
-                pantalla.style.left = Math.random() * 100 + '%';
-                pantalla.style.top = Math.random() * 100 + '%';
-                pantalla.style.animationDelay = Math.random() * 20 + 's';
-                pantallasContainer.appendChild(pantalla);
-            }
-        }
+document.querySelectorAll('.momento, .gif-card, .texto-destacado, .mensaje-final, .videollamada-simulador').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(34px)';
+  el.style.transition = 'opacity .75s ease, transform .8s cubic-bezier(.16,1,.3,1)';
+  observer.observe(el);
+});
 
-        function crearCorazon() {
-            const corazones = ['❤️', '💕', '💖', '💗', '💓', '💝', '📱', '💻'];
-            const corazon = document.createElement('div');
-            corazon.className = 'corazon';
-            corazon.textContent = corazones[Math.floor(Math.random() * corazones.length)];
-            corazon.style.left = Math.random() * 100 + '%';
-            corazon.style.bottom = '-50px';
-            document.body.appendChild(corazon);
-            setTimeout(() => corazon.remove(), 4000);
-        }
+/* ── MÚSICA — lógica original 100% preservada ── */
+const playlist = [
+  {file:'assent/The-First-Time.mp3',     name:'The First Time'    },
+  {file:'assent/There-You-Are.mp3',       name:'There You Are'     },
+  {file:'assent/Die-With-A-Smile.mp3',    name:'Die With A Smile'  },
+  {file:'assent/i-wish-i-hated-you.mp3', name:'I Wish I Hated You'},
+  {file:'assent/blue.mp3',               name:'Blue'              },
+  {file:'assent/Beautiful-Things.mp3',   name:'Beautiful Things'  },
+  {file:'assent/No-One-Noticed.mp3',     name:'No One Noticed'    },
+  {file:'assent/Indigo.mp3',             name:'Indigo'            },
+  {file:'assent/With-You.mp3',           name:'With You'          },
+  {file:'assent/number-one-girl.mp3',    name:'Number One Girl'   },
+  {file:'assent/TWENTIES.mp3',           name:'Twenties'          }
+];
 
-        // Animación de aparición para elementos
-        const observador = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
+const audio      = document.getElementById('backgroundMusic');
+const musicCtrl  = document.getElementById('musicControl');
+const musicIcon  = document.getElementById('musicIcon');
+const musicText  = document.getElementById('musicText');
+const songInfo   = document.getElementById('songInfo');
+const songNameEl = document.getElementById('currentSongName');
+const musicNotif = document.getElementById('musicNotification');
+let isPlaying = false, currentSongIdx = 0;
+audio.volume = 0.7;
 
-        if (document.readyState === 'loading') {
-            window.addEventListener('DOMContentLoaded', initializePage);
-        } else {
-            initializePage();
-        }
-        
-        function initializePage() {
-            crearEstrellas();
-            crearPantallas();
-            setInterval(crearCorazon, 1000);
-            loadMusicState();
-            
-            document.querySelectorAll('.momento, .imagen-item').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'all 0.6s ease-out';
-                observador.observe(el);
-            });
-        }
-    </script>
+function loadSong(idx) {
+  currentSongIdx = idx;
+  audio.src = playlist[idx].file;
+  if (songNameEl) songNameEl.textContent = playlist[idx].name;
+  saveMusicState(isPlaying, 0, idx);
+}
+function playNextSong() {
+  currentSongIdx = (currentSongIdx + 1) % playlist.length;
+  loadSong(currentSongIdx);
+  if (isPlaying) audio.play().catch(() => {});
+}
+audio.addEventListener('ended', playNextSong);
+function saveMusicState(p, t, idx) {
+  localStorage.setItem('musicPlaying', p);
+  localStorage.setItem('musicTime', t);
+  localStorage.setItem('currentSong', idx);
+}
+function updateMusicButton() {
+  const was = localStorage.getItem('musicPlaying') === 'true';
+  if (isPlaying) {
+    musicIcon.textContent = '⏸️';
+    musicText.textContent = 'Pausar Música';
+    musicCtrl.classList.add('playing');
+    musicNotif.style.display = 'none';
+    songInfo.style.display = 'block';
+  } else {
+    musicIcon.textContent = was ? '▶️' : '🎵';
+    musicText.textContent = was ? 'Continuar Música' : 'Reproducir Música';
+    musicCtrl.classList.remove('playing');
+    musicNotif.style.display = was ? 'flex' : 'none';
+    songInfo.style.display = 'none';
+  }
+}
+function activatePlanB(t) {
+  const evs = ['click','touchstart','keydown','mousemove','scroll'];
+  const go  = () => {
+    audio.currentTime = t;
+    audio.play().then(() => {
+      isPlaying = true; updateMusicButton();
+      localStorage.setItem('userHasInteracted','true');
+      sessionStorage.removeItem('musicNavigating');
+    }).catch(() => {});
+    evs.forEach(ev => document.removeEventListener(ev, go));
+  };
+  evs.forEach(ev => document.addEventListener(ev, go, {once:true, capture:true}));
+  isPlaying = false; updateMusicButton();
+}
+function loadMusicState() {
+  const was = localStorage.getItem('musicPlaying') === 'true';
+  const t   = parseFloat(localStorage.getItem('musicTime')) || 0;
+  const idx = parseInt(localStorage.getItem('currentSong')) || 0;
+  const hi  = localStorage.getItem('userHasInteracted') === 'true';
+  loadSong(idx); audio.load();
+  if (was) {
+    sessionStorage.setItem('musicNavigating','true');
+    audio.currentTime = t;
+    if (hi) {
+      setTimeout(() => {
+        audio.currentTime = t;
+        audio.play().then(() => {
+          isPlaying = true; updateMusicButton();
+          sessionStorage.removeItem('musicNavigating');
+        }).catch(() => activatePlanB(t));
+      }, 100);
+    } else activatePlanB(t);
+  }
+}
+musicCtrl.addEventListener('click', () => {
+  localStorage.setItem('userHasInteracted','true');
+  if (isPlaying) {
+    audio.pause(); isPlaying = false;
+    saveMusicState(false, audio.currentTime, currentSongIdx);
+    updateMusicButton();
+  } else {
+    const t = parseFloat(localStorage.getItem('musicTime')) || 0;
+    audio.currentTime = t;
+    audio.play().then(() => {
+      isPlaying = true;
+      saveMusicState(true, audio.currentTime, currentSongIdx);
+      updateMusicButton();
+    }).catch(() => {});
+  }
+});
+audio.addEventListener('timeupdate', () => { if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIdx); });
+audio.addEventListener('play',  () => { isPlaying = true;  updateMusicButton(); });
+audio.addEventListener('pause', () => { if (!audio.ended) { isPlaying = false; updateMusicButton(); } });
+window.addEventListener('beforeunload', () => { if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIdx); });
+['canplay','loadedmetadata'].forEach(ev => {
+  audio.addEventListener(ev, () => {
+    const was = localStorage.getItem('musicPlaying') === 'true';
+    const t   = parseFloat(localStorage.getItem('musicTime')) || 0;
+    const hi  = localStorage.getItem('userHasInteracted') === 'true';
+    const nav = sessionStorage.getItem('musicNavigating') === 'true';
+    if (was && !isPlaying && hi && (ev === 'canplay' ? nav : t > 0)) {
+      audio.currentTime = t;
+      audio.play().then(() => { isPlaying = true; updateMusicButton(); sessionStorage.removeItem('musicNavigating'); }).catch(() => {});
+    }
+  });
+});
+document.addEventListener('visibilitychange', () => {
+  const was = localStorage.getItem('musicPlaying') === 'true';
+  const hi  = localStorage.getItem('userHasInteracted') === 'true';
+  if (!document.hidden && was && !isPlaying && hi) {
+    audio.currentTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+    audio.play().then(() => { isPlaying = true; updateMusicButton(); }).catch(() => {});
+  }
+});
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', loadMusicState);
+} else { loadMusicState(); }
+</script>
 </body>
 </html>
