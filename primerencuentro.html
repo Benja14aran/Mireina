@@ -1,824 +1,900 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuestro Primer Encuentro 💑</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nuestro Primer Encuentro 💑</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════════
+   RESET
+══════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
+/* ══════════════════════════════════════════
+   FONDO — rosa vibrante con tonos claros y oscuros
+══════════════════════════════════════════ */
+body {
+  font-family:'Rajdhani',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+  padding:28px 20px 90px;
+  background:#d81b60; /* base magenta */
+}
 
-        /* Estilos para el control de música */
-        #musicControl {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1001;
-            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.5);
-            font-weight: 700;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        #musicControl #musicNotification {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-        }
+/* Gradiente multi-tono con claros y oscuros */
+body::before {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 72% 52% at 5%  7%,  #fce4ec 0%, transparent 50%),
+    radial-gradient(ellipse 58% 42% at 95% 4%,  #f8bbd0 0%, transparent 48%),
+    radial-gradient(ellipse 50% 38% at 50% 14%, rgba(255,192,203,.7) 0%, transparent 52%),
+    radial-gradient(ellipse 45% 48% at 0%  62%, #880e4f 0%, transparent 50%),
+    radial-gradient(ellipse 52% 43% at 100% 78%, #ad1457 0%, transparent 50%),
+    radial-gradient(ellipse 65% 42% at 50% 100%, #6a0030 0%, transparent 55%),
+    linear-gradient(155deg, #f48fb1 0%, #e91e63 28%, #c2185b 55%, #f06292 80%, #ec407a 100%);
+}
 
-        #musicControl:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.7);
-        }
+/* Textura de puntos */
+body::after {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:radial-gradient(circle, rgba(255,255,255,.09) 1px, transparent 1px);
+  background-size:32px 32px;
+}
 
-        #musicControl.playing {
-            animation: musicPulse 2s infinite;
-        }
+/* ══════════════════════════════════════════
+   BLOBS CSS ANIMADOS
+══════════════════════════════════════════ */
+#blobs { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.blob { position:absolute; border-radius:50%; filter:blur(72px); }
 
-        @keyframes musicPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
+.blob-1 { width:500px; height:500px; background:#fce4ec; top:-130px; left:-90px; opacity:.52;
+  animation:b1 14s ease-in-out infinite alternate; }
+@keyframes b1 {
+  0%  { transform:translate(0,0) scale(1);      opacity:.5; }
+  50% { transform:translate(75px,55px) scale(1.12); opacity:.65; }
+  100%{ transform:translate(-35px,95px) scale(.92); opacity:.44; }
+}
+.blob-2 { width:370px; height:370px; background:#f8bbd0; top:-70px; right:-70px; opacity:.48;
+  animation:b2 18s ease-in-out infinite alternate; }
+@keyframes b2 {
+  0%  { transform:translate(0,0) scale(1);      opacity:.45; }
+  50% { transform:translate(-55px,85px) scale(1.18); opacity:.6; }
+  100%{ transform:translate(45px,35px) scale(.88);  opacity:.38; }
+}
+.blob-3 { width:440px; height:440px; background:#880e4f; bottom:-110px; left:-90px; opacity:.52;
+  animation:b3 16s ease-in-out infinite alternate; }
+@keyframes b3 {
+  0%  { transform:translate(0,0) scale(1);      opacity:.5; }
+  50% { transform:translate(95px,-65px) scale(1.15); opacity:.65; }
+  100%{ transform:translate(25px,55px) scale(.9);    opacity:.44; }
+}
+.blob-4 { width:390px; height:390px; background:#ad1457; bottom:-95px; right:-70px; opacity:.5;
+  animation:b4 20s ease-in-out infinite alternate; }
+@keyframes b4 {
+  0%  { transform:translate(0,0) scale(1);    opacity:.5; }
+  50% { transform:translate(-85px,-45px) scale(1.1); opacity:.6; }
+  100%{ transform:translate(35px,75px) scale(.95);  opacity:.4; }
+}
+.blob-5 { width:310px; height:310px; background:#fce4ec; top:35%; left:37%; opacity:.22;
+  animation:b5 22s ease-in-out infinite alternate; }
+@keyframes b5 {
+  0%  { transform:translate(0,0) scale(.85);  opacity:.22; }
+  50% { transform:translate(-65px,75px) scale(1.05); opacity:.36; }
+  100%{ transform:translate(85px,-45px) scale(.8);  opacity:.18; }
+}
+.blob-6 { width:270px; height:270px; background:#e91e63; top:56%; right:10%; opacity:.35;
+  animation:b6 12s ease-in-out infinite alternate; }
+@keyframes b6 {
+  0%  { transform:translate(0,0) scale(1);    opacity:.32; }
+  100%{ transform:translate(-45px,-75px) scale(1.22); opacity:.5; }
+}
 
-        .stars {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 1;
-        }
+/* ══════════════════════════════════════════
+   PARTÍCULAS / ESTRELLAS / CORAZONES BG
+══════════════════════════════════════════ */
+#particles { position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+.particle  { position:absolute; border-radius:50%; opacity:0; animation:pDrift linear infinite; }
+@keyframes pDrift {
+  0%  { transform:translateY(108vh) scale(.3); opacity:0; }
+  5%  { opacity:.9; }
+  95% { opacity:.6; }
+  100%{ transform:translateY(-8vh) scale(1.2); opacity:0; }
+}
 
-        .star {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
+#hearts-bg { position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+.heart-float { position:absolute; opacity:.13; animation:floatHeart linear infinite; }
+@keyframes floatHeart {
+  0%  { transform:translateY(105vh) rotate(0deg); opacity:0; }
+  8%  { opacity:.13; }
+  92% { opacity:.13; }
+  100%{ transform:translateY(-5vh) rotate(360deg); opacity:0; }
+}
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
+#stars { position:fixed; inset:0; z-index:1; pointer-events:none; }
+.star  { position:absolute; border-radius:50%; animation:twinkle ease-in-out infinite; }
+@keyframes twinkle { 0%,100%{opacity:.15} 50%{opacity:1} }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
+.corazon {
+  position:fixed; font-size:1.9em; pointer-events:none;
+  z-index:999; animation:floatUp 4s linear forwards;
+}
+@keyframes floatUp {
+  0%  { opacity:1; transform:translateY(0) rotate(0deg); }
+  100%{ opacity:0; transform:translateY(-900px) rotate(360deg); }
+}
 
-        .btn-volver {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.95);
-            color: #f5576c;
-            padding: 15px 35px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
+/* ══════════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════════ */
+.container {
+  position:relative; z-index:2;
+  max-width:1020px;
+  margin:0 auto;
+}
 
-        .btn-volver:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.35);
-            background: white;
-        }
+/* ── Botón volver ── */
+.btn-volver {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:13px 30px; border-radius:30px;
+  background:rgba(255,255,255,.22);
+  border:1.5px solid rgba(255,255,255,.55);
+  backdrop-filter:blur(16px) saturate(1.5);
+  color:#fff; font-weight:700; font-size:.95rem;
+  text-decoration:none; letter-spacing:.05em;
+  box-shadow:0 6px 20px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.3);
+  transition:all .3s ease;
+  margin-bottom:32px;
+  text-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+.btn-volver:hover {
+  transform:translateY(-3px);
+  background:rgba(255,255,255,.32);
+  box-shadow:0 12px 35px rgba(0,0,0,.22), 0 0 20px rgba(255,255,255,.1);
+}
 
-        .contenido {
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 40px;
-            padding: 60px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: fadeIn 1s ease-out;
-        }
+/* ══════════════════════════════════════════
+   HERO HEADER
+══════════════════════════════════════════ */
+.hero {
+  text-align:center;
+  padding:54px 36px 46px;
+  border-radius:36px;
+  backdrop-filter:blur(24px) saturate(1.6);
+  background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.08));
+  border:1.5px solid rgba(255,255,255,.38);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.12),
+    0 8px 36px rgba(0,0,0,.2),
+    0 30px 75px rgba(100,0,40,.22),
+    inset 0 1px 0 rgba(255,255,255,.32);
+  position:relative; overflow:hidden;
+  margin-bottom:36px;
+  animation:revealUp .9s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes revealUp {
+  from{opacity:0;transform:translateY(45px) scale(.97)}
+  to  {opacity:1;transform:translateY(0) scale(1)}
+}
+.hero::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:36px 36px 0 0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),rgba(255,200,220,.9),rgba(255,255,255,.85),transparent);
+}
+.hero::after {
+  content:''; position:absolute; top:-70px; right:-70px;
+  width:240px; height:240px; border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.12),transparent 70%);
+}
 
-        h1 {
-            color: #f5576c;
-            font-size: 3.5em;
-            text-align: center;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
+/* Decoraciones hero */
+#hero-deco { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.hdeco {
+  position:absolute; opacity:.1;
+  animation:hdPulse var(--dur,3s) ease-in-out infinite;
+  animation-delay:var(--del,0s);
+}
+@keyframes hdPulse {
+  0%,100%{transform:scale(1) rotate(var(--rot,0deg)); opacity:.1}
+  50%    {transform:scale(1.3) rotate(var(--rot,0deg)); opacity:.2}
+}
 
-        .subtitulo {
-            text-align: center;
-            color: #f093fb;
-            font-size: 1.3em;
-            margin-bottom: 40px;
-            font-style: italic;
-        }
+.hero-eyebrow {
+  font-size:.78rem; letter-spacing:.35em; text-transform:uppercase;
+  color:rgba(255,255,255,.6); margin-bottom:16px;
+}
+.hero h1 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(2rem,5.5vw,3.8rem);
+  font-weight:900; line-height:1.06;
+  color:#fff;
+  text-shadow:0 0 40px rgba(255,255,255,.55), 0 0 80px rgba(255,107,157,.5), 0 4px 20px rgba(100,0,40,.35);
+  animation:hGlow 3s ease-in-out infinite;
+}
+@keyframes hGlow {
+  0%,100%{text-shadow:0 0 40px rgba(255,255,255,.55),0 0 80px rgba(255,107,157,.5),0 4px 20px rgba(100,0,40,.35)}
+  50%    {text-shadow:0 0 65px rgba(255,255,255,.8), 0 0 120px rgba(255,107,157,.8),0 4px 24px rgba(100,0,40,.5)}
+}
+.hero-sub {
+  margin-top:12px;
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.2rem; color:rgba(255,255,255,.78); letter-spacing:.08em;
+  text-shadow:0 1px 6px rgba(0,0,0,.18);
+}
+.fecha-badge {
+  display:inline-block; margin-top:26px;
+  padding:14px 44px; border-radius:50px;
+  background:rgba(255,255,255,.2);
+  border:1.5px solid rgba(255,255,255,.55);
+  backdrop-filter:blur(14px);
+  font-family:'Cinzel',serif; font-size:1.1rem; font-weight:700;
+  color:#fff; letter-spacing:.08em;
+  box-shadow:0 6px 28px rgba(0,0,0,.18), 0 0 0 1px rgba(255,255,255,.1), inset 0 1px 0 rgba(255,255,255,.28);
+  animation:badgePulse 2.5s ease-in-out infinite;
+  text-shadow:0 1px 6px rgba(0,0,0,.2);
+}
+@keyframes badgePulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+.header-line {
+  width:200px; height:1.5px; margin:20px auto 0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);
+}
 
-        /* Timeline de la historia */
-        .timeline {
-            position: relative;
-            margin: 50px 0;
-            padding: 20px 0;
-        }
+/* ══════════════════════════════════════════
+   TIMELINE CINEMATOGRÁFICO
+══════════════════════════════════════════ */
+.timeline-section { position:relative; margin:44px 0; padding:10px 0; }
 
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(to bottom, #f093fb, #f5576c);
-            border-radius: 2px;
-        }
+/* Línea central */
+.timeline-section::before {
+  content:''; position:absolute; left:50%; transform:translateX(-50%);
+  top:0; bottom:0; width:3px; border-radius:2px;
+  background:linear-gradient(to bottom,
+    transparent,
+    rgba(255,255,255,.55) 8%,
+    rgba(255,255,255,.7)  50%,
+    rgba(255,255,255,.55) 92%,
+    transparent);
+}
+@media(max-width:700px){ .timeline-section::before{ left:28px; } }
 
-        .timeline-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 40px 0;
-            position: relative;
-        }
+.tl-item {
+  display:flex; justify-content:space-between; align-items:center;
+  margin:50px 0; position:relative;
+  animation:revealUp .8s cubic-bezier(.16,1,.3,1) both;
+}
+.tl-item:nth-child(1){ animation-delay:.1s }
+.tl-item:nth-child(2){ animation-delay:.25s }
+.tl-item:nth-child(3){ animation-delay:.4s }
+.tl-item:nth-child(4){ animation-delay:.55s }
 
-        .timeline-content {
-            width: 45%;
-            background: linear-gradient(135deg, #fff5f8 0%, #ffe6f0 100%);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.2);
-            position: relative;
-            transition: all 0.3s ease;
-        }
+/* Icono central */
+.tl-icon {
+  position:absolute; left:50%; transform:translateX(-50%);
+  width:66px; height:66px; border-radius:50%; z-index:10;
+  display:flex; align-items:center; justify-content:center; font-size:1.8rem;
+  backdrop-filter:blur(18px) saturate(1.5);
+  background:rgba(255,255,255,.22);
+  border:2px solid rgba(255,255,255,.55);
+  box-shadow:0 0 28px rgba(255,255,255,.2), 0 0 0 6px rgba(255,255,255,.08), 0 6px 20px rgba(0,0,0,.18);
+  transition:all .3s ease;
+}
+.tl-icon:hover {
+  transform:translateX(-50%) scale(1.15);
+  box-shadow:0 0 45px rgba(255,255,255,.35), 0 0 0 10px rgba(255,255,255,.12);
+}
 
-        .timeline-content:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(245, 87, 108, 0.3);
-        }
+/* Card de contenido */
+.tl-card {
+  width:45%;
+  backdrop-filter:blur(22px) saturate(1.6);
+  background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.08));
+  border:1.5px solid rgba(255,255,255,.32);
+  border-radius:26px; padding:28px 28px 24px;
+  position:relative; overflow:hidden;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.1),
+    0 8px 30px rgba(0,0,0,.18),
+    0 20px 55px rgba(100,0,40,.18),
+    inset 0 1px 0 rgba(255,255,255,.28);
+  transition:transform .35s ease, box-shadow .35s ease;
+}
+.tl-card:hover {
+  transform:translateY(-7px);
+  box-shadow:0 0 0 1px rgba(255,255,255,.18), 0 14px 45px rgba(0,0,0,.22), 0 28px 65px rgba(100,0,40,.22), inset 0 1px 0 rgba(255,255,255,.32);
+}
+.tl-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);
+}
+/* Flechas */
+.tl-item:nth-child(odd)  .tl-card { margin-right:auto; }
+.tl-item:nth-child(odd)  .tl-card::after {
+  content:''; position:absolute; right:-11px; top:50%; transform:translateY(-50%);
+  border:11px solid transparent; border-left-color:rgba(255,255,255,.18);
+}
+.tl-item:nth-child(even) .tl-card { margin-left:auto; }
+.tl-item:nth-child(even) .tl-card::after {
+  content:''; position:absolute; left:-11px; top:50%; transform:translateY(-50%);
+  border:11px solid transparent; border-right-color:rgba(255,255,255,.18);
+}
 
-        .timeline-item:nth-child(odd) .timeline-content {
-            margin-right: auto;
-        }
+.tl-card h3 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(1rem,2vw,1.38rem);
+  font-weight:700; color:#fff; margin-bottom:10px;
+  text-shadow:0 0 14px rgba(255,255,255,.35), 0 2px 6px rgba(0,0,0,.2);
+}
+.tl-ubicacion {
+  display:flex; align-items:center; gap:7px;
+  font-size:.82rem; font-weight:700;
+  color:rgba(255,240,248,.75); margin-bottom:12px; letter-spacing:.05em;
+}
+.tl-card p {
+  color:rgba(255,255,255,.88);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.08rem; line-height:1.88;
+  text-align:justify;
+  text-shadow:0 1px 4px rgba(0,0,0,.15);
+}
 
-        .timeline-item:nth-child(even) .timeline-content {
-            margin-left: auto;
-        }
+/* Mobile timeline */
+@media(max-width:700px){
+  .tl-icon { left:28px; transform:none; }
+  .tl-card  { width:calc(100% - 88px); margin-left:76px !important; }
+  .tl-item:nth-child(odd)  .tl-card::after,
+  .tl-item:nth-child(even) .tl-card::after { display:none; }
+  .tl-icon:hover { transform:scale(1.1); }
+}
 
-        .timeline-icon {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 60px;
-            background: white;
-            border: 4px solid #f5576c;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8em;
-            z-index: 10;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+/* ══════════════════════════════════════════
+   GALERÍA DE GIFs — fondo blanco respetado
+══════════════════════════════════════════ */
+.galeria-section { margin:50px 0; }
+.section-title {
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.3rem,3vw,2rem); font-weight:700;
+  text-align:center; margin-bottom:28px;
+  color:#fff; text-shadow:0 0 22px rgba(255,255,255,.4), 0 2px 10px rgba(0,0,0,.2);
+}
 
-        .timeline-content h3 {
-            color: #f5576c;
-            font-size: 1.8em;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
+.galeria-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
+}
+@media(max-width:680px){ .galeria-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:440px){ .galeria-grid{ grid-template-columns:1fr; } }
 
-        .timeline-content .ubicacion {
-            color: #f093fb;
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+.gif-card {
+  border-radius:28px; overflow:hidden;
+  background:#fff;
+  border:2px solid rgba(255,255,255,.6);
+  box-shadow:0 8px 30px rgba(0,0,0,.2), 0 0 0 1px rgba(255,255,255,.15);
+  transition:all .4s cubic-bezier(.16,1,.3,1); position:relative;
+}
+.gif-card::before {
+  content:''; position:absolute; inset:0; z-index:1; border-radius:20px;
+  background:linear-gradient(135deg,rgba(240,147,251,.22),rgba(245,87,108,.22));
+  opacity:0; transition:opacity .3s ease;
+}
+.gif-card:hover::before { opacity:1; }
+.gif-card:hover {
+  transform:translateY(-13px) scale(1.04);
+  box-shadow:0 24px 55px rgba(0,0,0,.28), 0 0 35px rgba(255,255,255,.2);
+  border-color:rgba(255,255,255,.85);
+}
+/* GIFs: tamaño original 100% respetado */
+.gif-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: contain; 
+  display: block;
+  margin: 0 auto;
+  background: #fff; 
+  transition: transform .4s ease;
+}
 
-        .timeline-content p {
-            color: #555;
-            font-size: 1.15em;
-            line-height: 1.8;
-            text-align: justify;
-        }
+.gif-card:hover img { 
+  transform: scale(1.06); 
+}
 
-        .fecha-especial {
-            text-align: center;
-            color: white;
-            font-size: 2em;
-            font-weight: bold;
-            margin: 40px 0;
-            padding: 30px;
-            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
-            animation: pulseBox 3s infinite;
-        }
+/* ══════════════════════════════════════════
+   TEXTO DESTACADO — glass blanco sobre rosa
+══════════════════════════════════════════ */
+.texto-destacado {
+  backdrop-filter:blur(22px) saturate(1.5);
+  background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.08));
+  border:1.5px solid rgba(255,255,255,.32);
+  border-radius:28px; padding:40px 40px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.1), 0 8px 30px rgba(0,0,0,.16), 0 22px 55px rgba(100,0,40,.16), inset 0 1px 0 rgba(255,255,255,.28);
+  position:relative; overflow:hidden;
+  margin:50px 0;
+}
+.texto-destacado::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);
+}
+/* Borde izquierdo blanco */
+.texto-destacado::after {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:4px; border-radius:0 2px 2px 0;
+  background:linear-gradient(to bottom,transparent,rgba(255,255,255,.7) 30%,rgba(255,255,255,.9) 70%,transparent);
+}
+/* Emoji decorativo de fondo */
+.texto-destacado .bg-deco {
+  position:absolute; font-size:8em; opacity:.04;
+  bottom:-20px; right:-10px;
+  animation:hdPulse 5s ease-in-out infinite;
+}
+.texto-destacado p {
+  color:rgba(255,255,255,.92);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.16rem; line-height:2.05;
+  text-align:justify; margin:18px 0;
+  padding-left:10px;
+  text-shadow:0 1px 5px rgba(0,0,0,.15);
+}
+.texto-destacado p:first-of-type { margin-top:0; }
+.texto-destacado p:last-of-type  { margin-bottom:0; }
+.emoji-grande { font-size:1.55em; margin-right:10px; vertical-align:middle; }
 
-        @keyframes pulseBox {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
+/* ══════════════════════════════════════════
+   MENSAJE FINAL
+══════════════════════════════════════════ */
+.mensaje-final {
+  text-align:center; margin:50px 0 30px;
+  padding:54px 40px;
+  border-radius:32px;
+  backdrop-filter:blur(22px) saturate(1.6);
+  background:linear-gradient(145deg,rgba(255,255,255,.2),rgba(255,255,255,.09));
+  border:1.5px solid rgba(255,255,255,.42);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.12),
+    0 8px 36px rgba(0,0,0,.2),
+    0 28px 70px rgba(100,0,40,.22),
+    inset 0 1px 0 rgba(255,255,255,.32);
+  position:relative; overflow:hidden;
+  animation:revealUp .9s cubic-bezier(.16,1,.3,1) .3s both;
+}
+.mensaje-final::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:32px 32px 0 0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);
+}
+.mensaje-final::after {
+  content:'💕'; position:absolute;
+  font-size:9em; opacity:.05;
+  bottom:-25px; right:-15px;
+  animation:hdPulse 4s ease-in-out infinite;
+}
+.mensaje-final h2 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.5rem,3.5vw,2.5rem); font-weight:700; margin-bottom:22px;
+  color:#fff; text-shadow:0 0 20px rgba(255,255,255,.4), 0 2px 12px rgba(0,0,0,.18);
+}
+.mensaje-final p {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.22rem; line-height:2;
+  color:rgba(255,255,255,.9); margin:8px 0;
+  text-shadow:0 1px 5px rgba(0,0,0,.15);
+}
+.mensaje-final p strong { color:#fff; font-style:italic; font-weight:600; }
 
-        .galeria-imagenes {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin: 50px 0;
-        }
+/* ══════════════════════════════════════════
+   CONTROL DE MÚSICA
+══════════════════════════════════════════ */
+#musicControl {
+  position:fixed; bottom:28px; right:28px; z-index:1001;
+  background:rgba(255,255,255,.2);
+  border:1.5px solid rgba(255,255,255,.5); backdrop-filter:blur(16px) saturate(1.5);
+  color:#fff; padding:14px 22px; border-radius:50px;
+  cursor:pointer; font-weight:700; font-size:.98rem;
+  box-shadow:0 8px 30px rgba(0,0,0,.2), 0 0 0 1px rgba(255,255,255,.1), inset 0 1px 0 rgba(255,255,255,.28);
+  transition:all .3s ease; display:flex; align-items:center; gap:9px;
+  text-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+#musicControl:hover {
+  transform:translateY(-4px);
+  background:rgba(255,255,255,.32);
+  box-shadow:0 14px 42px rgba(0,0,0,.24), 0 0 28px rgba(255,255,255,.15);
+}
+#musicControl.playing { animation:mPulse 2s ease-in-out infinite; }
+@keyframes mPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+#musicNotification {
+  position:absolute; top:-8px; right:-8px;
+  background:#e91e63; color:#fff; border-radius:50%;
+  width:22px; height:22px; display:none;
+  align-items:center; justify-content:center;
+  font-size:.65em; font-weight:900; border:2px solid rgba(255,255,255,.6);
+  animation:nPulse 1.2s ease-in-out infinite;
+}
+@keyframes nPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+#songInfo {
+  position:fixed; bottom:84px; right:28px; z-index:1001;
+  background:rgba(80,0,30,.88); backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.28); color:#fff;
+  padding:12px 18px; border-radius:18px;
+  box-shadow:0 8px 26px rgba(0,0,0,.28); font-size:.87em;
+  max-width:240px; display:none;
+}
+#songInfo .si-label {
+  font-weight:700; margin-bottom:4px; color:#ffb3cc;
+  font-size:.78rem; letter-spacing:.1em; text-transform:uppercase;
+}
+#currentSongName { color:rgba(255,220,230,.9); }
 
-        .imagen-item {
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            transition: all 0.4s ease;
-            background: white;
-            position: relative;
-        }
-
-        .imagen-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(240, 147, 251, 0.3), rgba(245, 87, 108, 0.3));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 1;
-        }
-
-        .imagen-item:hover::before {
-            opacity: 1;
-        }
-
-        .imagen-item:hover {
-            transform: translateY(-15px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(245, 87, 108, 0.3);
-        }
-
-        .imagen-item img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .texto-destacado {
-            background: linear-gradient(135deg, #fff5f8 0%, #ffe6f0 100%);
-            padding: 40px;
-            border-radius: 25px;
-            margin: 40px 0;
-            border-left: 6px solid #f5576c;
-            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.15);
-        }
-
-        .texto-destacado p {
-            color: #555;
-            font-size: 1.3em;
-            line-height: 2;
-            text-align: justify;
-            margin: 15px 0;
-        }
-
-        .texto-destacado .emoji-grande {
-            font-size: 2em;
-            margin-right: 10px;
-        }
-
-        .mensaje-final {
-            text-align: center;
-            margin: 60px 0 40px 0;
-            padding: 50px;
-            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
-            border-radius: 30px;
-            color: white;
-            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.4);
-        }
-
-        .mensaje-final h2 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .mensaje-final p {
-            font-size: 1.4em;
-            line-height: 1.8;
-            font-weight: 500;
-        }
-
-        .corazon {
-            position: fixed;
-            font-size: 2em;
-            pointer-events: none;
-            z-index: 999;
-            animation: floatUp 4s linear;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0) rotate(0deg); }
-            100% { opacity: 0; transform: translateY(-1000px) rotate(360deg); }
-        }
-
-        @media (max-width: 768px) {
-            .contenido { padding: 40px 25px; }
-            h1 { font-size: 2.5em; }
-            .timeline::before { left: 30px; }
-            .timeline-icon { left: 30px; }
-            .timeline-content { width: calc(100% - 100px); margin-left: 80px !important; }
-            .galeria-imagenes { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
-            #musicControl { bottom: 20px; right: 20px; font-size: 0.9em; padding: 12px 20px; }
-        }
-    </style>
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media(max-width:768px){
+  body { padding:20px 16px 80px; }
+  .hero { padding:36px 20px 32px; }
+  .texto-destacado { padding:26px 22px; }
+  .mensaje-final   { padding:38px 22px; }
+  #musicControl    { bottom:18px; right:18px; }
+  #songInfo        { bottom:74px; right:18px; }
+}
+</style>
 </head>
 <body>
-    <!-- Reproductor de música de fondo -->
-    <audio id="backgroundMusic">
-        <source src="" type="audio/mpeg">
-        Tu navegador no soporta el elemento de audio.
-    </audio>
 
-    <!-- Botón de control de música -->
-    <div id="musicControl">
-        <span id="musicIcon">🎵</span>
-        <span id="musicText">Reproducir Música</span>
-        <span id="musicNotification" style="position: absolute; top: -8px; right: -8px; background: #f5576c; color: white; border-radius: 50%; width: 24px; height: 24px; display: none; align-items: center; justify-content: center; font-size: 0.7em; font-weight: 900; animation: pulse 1s infinite; border: 2px solid white;">!</span>
-    </div>
-    
-    <!-- Info de la canción actual -->
-    <div id="songInfo" style="position: fixed; bottom: 90px; right: 30px; z-index: 1001; background: rgba(26, 26, 26, 0.95); color: white; padding: 12px 20px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); font-size: 0.9em; max-width: 250px; display: none; border: 2px solid #f5576c;">
-        <div style="font-weight: 700; margin-bottom: 5px; color: #f093fb;">🎵 Reproduciendo:</div>
-        <div id="currentSongName" style="font-size: 0.95em; color: #fff;"></div>
-    </div>
+<!-- AUDIO -->
+<audio id="backgroundMusic"><source src="" type="audio/mpeg"></audio>
 
-    <div class="stars" id="stars"></div>
+<!-- MÚSICA UI -->
+<div id="musicControl" role="button">
+  <span id="musicIcon">🎵</span>
+  <span id="musicText">Reproducir Música</span>
+  <span id="musicNotification" aria-hidden="true">!</span>
+</div>
+<div id="songInfo">
+  <div class="si-label">🎵 Reproduciendo</div>
+  <div id="currentSongName"></div>
+</div>
 
-    <div class="container">
-        <a href="index.html" class="btn-volver">← Volver al inicio</a>
+<!-- FONDOS -->
+<div id="blobs"     aria-hidden="true">
+  <div class="blob blob-1"></div><div class="blob blob-2"></div>
+  <div class="blob blob-3"></div><div class="blob blob-4"></div>
+  <div class="blob blob-5"></div><div class="blob blob-6"></div>
+</div>
+<div id="hearts-bg" aria-hidden="true"></div>
+<div id="stars"     aria-hidden="true"></div>
+<div id="particles" aria-hidden="true"></div>
 
-        <div class="contenido">
-            <h1>💑 Nuestro Primer Encuentro 💑</h1>
-            <p class="subtitulo">La historia de cómo comenzó todo...</p>
+<!-- ════════════════════════════════════
+     CONTENIDO
+════════════════════════════════════ -->
+<div class="container">
 
-            <div class="fecha-especial">
-                ✨ 4 de Mayo de 2023 ✨
-            </div>
+  <a href="index.html" class="btn-volver">← Volver al inicio</a>
 
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-icon">🌟</div>
-                    <div class="timeline-content">
-                        <h3>Todo Comenzó a Distancia</h3>
-                        <div class="ubicacion">
-                            <span>📍</span>
-                            <span>Villarrica ❤️ Ovalle</span>
-                        </div>
-                        <p>Yo en Villarrica, tú en Ovalle. Kilómetros de distancia que no impedían que nuestros corazones se acercaran cada vez más. Cada mensaje, cada llamada, cada "te pienso" construía algo especial entre nosotros.</p>
-                    </div>
-                </div>
+  <!-- HERO -->
+  <section class="hero">
+    <div id="hero-deco" aria-hidden="true"></div>
+    <p class="hero-eyebrow">Nuestra Historia · Capítulo I</p>
+    <h1>💑 Nuestro Primer Encuentro 💑</h1>
+    <p class="hero-sub">La historia de cómo comenzó todo...</p>
+    <div class="fecha-badge">✨ 4 de Mayo de 2023 ✨</div>
+    <div class="header-line"></div>
+  </section>
 
-                <div class="timeline-item">
-                    <div class="timeline-icon">💝</div>
-                    <div class="timeline-content">
-                        <h3>La Pregunta Más Importante</h3>
-                        <div class="ubicacion">
-                            <span>🌙</span>
-                            <span>4 de Mayo - En la Noche</span>
-                        </div>
-                        <p>Esa noche, mi corazón latía como nunca antes. ¿Lo estoy haciendo bien? ¿Debería esperar? Pero sabía que no quería perderte de mi vida. Así que, aunque estábamos lejos, reuní todo mi valor y te pregunté: ¿Quieres ser mi novia? Y dijiste que sí. Ese momento cambió mi vida para siempre.</p>
-                    </div>
-                </div>
+  <!-- TIMELINE -->
+  <section class="timeline-section">
 
-                <div class="timeline-item">
-                    <div class="timeline-icon">🏬</div>
-                    <div class="timeline-content">
-                        <h3>Nuestro Primer Encuentro Real</h3>
-                        <div class="ubicacion">
-                            <span>📍</span>
-                            <span>Mall de La Serena</span>
-                        </div>
-                        <p>Y llegó el día más esperado. Te vi llegar al mall, nerviosa y tímida, con esa sonrisa que ilumina mi mundo. Yo también estaba nervioso, pero intentaba ocultarlo para parecer el "macho alfa" (jaja, como si eso importara cuando mi corazón se aceleraba al verte). Pero nada de eso importaba, porque finalmente estábamos juntos.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-icon">🎬</div>
-                    <div class="timeline-content">
-                        <h3>La Cita Perfecta</h3>
-                        <div class="ubicacion">
-                            <span>🎥</span>
-                            <span>Una película que ambos queríamos ver</span>
-                        </div>
-                        <p>Nuestra cita fue simplemente la mejor de la historia. Hablamos, reímos, compartimos miradas cómplices. Y para rematar, vimos juntos esa película que ambos queríamos ver desde hacía tiempo. Pero lo mejor no era la película, era estar a tu lado, sentir tu presencia, saber que finalmente estábamos juntos después de tanto tiempo de espera.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="galeria-imagenes">
-                <div class="imagen-item">
-                    <img src="assent/GIF1.gif" alt="Momento especial">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/GIF22.gif" alt="Momento especial">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/GIF2.gif" alt="Momento especial">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/GIF18.gif" alt="Momento especial">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/GIF19.gif" alt="Momento especial">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/GIF21.gif" alt="Momento especial">
-                </div>
-            </div>
-
-            <div class="texto-destacado">
-                <p><span class="emoji-grande">💭</span>Recuerdo cada detalle de ese día. Tu mirada cuando nos vimos por primera vez en persona, tu risa nerviosa, la forma en que nuestras manos se encontraron. Todo era perfecto porque estaba contigo.</p>
-                
-                <p><span class="emoji-grande">✨</span>Desde Santiago y Ovalle hasta el Mall de La Serena, nuestra historia ha sido mágica. La distancia nunca fue un obstáculo para lo que sentimos. Y ese 4 de mayo, cuando te propuse ser mi novia, no sabía que estaba comenzando el mejor capítulo de mi vida.</p>
-                
-                <p><span class="emoji-grande">❤️</span>Cada nervio, cada momento de duda antes de preguntarte si querías ser mi novia, cada segundo esperando tu respuesta... todo valió la pena cuando dijiste que sí. Y luego, verte llegar a nuestro primer encuentro, fue confirmar que había tomado la mejor decisión de mi vida.</p>
-            </div>
-
-            <div class="mensaje-final">
-                <h2>💕 Para Siempre 💕</h2>
-                <p>Ese día comenzó nuestra historia de amor...</p>
-                <p>De Santiago a Ovalle, del mensaje en la noche al encuentro en La Serena.</p>
-                <p>Cada momento construyendo lo más hermoso que tengo: tú en mi vida.</p>
-                <p><strong>Te amo, Elsa. Desde aquel 4 de mayo y para siempre. 💖</strong></p>
-            </div>
-        </div>
+    <div class="tl-item">
+      <div class="tl-icon">🌟</div>
+      <div class="tl-card">
+        <h3>Todo Comenzó a Distancia</h3>
+        <div class="tl-ubicacion">📍 Villarrica ❤️ Ovalle</div>
+        <p>Yo en Villarrica, tú en Ovalle. Kilómetros de distancia que no impedían que nuestros corazones se acercaran cada vez más. Cada mensaje, cada llamada, cada "te pienso" construía algo especial entre nosotros.</p>
+      </div>
     </div>
 
-    <script>
-        // ============ PLAYLIST DE CANCIONES ============
-        const playlist = [
-            { file: 'assent/The-First-Time.mp3', name: 'The First Time' },
-            { file: 'assent/There-You-Are.mp3', name: 'There You Are' },
-            { file: 'assent/Die-With-A-Smile.mp3', name: 'Die With A Smile' },
-            { file: 'assent/i-wish-i-hated-you.mp3', name: 'I Wish I Hated You' },
-            { file: 'assent/blue.mp3', name: 'Blue' },
-            { file: 'assent/Beautiful-Things.mp3', name: 'Beautiful Things' },
-            { file: 'assent/No-One-Noticed.mp3', name: 'No One Noticed' },
-            { file: 'assent/Indigo.mp3', name: 'Indigo' },
-            { file: 'assent/With-You.mp3', name: 'With You' },
-            { file: 'assent/number-one-girl.mp3', name: 'Number One Girl' },
-            { file: 'assent/TWENTIES.mp3', name: 'Twenties' }
-        ];
+    <div class="tl-item">
+      <div class="tl-icon">💝</div>
+      <div class="tl-card">
+        <h3>La Pregunta Más Importante</h3>
+        <div class="tl-ubicacion">🌙 4 de Mayo · En la Noche</div>
+        <p>Esa noche, mi corazón latía como nunca antes. ¿Lo estoy haciendo bien? ¿Debería esperar? Pero sabía que no quería perderte de mi vida. Así que, aunque estábamos lejos, reuní todo mi valor y te pregunté: ¿Quieres ser mi novia? Y dijiste que sí. Ese momento cambió mi vida para siempre.</p>
+      </div>
+    </div>
 
-        // ============ CONTROL DE MÚSICA ============
-        const audio = document.getElementById('backgroundMusic');
-        const musicControl = document.getElementById('musicControl');
-        const musicIcon = document.getElementById('musicIcon');
-        const musicText = document.getElementById('musicText');
-        const songInfo = document.getElementById('songInfo');
-        const currentSongName = document.getElementById('currentSongName');
-        const musicNotification = document.getElementById('musicNotification');
-        let isPlaying = false;
-        let currentSongIndex = 0;
+    <div class="tl-item">
+      <div class="tl-icon">🏬</div>
+      <div class="tl-card">
+        <h3>Nuestro Primer Encuentro Real</h3>
+        <div class="tl-ubicacion">📍 Mall de La Serena</div>
+        <p>Y llegó el día más esperado. Te vi llegar al mall, nerviosa y tímida, con esa sonrisa que ilumina mi mundo. Yo también estaba nervioso, pero intentaba ocultarlo para parecer el "macho alfa" (jaja, como si eso importara cuando mi corazón se aceleraba al verte). Pero nada de eso importaba, porque finalmente estábamos juntos.</p>
+      </div>
+    </div>
 
-        // Configurar volumen al 70%
-        audio.volume = 0.7;
+    <div class="tl-item">
+      <div class="tl-icon">🎬</div>
+      <div class="tl-card">
+        <h3>La Cita Perfecta</h3>
+        <div class="tl-ubicacion">🎥 Una película que ambos queríamos ver</div>
+        <p>Nuestra cita fue simplemente la mejor de la historia. Hablamos, reímos, compartimos miradas cómplices. Y para rematar, vimos juntos esa película que ambos queríamos ver desde hacía tiempo. Pero lo mejor no era la película, era estar a tu lado, sentir tu presencia, saber que finalmente estábamos juntos después de tanto tiempo de espera.</p>
+      </div>
+    </div>
 
-        // Cargar una canción
-        function loadSong(index) {
-            currentSongIndex = index;
-            audio.src = playlist[index].file;
-            currentSongName.textContent = playlist[index].name;
-            saveMusicState(isPlaying, 0, index);
-        }
+  </section>
 
-        // Reproducir siguiente canción
-        function playNextSong() {
-            currentSongIndex = (currentSongIndex + 1) % playlist.length;
-            loadSong(currentSongIndex);
-            if (isPlaying) {
-                audio.play().catch(e => console.log('Error al reproducir siguiente:', e));
-            }
-        }
+  <!-- GALERÍA -->
+  <section class="galeria-section">
+    <h2 class="section-title">💖 Momentos Especiales 💖</h2>
+    <div class="galeria-grid">
+      <div class="gif-card"><img src="assent/GIF1.gif"  alt="Momento especial"></div>
+      <div class="gif-card"><img src="assent/GIF22.gif" alt="Momento especial"></div>
+      <div class="gif-card"><img src="assent/GIF2.gif"  alt="Momento especial"></div>
+      <div class="gif-card"><img src="assent/GIF18.gif" alt="Momento especial"></div>
+      <div class="gif-card"><img src="assent/GIF19.gif" alt="Momento especial"></div>
+      <div class="gif-card"><img src="assent/GIF21.gif" alt="Momento especial"></div>
+    </div>
+  </section>
 
-        // Cuando termina una canción, reproducir la siguiente
-        audio.addEventListener('ended', playNextSong);
+  <!-- TEXTO DESTACADO -->
+  <div class="texto-destacado">
+    <div class="bg-deco">💕</div>
+    <p><span class="emoji-grande">💭</span>Recuerdo cada detalle de ese día. Tu mirada cuando nos vimos por primera vez en persona, tu risa nerviosa, la forma en que nuestras manos se encontraron. Todo era perfecto porque estaba contigo.</p>
+    <p><span class="emoji-grande">✨</span>Desde Santiago y Ovalle hasta el Mall de La Serena, nuestra historia ha sido mágica. La distancia nunca fue un obstáculo para lo que sentimos. Y ese 4 de mayo, cuando te propuse ser mi novia, no sabía que estaba comenzando el mejor capítulo de mi vida.</p>
+    <p><span class="emoji-grande">❤️</span>Cada nervio, cada momento de duda antes de preguntarte si querías ser mi novia, cada segundo esperando tu respuesta... todo valió la pena cuando dijiste que sí. Y luego, verte llegar a nuestro primer encuentro, fue confirmar que había tomado la mejor decisión de mi vida.</p>
+  </div>
 
-        // Guardar el estado de la música en localStorage
-        function saveMusicState(playing, time, songIndex) {
-            localStorage.setItem('musicPlaying', playing);
-            localStorage.setItem('musicTime', time);
-            localStorage.setItem('currentSong', songIndex);
-        }
+  <!-- MENSAJE FINAL -->
+  <div class="mensaje-final">
+    <h2>💕 Para Siempre 💕</h2>
+    <p>Ese día comenzó nuestra historia de amor...</p>
+    <p>De Santiago a Ovalle, del mensaje en la noche al encuentro en La Serena.</p>
+    <p>Cada momento construyendo lo más hermoso que tengo: tú en mi vida.</p>
+    <p><strong>Te amo, Elsa. Desde aquel 4 de mayo y para siempre. 💖</strong></p>
+  </div>
 
-        // Cargar el estado de la música desde localStorage
-        function loadMusicState() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-            const savedSong = parseInt(localStorage.getItem('currentSong')) || 0;
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            
-            // Cargar la canción guardada
-            loadSong(savedSong);
-            
-            // Precargar el audio para reproducción instantánea
-            audio.load();
-            
-            if (wasPlaying) {
-                // Marcar que estamos navegando entre páginas
-                sessionStorage.setItem('musicNavigating', 'true');
-                
-                // Intentar reproducir inmediatamente
-                audio.currentTime = savedTime;
-                
-                // Si el usuario ya interactuó antes, intentar reproducción agresiva
-                if (hasInteracted) {
-                    // Reproducción inmediata sin esperar promesa
-                    setTimeout(() => {
-                        audio.currentTime = savedTime;
-                        const playAttempt = audio.play();
-                        
-                        if (playAttempt !== undefined) {
-                            playAttempt.then(() => {
-                                isPlaying = true;
-                                updateMusicButton();
-                                showSongInfo();
-                                sessionStorage.removeItem('musicNavigating');
-                            }).catch(err => {
-                                console.log('Reproducción bloqueada, activando plan B...');
-                                activatePlanB(savedTime);
-                            });
-                        }
-                    }, 100);
-                } else {
-                    activatePlanB(savedTime);
-                }
-            }
-        }
-        
-        // Plan B: Intentar reproducir de múltiples formas
-        function activatePlanB(savedTime) {
-            const events = ['click', 'touchstart', 'keydown', 'mousemove', 'scroll'];
-            const resumeMusic = () => {
-                audio.currentTime = savedTime;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                    sessionStorage.removeItem('musicNavigating');
-                    localStorage.setItem('userHasInteracted', 'true');
-                }).catch(err => console.log('Error al reanudar:', err));
-                
-                events.forEach(event => {
-                    document.removeEventListener(event, resumeMusic);
-                });
-            };
-            
-            events.forEach(event => {
-                document.addEventListener(event, resumeMusic, { once: true, capture: true });
-            });
-            
-            isPlaying = false;
-            updateMusicButton();
-        }
+</div><!-- /container -->
 
-        // Mostrar/ocultar información de la canción
-        function showSongInfo() {
-            songInfo.style.display = 'block';
-        }
+<script>
+'use strict';
 
-        function hideSongInfo() {
-            songInfo.style.display = 'none';
-        }
+/* ── FONDOS GENERATIVOS ── */
+(function buildBg() {
 
-        // Actualizar el estado visual del botón
-        function updateMusicButton() {
-            if (isPlaying) {
-                musicIcon.textContent = '⏸️';
-                musicText.textContent = 'Pausar Música';
-                musicControl.classList.add('playing');
-                musicControl.style.animation = 'musicPulse 2s infinite';
-                musicNotification.style.display = 'none';
-                showSongInfo();
-            } else {
-                const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-                if (wasPlaying) {
-                    musicIcon.textContent = '▶️';
-                    musicText.textContent = 'Continuar Música';
-                    musicControl.style.animation = 'pulse 1.5s infinite';
-                    musicNotification.style.display = 'flex';
-                } else {
-                    musicIcon.textContent = '🎵';
-                    musicText.textContent = 'Reproducir Música';
-                    musicControl.style.animation = 'none';
-                    musicNotification.style.display = 'none';
-                }
-                musicControl.classList.remove('playing');
-                hideSongInfo();
-            }
-        }
+  // Partículas — blancas/rosadas claras para brillar sobre fondo rosa
+  const pCont  = document.getElementById('particles');
+  const pColors = ['rgba(255,255,255,.95)','#ffcce0','#ffb3cc','rgba(255,255,255,.7)','#ffd6e8','#fff0f5'];
+  for (let i = 0; i < 70; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const sz  = Math.random() * 3.5 + .8;
+    const clr = pColors[Math.floor(Math.random() * pColors.length)];
+    p.style.cssText = `
+      width:${sz}px;height:${sz}px;
+      left:${Math.random()*100}%;
+      background:${clr};
+      box-shadow:0 0 ${sz*3}px ${clr};
+      animation-duration:${10+Math.random()*18}s;
+      animation-delay:-${Math.random()*22}s;
+    `;
+    pCont.appendChild(p);
+  }
 
-        // Toggle de reproducción
-        musicControl.addEventListener('click', function() {
-            localStorage.setItem('userHasInteracted', 'true');
-            
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                saveMusicState(false, audio.currentTime, currentSongIndex);
-                updateMusicButton();
-            } else {
-                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-                audio.currentTime = savedTime;
-                
-                audio.play().then(() => {
-                    isPlaying = true;
-                    saveMusicState(true, audio.currentTime, currentSongIndex);
-                    updateMusicButton();
-                }).catch(e => {
-                    console.log('Error reproduciendo:', e);
-                });
-            }
-        });
+  // Estrellas — tamaños variados, blancas
+  const sCont = document.getElementById('stars');
+  for (let i = 0; i < 160; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 2.5 + .8;
+    s.style.cssText = `
+      width:${sz}px; height:${sz}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      background:rgba(255,255,255,${.35+Math.random()*.55});
+      animation-delay:${Math.random()*5}s;
+      animation-duration:${1.5+Math.random()*3}s;
+    `;
+    sCont.appendChild(s);
+  }
 
-        // Guardar el tiempo actual cada segundo cuando está reproduciéndose
-        audio.addEventListener('timeupdate', function() {
-            if (isPlaying) {
-                saveMusicState(true, audio.currentTime, currentSongIndex);
-            }
-        });
+  // Corazones flotantes de fondo
+  const hCont  = document.getElementById('hearts-bg');
+  const hearts = ['❤️','💕','💖','💗','💝','💓','💞','🌸'];
+  for (let i = 0; i < 22; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+    h.style.cssText = `
+      left:${Math.random()*100}%;
+      animation-delay:${Math.random()*18}s;
+      animation-duration:${12+Math.random()*12}s;
+      font-size:${1.5+Math.random()*2}em;
+    `;
+    hCont.appendChild(h);
+  }
 
-        // Actualizar estado cuando comienza a reproducir
-        audio.addEventListener('play', function() {
-            isPlaying = true;
-            updateMusicButton();
-        });
+  // Decoraciones del hero
+  const decoEl = document.getElementById('hero-deco');
+  const dItems = ['💕','💖','✨','💝','🌟','💗','💫','❤️'];
+  const dPos   = [
+    {top:'8%',  left:'3%',  sz:'2em',   dur:'2.8s', del:'0s',   rot:'-12deg'},
+    {top:'12%', left:'90%', sz:'1.7em', dur:'3.2s', del:'0.6s', rot:'15deg' },
+    {top:'60%', left:'2%',  sz:'1.9em', dur:'2.5s', del:'1.3s', rot:'-8deg' },
+    {top:'65%', left:'91%', sz:'2.2em', dur:'3s',   del:'0.3s', rot:'10deg' },
+    {top:'82%', left:'14%', sz:'1.5em', dur:'3.5s', del:'1.8s', rot:'5deg'  },
+    {top:'30%', left:'94%', sz:'1.8em', dur:'2.7s', del:'0.9s', rot:'-5deg' },
+    {top:'87%', left:'80%', sz:'2em',   dur:'3.1s', del:'2.1s', rot:'18deg' },
+    {top:'42%', left:'46%', sz:'1.4em', dur:'4s',   del:'1s',   rot:'-3deg' },
+  ];
+  dPos.forEach((d,i) => {
+    const el = document.createElement('div');
+    el.className = 'hdeco';
+    el.textContent = dItems[i];
+    el.style.cssText = `top:${d.top};left:${d.left};font-size:${d.sz};--dur:${d.dur};--del:${d.del};--rot:${d.rot};`;
+    decoEl.appendChild(el);
+  });
+})();
 
-        // Actualizar estado cuando se pausa
-        audio.addEventListener('pause', function() {
-            if (!audio.ended) {
-                isPlaying = false;
-                updateMusicButton();
-            }
-        });
+/* ── CORAZONES FLOTANTES ── */
+function crearCorazon() {
+  const items = ['❤️','💕','💖','💗','💓','💝','💘'];
+  const c = document.createElement('div');
+  c.className = 'corazon';
+  c.textContent = items[Math.floor(Math.random() * items.length)];
+  c.style.left   = Math.random() * 100 + '%';
+  c.style.bottom = '-50px';
+  document.body.appendChild(c);
+  setTimeout(() => c.remove(), 4000);
+}
+setInterval(crearCorazon, 1800);
 
-        // Guardar estado antes de salir de la página
-        window.addEventListener('beforeunload', function() {
-            if (isPlaying) {
-                saveMusicState(true, audio.currentTime, currentSongIndex);
-            }
-        });
-        
-        // Intentar reproducir cuando el audio esté listo
-        audio.addEventListener('canplay', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const isNavigating = sessionStorage.getItem('musicNavigating') === 'true';
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            
-            if (wasPlaying && isNavigating && !isPlaying && hasInteracted) {
-                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-                audio.currentTime = savedTime;
-                
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                    sessionStorage.removeItem('musicNavigating');
-                }).catch(e => {
-                    console.log('Esperando interacción para reproducir');
-                });
-            }
-        });
-        
-        // Forzar reproducción cuando el audio cargue metadatos
-        audio.addEventListener('loadedmetadata', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            
-            if (wasPlaying && savedTime > 0 && !isPlaying && hasInteracted) {
-                audio.currentTime = savedTime;
-                
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                }).catch(e => {
-                    console.log('Reproducción pendiente...');
-                });
-            }
-        });
-        
-        // Page Visibility API - reanudar cuando vuelves a la pestaña
-        document.addEventListener('visibilitychange', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            
-            if (!document.hidden && wasPlaying && !isPlaying && hasInteracted) {
-                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-                audio.currentTime = savedTime;
-                
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                }).catch(e => {
-                    console.log('Reproducción bloqueada');
-                });
-            }
-        });
+/* ── SCROLL REVEAL ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
 
-        // ============ RESTO DEL CÓDIGO ORIGINAL ============
-        function crearEstrellas() {
-            const starsContainer = document.getElementById('stars');
-            for (let i = 0; i < 150; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                starsContainer.appendChild(star);
-            }
-        }
+document.querySelectorAll('.tl-card, .gif-card, .texto-destacado, .mensaje-final').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(34px)';
+  el.style.transition = 'opacity .75s ease, transform .8s cubic-bezier(.16,1,.3,1)';
+  observer.observe(el);
+});
 
-        function crearCorazon() {
-            const corazones = ['❤️', '💕', '💖', '💗', '💓', '💝', '💘'];
-            const corazon = document.createElement('div');
-            corazon.className = 'corazon';
-            corazon.textContent = corazones[Math.floor(Math.random() * corazones.length)];
-            corazon.style.left = Math.random() * 100 + '%';
-            corazon.style.bottom = '-50px';
-            document.body.appendChild(corazon);
-            setTimeout(() => corazon.remove(), 4000);
-        }
+/* ── MÚSICA — lógica original 100% preservada ── */
+const playlist = [
+  {file:'assent/The-First-Time.mp3',     name:'The First Time'    },
+  {file:'assent/There-You-Are.mp3',       name:'There You Are'     },
+  {file:'assent/Die-With-A-Smile.mp3',    name:'Die With A Smile'  },
+  {file:'assent/i-wish-i-hated-you.mp3', name:'I Wish I Hated You'},
+  {file:'assent/blue.mp3',               name:'Blue'              },
+  {file:'assent/Beautiful-Things.mp3',   name:'Beautiful Things'  },
+  {file:'assent/No-One-Noticed.mp3',     name:'No One Noticed'    },
+  {file:'assent/Indigo.mp3',             name:'Indigo'            },
+  {file:'assent/With-You.mp3',           name:'With You'          },
+  {file:'assent/number-one-girl.mp3',    name:'Number One Girl'   },
+  {file:'assent/TWENTIES.mp3',           name:'Twenties'          }
+];
 
-        // Animación de aparición para elementos del timeline
-        const observador = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
+const audio       = document.getElementById('backgroundMusic');
+const musicCtrl   = document.getElementById('musicControl');
+const musicIcon   = document.getElementById('musicIcon');
+const musicText   = document.getElementById('musicText');
+const songInfo    = document.getElementById('songInfo');
+const songNameEl  = document.getElementById('currentSongName');
+const musicNotif  = document.getElementById('musicNotification');
+let isPlaying = false, currentSongIdx = 0;
+audio.volume = 0.7;
 
-        // Inicializar todo cuando el DOM esté listo
-        if (document.readyState === 'loading') {
-            window.addEventListener('DOMContentLoaded', initializePage);
-        } else {
-            initializePage();
-        }
-        
-        function initializePage() {
-            crearEstrellas();
-            setInterval(crearCorazon, 1500);
-            loadMusicState();
-            
-            // Animar elementos del timeline
-            document.querySelectorAll('.timeline-content').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'all 0.6s ease-out';
-                observador.observe(el);
-            });
-        }
-    </script>
+function loadSong(idx) {
+  currentSongIdx = idx;
+  audio.src = playlist[idx].file;
+  if (songNameEl) songNameEl.textContent = playlist[idx].name;
+  saveMusicState(isPlaying, 0, idx);
+}
+function playNextSong() {
+  currentSongIdx = (currentSongIdx + 1) % playlist.length;
+  loadSong(currentSongIdx);
+  if (isPlaying) audio.play().catch(() => {});
+}
+audio.addEventListener('ended', playNextSong);
+function saveMusicState(p, t, idx) {
+  localStorage.setItem('musicPlaying', p);
+  localStorage.setItem('musicTime', t);
+  localStorage.setItem('currentSong', idx);
+}
+function updateMusicButton() {
+  const was = localStorage.getItem('musicPlaying') === 'true';
+  if (isPlaying) {
+    musicIcon.textContent = '⏸️';
+    musicText.textContent = 'Pausar Música';
+    musicCtrl.classList.add('playing');
+    musicNotif.style.display = 'none';
+    songInfo.style.display = 'block';
+  } else {
+    musicIcon.textContent = was ? '▶️' : '🎵';
+    musicText.textContent = was ? 'Continuar Música' : 'Reproducir Música';
+    musicCtrl.classList.remove('playing');
+    musicNotif.style.display = was ? 'flex' : 'none';
+    songInfo.style.display = 'none';
+  }
+}
+function activatePlanB(t) {
+  const evs = ['click','touchstart','keydown','mousemove','scroll'];
+  const go  = () => {
+    audio.currentTime = t;
+    audio.play().then(() => {
+      isPlaying = true; updateMusicButton();
+      localStorage.setItem('userHasInteracted','true');
+      sessionStorage.removeItem('musicNavigating');
+    }).catch(() => {});
+    evs.forEach(ev => document.removeEventListener(ev, go));
+  };
+  evs.forEach(ev => document.addEventListener(ev, go, {once:true, capture:true}));
+  isPlaying = false; updateMusicButton();
+}
+function loadMusicState() {
+  const was = localStorage.getItem('musicPlaying') === 'true';
+  const t   = parseFloat(localStorage.getItem('musicTime')) || 0;
+  const idx = parseInt(localStorage.getItem('currentSong')) || 0;
+  const hi  = localStorage.getItem('userHasInteracted') === 'true';
+  loadSong(idx); audio.load();
+  if (was) {
+    sessionStorage.setItem('musicNavigating', 'true');
+    audio.currentTime = t;
+    if (hi) {
+      setTimeout(() => {
+        audio.currentTime = t;
+        audio.play().then(() => {
+          isPlaying = true; updateMusicButton();
+          sessionStorage.removeItem('musicNavigating');
+        }).catch(() => activatePlanB(t));
+      }, 100);
+    } else activatePlanB(t);
+  }
+}
+musicCtrl.addEventListener('click', () => {
+  localStorage.setItem('userHasInteracted', 'true');
+  if (isPlaying) {
+    audio.pause(); isPlaying = false;
+    saveMusicState(false, audio.currentTime, currentSongIdx);
+    updateMusicButton();
+  } else {
+    const t = parseFloat(localStorage.getItem('musicTime')) || 0;
+    audio.currentTime = t;
+    audio.play().then(() => {
+      isPlaying = true;
+      saveMusicState(true, audio.currentTime, currentSongIdx);
+      updateMusicButton();
+    }).catch(() => {});
+  }
+});
+audio.addEventListener('timeupdate', () => { if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIdx); });
+audio.addEventListener('play',  () => { isPlaying = true;  updateMusicButton(); });
+audio.addEventListener('pause', () => { if (!audio.ended) { isPlaying = false; updateMusicButton(); } });
+window.addEventListener('beforeunload', () => { if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIdx); });
+['canplay','loadedmetadata'].forEach(ev => {
+  audio.addEventListener(ev, () => {
+    const was = localStorage.getItem('musicPlaying') === 'true';
+    const t   = parseFloat(localStorage.getItem('musicTime')) || 0;
+    const hi  = localStorage.getItem('userHasInteracted') === 'true';
+    const nav = sessionStorage.getItem('musicNavigating') === 'true';
+    if (was && !isPlaying && hi && (ev === 'canplay' ? nav : t > 0)) {
+      audio.currentTime = t;
+      audio.play().then(() => { isPlaying = true; updateMusicButton(); sessionStorage.removeItem('musicNavigating'); }).catch(() => {});
+    }
+  });
+});
+document.addEventListener('visibilitychange', () => {
+  const was = localStorage.getItem('musicPlaying') === 'true';
+  const hi  = localStorage.getItem('userHasInteracted') === 'true';
+  if (!document.hidden && was && !isPlaying && hi) {
+    audio.currentTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+    audio.play().then(() => { isPlaying = true; updateMusicButton(); }).catch(() => {});
+  }
+});
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', loadMusicState);
+} else { loadMusicState(); }
+</script>
 </body>
 </html>
