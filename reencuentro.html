@@ -1,952 +1,1091 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuestros Reencuentros ✈️</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nuestros Reencuentros ✈️</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════════
+   RESET
+══════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
+/* ══════════════════════════════════════════
+   FONDO — rosa suave con tonos claros y cálidos
+══════════════════════════════════════════ */
+body {
+  font-family:'Rajdhani',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+  padding:28px 20px 90px;
+  background:#e91e8c;
+}
 
-        /* Estilos para el control de música */
-        #musicControl {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1001;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(255, 154, 158, 0.5);
-            font-weight: 700;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        #musicControl #musicNotification {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-        }
+body::before {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 72% 52% at 5%  7%,  #fff0f5 0%, transparent 50%),
+    radial-gradient(ellipse 58% 42% at 95% 4%,  #fce4ec 0%, transparent 48%),
+    radial-gradient(ellipse 50% 38% at 50% 14%, rgba(255,209,220,.7) 0%, transparent 52%),
+    radial-gradient(ellipse 45% 48% at 0%  62%, #c2185b 0%, transparent 50%),
+    radial-gradient(ellipse 52% 43% at 100% 78%, #d81b60 0%, transparent 50%),
+    radial-gradient(ellipse 65% 42% at 50% 100%, #880e4f 0%, transparent 55%),
+    linear-gradient(155deg, #fce4ec 0%, #f48fb1 18%, #e91e8c 42%, #c2185b 65%, #f06292 82%, #f48fb1 100%);
+}
 
-        #musicControl:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(255, 154, 158, 0.7);
-        }
+body::after {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:radial-gradient(circle, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size:30px 30px;
+}
 
-        #musicControl.playing {
-            animation: musicPulse 2s infinite;
-        }
+/* ══════════════════════════════════════════
+   BLOBS CSS ANIMADOS
+══════════════════════════════════════════ */
+#blobs { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.blob { position:absolute; border-radius:50%; filter:blur(72px); }
 
-        @keyframes musicPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
+.blob-1 { width:520px; height:520px; background:#fce4ec; top:-140px; left:-100px; opacity:.5;
+  animation:b1 15s ease-in-out infinite alternate; }
+@keyframes b1 {
+  0%  { transform:translate(0,0) scale(1);        opacity:.48; }
+  50% { transform:translate(80px,60px) scale(1.1); opacity:.62; }
+  100%{ transform:translate(-30px,100px) scale(.9); opacity:.42; }
+}
+.blob-2 { width:380px; height:380px; background:#f8bbd0; top:-80px; right:-80px; opacity:.46;
+  animation:b2 19s ease-in-out infinite alternate; }
+@keyframes b2 {
+  0%  { transform:translate(0,0) scale(1);         opacity:.44; }
+  50% { transform:translate(-60px,90px) scale(1.2); opacity:.58; }
+  100%{ transform:translate(50px,40px) scale(.88);  opacity:.36; }
+}
+.blob-3 { width:460px; height:460px; background:#c2185b; bottom:-120px; left:-100px; opacity:.5;
+  animation:b3 17s ease-in-out infinite alternate; }
+@keyframes b3 {
+  0%  { transform:translate(0,0) scale(1);          opacity:.48; }
+  50% { transform:translate(100px,-70px) scale(1.14); opacity:.63; }
+  100%{ transform:translate(30px,60px) scale(.9);    opacity:.42; }
+}
+.blob-4 { width:400px; height:400px; background:#d81b60; bottom:-100px; right:-80px; opacity:.48;
+  animation:b4 21s ease-in-out infinite alternate; }
+@keyframes b4 {
+  0%  { transform:translate(0,0) scale(1);     opacity:.48; }
+  50% { transform:translate(-90px,-50px) scale(1.1); opacity:.58; }
+  100%{ transform:translate(40px,80px) scale(.94);   opacity:.38; }
+}
+.blob-5 { width:320px; height:320px; background:#fce4ec; top:35%; left:38%; opacity:.2;
+  animation:b5 23s ease-in-out infinite alternate; }
+@keyframes b5 {
+  0%  { transform:translate(0,0) scale(.85);   opacity:.2; }
+  50% { transform:translate(-70px,80px) scale(1.04); opacity:.34; }
+  100%{ transform:translate(90px,-50px) scale(.8);   opacity:.16; }
+}
+.blob-6 { width:280px; height:280px; background:#e91e63; top:57%; right:9%; opacity:.33;
+  animation:b6 13s ease-in-out infinite alternate; }
+@keyframes b6 {
+  0%  { transform:translate(0,0) scale(1);     opacity:.3; }
+  100%{ transform:translate(-50px,-80px) scale(1.2); opacity:.48; }
+}
 
-        /* Aviones flotantes */
-        .aviones-fondo {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.1;
-        }
+/* ══════════════════════════════════════════
+   PARTÍCULAS / ESTRELLAS / CORAZONES BG
+══════════════════════════════════════════ */
+#particles { position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+.particle  { position:absolute; border-radius:50%; opacity:0; animation:pDrift linear infinite; }
+@keyframes pDrift {
+  0%  { transform:translateY(108vh) scale(.3); opacity:0; }
+  5%  { opacity:.9; }
+  95% { opacity:.6; }
+  100%{ transform:translateY(-8vh) scale(1.2); opacity:0; }
+}
 
-        .avion {
-            position: absolute;
-            font-size: 3em;
-            animation: volarAvion 30s linear infinite;
-        }
+#hearts-bg { position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+.heart-float { position:absolute; opacity:.12; animation:floatHeart linear infinite; }
+@keyframes floatHeart {
+  0%  { transform:translateY(105vh) rotate(0deg); opacity:0; }
+  8%  { opacity:.12; }
+  92% { opacity:.12; }
+  100%{ transform:translateY(-5vh) rotate(360deg); opacity:0; }
+}
 
-        @keyframes volarAvion {
-            0% { transform: translateX(-100px) translateY(0); }
-            100% { transform: translateX(calc(100vw + 100px)) translateY(-50px); }
-        }
+#stars-bg { position:fixed; inset:0; z-index:1; pointer-events:none; }
+.star-item { position:absolute; border-radius:50%; animation:twinkle ease-in-out infinite; }
+@keyframes twinkle { 0%,100%{opacity:.15} 50%{opacity:1} }
 
-        .stars {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 1;
-        }
+/* Aviones de fondo */
+#aviones-bg { position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; opacity:.08; }
+.avion-bg { position:absolute; font-size:2.8em; animation:volarAvion linear infinite; }
+@keyframes volarAvion {
+  0%   { transform:translateX(-120px) translateY(0) rotate(-5deg); }
+  100% { transform:translateX(calc(100vw + 140px)) translateY(-40px) rotate(-5deg); }
+}
 
-        .star {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
+.corazon {
+  position:fixed; font-size:1.9em; pointer-events:none;
+  z-index:999; animation:floatUp 4s linear forwards;
+}
+@keyframes floatUp {
+  0%  { opacity:1; transform:translateY(0) rotate(0deg); }
+  100%{ opacity:0; transform:translateY(-900px) rotate(360deg); }
+}
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
+/* ══════════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════════ */
+.container {
+  position:relative; z-index:2;
+  max-width:1060px;
+  margin:0 auto;
+}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
+/* ── Botón volver ── */
+.btn-volver {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:13px 30px; border-radius:30px;
+  background:rgba(255,255,255,.22);
+  border:1.5px solid rgba(255,255,255,.55);
+  backdrop-filter:blur(16px) saturate(1.5);
+  color:#fff; font-weight:700; font-size:.95rem;
+  text-decoration:none; letter-spacing:.05em;
+  box-shadow:0 6px 20px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.3);
+  transition:all .3s ease;
+  margin-bottom:32px;
+  text-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+.btn-volver:hover {
+  transform:translateY(-3px);
+  background:rgba(255,255,255,.32);
+  box-shadow:0 12px 35px rgba(0,0,0,.22), 0 0 20px rgba(255,255,255,.1);
+}
 
-        .btn-volver {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.95);
-            color: #ff9a9e;
-            padding: 15px 35px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
+/* ══════════════════════════════════════════
+   HERO HEADER
+══════════════════════════════════════════ */
+.hero {
+  text-align:center;
+  padding:60px 40px 52px;
+  border-radius:40px;
+  backdrop-filter:blur(24px) saturate(1.6);
+  background:linear-gradient(145deg,rgba(255,255,255,.2),rgba(255,255,255,.09));
+  border:1.5px solid rgba(255,255,255,.38);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.12),
+    0 8px 36px rgba(0,0,0,.2),
+    0 30px 75px rgba(120,0,60,.22),
+    inset 0 1px 0 rgba(255,255,255,.32);
+  position:relative; overflow:hidden;
+  margin-bottom:40px;
+  animation:revealUp .9s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes revealUp {
+  from{opacity:0;transform:translateY(45px) scale(.97)}
+  to  {opacity:1;transform:translateY(0) scale(1)}
+}
+.hero::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:40px 40px 0 0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),rgba(255,210,230,.9),rgba(255,255,255,.85),transparent);
+}
+.hero::after {
+  content:''; position:absolute; top:-70px; right:-70px;
+  width:240px; height:240px; border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.12),transparent 70%);
+}
 
-        .btn-volver:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.35);
-            background: white;
-        }
+#hero-deco { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.hdeco {
+  position:absolute; opacity:.1;
+  animation:hdPulse var(--dur,3s) ease-in-out infinite;
+  animation-delay:var(--del,0s);
+}
+@keyframes hdPulse {
+  0%,100%{transform:scale(1) rotate(var(--rot,0deg)); opacity:.1}
+  50%    {transform:scale(1.3) rotate(var(--rot,0deg)); opacity:.22}
+}
 
-        .contenido {
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 40px;
-            padding: 60px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: fadeIn 1s ease-out;
-        }
+/* Avión animado en hero */
+.hero-plane {
+  position:absolute; font-size:3.5rem; opacity:.07;
+  animation:heroPlaneFly 18s linear infinite;
+  top:30%; pointer-events:none;
+}
+@keyframes heroPlaneFly {
+  0%   { left:-80px; transform:rotate(-8deg); }
+  100% { left:110%; transform:rotate(-8deg); }
+}
 
-        h1 {
-            color: #ff9a9e;
-            font-size: 3.5em;
-            text-align: center;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
+.hero-eyebrow {
+  font-size:.78rem; letter-spacing:.35em; text-transform:uppercase;
+  color:rgba(255,255,255,.62); margin-bottom:16px;
+}
+.hero h1 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(2rem,5.5vw,3.9rem);
+  font-weight:900; line-height:1.05;
+  color:#fff;
+  text-shadow:0 0 40px rgba(255,255,255,.55), 0 0 80px rgba(255,130,180,.5), 0 4px 20px rgba(120,0,60,.35);
+  animation:hGlow 3s ease-in-out infinite;
+}
+@keyframes hGlow {
+  0%,100%{text-shadow:0 0 40px rgba(255,255,255,.55),0 0 80px rgba(255,130,180,.5),0 4px 20px rgba(120,0,60,.35)}
+  50%    {text-shadow:0 0 65px rgba(255,255,255,.8), 0 0 120px rgba(255,130,180,.8),0 4px 24px rgba(120,0,60,.5)}
+}
+.hero-sub {
+  margin-top:12px;
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.2rem; color:rgba(255,255,255,.8); letter-spacing:.08em;
+  text-shadow:0 1px 6px rgba(0,0,0,.18);
+}
+.fecha-badge {
+  display:inline-block; margin-top:26px;
+  padding:14px 44px; border-radius:50px;
+  background:rgba(255,255,255,.2);
+  border:1.5px solid rgba(255,255,255,.55);
+  backdrop-filter:blur(14px);
+  font-family:'Cinzel',serif; font-size:1.05rem; font-weight:700;
+  color:#fff; letter-spacing:.08em;
+  box-shadow:0 6px 28px rgba(0,0,0,.18), 0 0 0 1px rgba(255,255,255,.1), inset 0 1px 0 rgba(255,255,255,.28);
+  animation:badgePulse 2.5s ease-in-out infinite;
+  text-shadow:0 1px 6px rgba(0,0,0,.2);
+}
+@keyframes badgePulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+.header-line {
+  width:200px; height:1.5px; margin:20px auto 0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);
+}
 
-        .subtitulo {
-            text-align: center;
-            color: #fecfef;
-            font-size: 1.3em;
-            margin-bottom: 50px;
-            font-style: italic;
-            font-weight: 500;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
+/* ══════════════════════════════════════════
+   NOTIFICACIÓN DE MENSAJE — estilo chat glass
+══════════════════════════════════════════ */
+.notif-section {
+  margin:44px 0;
+  animation:revealUp .8s cubic-bezier(.16,1,.3,1) .15s both;
+}
+.notif-card {
+  backdrop-filter:blur(22px) saturate(1.6);
+  background:linear-gradient(145deg,rgba(255,255,255,.2),rgba(255,255,255,.1));
+  border:1.5px solid rgba(255,255,255,.38);
+  border-radius:32px; padding:44px 44px 38px;
+  position:relative; overflow:hidden;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.1),
+    0 8px 30px rgba(0,0,0,.18),
+    0 22px 55px rgba(120,0,60,.18),
+    inset 0 1px 0 rgba(255,255,255,.28);
+}
+.notif-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent);
+}
+.notif-card .bg-phone {
+  position:absolute; font-size:8em; opacity:.04;
+  bottom:-20px; right:10px;
+  animation:hdPulse 6s ease-in-out infinite;
+}
 
-        /* Notificación de mensaje */
-        .mensaje-notificacion {
-            background: linear-gradient(135deg, #fff5f8 0%, #ffe6f0 100%);
-            padding: 40px;
-            border-radius: 25px;
-            margin: 50px 0;
-            box-shadow: 0 15px 40px rgba(255, 154, 158, 0.3);
-            border-left: 8px solid #ff9a9e;
-            position: relative;
-            animation: vibrar 0.3s ease-in-out infinite alternate;
-        }
+.chat-bubbles {
+  display:flex; flex-direction:column; gap:14px; margin-bottom:24px;
+}
+.bubble {
+  display:inline-flex; align-items:center; gap:10px;
+  backdrop-filter:blur(12px);
+  background:rgba(255,255,255,.25);
+  border:1.5px solid rgba(255,255,255,.5);
+  padding:16px 28px; border-radius:50px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.28rem; font-weight:600;
+  color:#fff; align-self:flex-start;
+  box-shadow:0 4px 18px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.3);
+  text-shadow:0 1px 4px rgba(0,0,0,.18);
+  animation:bubblePop .6s cubic-bezier(.16,1,.3,1) both;
+}
+.bubble:nth-child(2) { align-self:flex-end; animation-delay:.2s; }
+@keyframes bubblePop {
+  from { opacity:0; transform:scale(.88) translateY(12px); }
+  to   { opacity:1; transform:scale(1)   translateY(0); }
+}
+.notif-card p {
+  color:rgba(255,255,255,.9);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.18rem; line-height:2;
+  text-align:center;
+  text-shadow:0 1px 5px rgba(0,0,0,.15);
+}
+.notif-card p strong { color:#fff; font-style:italic; }
 
-        @keyframes vibrar {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(2px); }
-        }
+/* ══════════════════════════════════════════
+   RUTAS — TIMELINE DE VIAJES
+══════════════════════════════════════════ */
+.rutas-section {
+  margin:50px 0;
+  animation:revealUp .8s cubic-bezier(.16,1,.3,1) .2s both;
+}
+.section-title {
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.3rem,3vw,2rem); font-weight:700;
+  text-align:center; margin-bottom:30px;
+  color:#fff; text-shadow:0 0 22px rgba(255,255,255,.4), 0 2px 10px rgba(0,0,0,.2);
+}
 
-        .mensaje-notificacion::before {
-            content: '📱';
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 4em;
-            opacity: 0.2;
-        }
+.ruta-list { display:flex; flex-direction:column; gap:18px; }
 
-        .mensaje-notificacion .texto-mensaje {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            font-size: 1.5em;
-            color: #ff9a9e;
-            font-weight: 600;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin: 20px 0;
-        }
+.ruta-item {
+  display:flex; align-items:center; gap:26px;
+  backdrop-filter:blur(20px) saturate(1.5);
+  background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.08));
+  border:1.5px solid rgba(255,255,255,.3);
+  border-radius:24px; padding:26px 30px;
+  position:relative; overflow:hidden;
+  box-shadow:0 0 0 1px rgba(255,255,255,.1), 0 8px 28px rgba(0,0,0,.16), 0 18px 48px rgba(120,0,60,.15), inset 0 1px 0 rgba(255,255,255,.25);
+  transition:transform .35s ease, box-shadow .35s ease;
+}
+.ruta-item::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);
+}
+.ruta-item:hover {
+  transform:translateX(10px) translateY(-4px);
+  box-shadow:0 0 0 1px rgba(255,255,255,.18), 0 14px 42px rgba(0,0,0,.2), 0 24px 60px rgba(120,0,60,.2), inset 0 1px 0 rgba(255,255,255,.3);
+}
+.ruta-icon {
+  width:68px; height:68px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:2rem;
+  backdrop-filter:blur(16px);
+  background:rgba(255,255,255,.22);
+  border:2px solid rgba(255,255,255,.5);
+  box-shadow:0 0 24px rgba(255,255,255,.18), 0 4px 14px rgba(0,0,0,.14);
+  transition:all .3s ease;
+}
+.ruta-item:hover .ruta-icon {
+  transform:scale(1.1) rotate(8deg);
+  box-shadow:0 0 38px rgba(255,255,255,.3), 0 6px 20px rgba(0,0,0,.18);
+}
+.ruta-info h4 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(.95rem,2vw,1.28rem); font-weight:700;
+  color:#fff; margin-bottom:8px;
+  text-shadow:0 0 14px rgba(255,255,255,.3), 0 2px 6px rgba(0,0,0,.18);
+}
+.ruta-info p {
+  color:rgba(255,255,255,.86);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.06rem; line-height:1.82;
+  text-shadow:0 1px 4px rgba(0,0,0,.14);
+}
 
-        .mensaje-notificacion p {
-            color: #555;
-            font-size: 1.2em;
-            line-height: 1.8;
-            text-align: center;
-            margin-top: 15px;
-        }
+/* ══════════════════════════════════════════
+   DESTINOS — GRID GLASS
+══════════════════════════════════════════ */
+.destinos-section { margin:50px 0; }
 
-        /* Mapa de viajes */
-        .mapa-viajes {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 35px;
-            margin: 50px 0;
-        }
+.destinos-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+@media(max-width:800px){ .destinos-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:500px){ .destinos-grid{ grid-template-columns:1fr; } }
 
-        .destino {
-            background: linear-gradient(135deg, #fff8fb 0%, #ffe6f0 100%);
-            padding: 40px;
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(255, 154, 158, 0.15);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            border: 3px solid transparent;
-        }
+.destino-card {
+  backdrop-filter:blur(22px) saturate(1.6);
+  background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.08));
+  border:1.5px solid rgba(255,255,255,.3);
+  border-radius:28px; padding:30px 24px 26px;
+  text-align:center; position:relative; overflow:hidden;
+  box-shadow:0 0 0 1px rgba(255,255,255,.1), 0 8px 28px rgba(0,0,0,.16), 0 18px 50px rgba(120,0,60,.15), inset 0 1px 0 rgba(255,255,255,.25);
+  transition:transform .38s ease, box-shadow .38s ease;
+}
+.destino-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);
+}
+.destino-card:hover {
+  transform:translateY(-10px) scale(1.02);
+  box-shadow:0 0 0 1px rgba(255,255,255,.2), 0 16px 48px rgba(0,0,0,.2), 0 28px 65px rgba(120,0,60,.22), inset 0 1px 0 rgba(255,255,255,.3);
+}
+.destino-card.destacado {
+  background:linear-gradient(145deg,rgba(255,255,255,.28),rgba(255,255,255,.14));
+  border-color:rgba(255,255,255,.55);
+  box-shadow:0 0 0 1px rgba(255,255,255,.2), 0 8px 32px rgba(0,0,0,.2), 0 22px 60px rgba(120,0,60,.22), 0 0 40px rgba(255,255,255,.08), inset 0 1px 0 rgba(255,255,255,.32);
+}
+.destino-card.destacado::after {
+  content:'⭐'; position:absolute; top:14px; right:18px; font-size:1.1em; opacity:.5;
+}
+.destino-icon {
+  font-size:3.2em; margin-bottom:14px; display:block;
+  animation:floatIcon 3.5s ease-in-out infinite;
+  animation-delay:var(--delay,0s);
+}
+@keyframes floatIcon {
+  0%,100%{ transform:translateY(0); }
+  50%    { transform:translateY(-12px); }
+}
+.destino-card h3 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(.9rem,1.8vw,1.18rem); font-weight:700;
+  color:#fff; margin-bottom:8px;
+  text-shadow:0 0 14px rgba(255,255,255,.3), 0 2px 6px rgba(0,0,0,.18);
+}
+.destino-ubicacion {
+  font-size:.8rem; font-weight:700; letter-spacing:.06em;
+  color:rgba(255,240,248,.72); margin-bottom:12px;
+  display:flex; align-items:center; justify-content:center; gap:6px;
+}
+.destino-card p {
+  color:rgba(255,255,255,.86);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.02rem; line-height:1.82;
+  text-shadow:0 1px 4px rgba(0,0,0,.13);
+}
 
-        .destino::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 154, 158, 0.1) 0%, transparent 70%);
-            transition: all 0.6s ease;
-        }
+/* ══════════════════════════════════════════
+   GALERÍA DE IMÁGENES / GIFs
+══════════════════════════════════════════ */
+.galeria-section { margin:50px 0; }
 
-        .destino:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 45px rgba(255, 154, 158, 0.25);
-            border-color: #ff9a9e;
-        }
+.galeria-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+@media(max-width:680px){ .galeria-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:440px){ .galeria-grid{ grid-template-columns:1fr; } }
 
-        .destino:hover::before {
-            top: -30%;
-            right: -30%;
-        }
+.img-card {
+  border-radius:28px; overflow:hidden;
+  background:#fff;
+  border:2px solid rgba(255,255,255,.6);
+  box-shadow:0 8px 30px rgba(0,0,0,.2), 0 0 0 1px rgba(255,255,255,.15);
+  transition:all .4s cubic-bezier(.16,1,.3,1); position:relative;
+}
+.img-card::before {
+  content:''; position:absolute; inset:0; z-index:1; border-radius:20px;
+  background:linear-gradient(135deg,rgba(255,154,158,.22),rgba(254,207,239,.22));
+  opacity:0; transition:opacity .3s ease;
+}
+.img-card:hover::before { opacity:1; }
+.img-card::after {
+  content:'✈️'; position:absolute; top:14px; right:14px; z-index:2;
+  font-size:1.8em; opacity:0; transition:all .3s ease;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.3));
+}
+.img-card:hover::after {
+  opacity:1; transform:scale(1.2) rotate(15deg);
+}
+.img-card:hover {
+  transform:translateY(-13px) scale(1.04);
+  box-shadow:0 24px 55px rgba(0,0,0,.28), 0 0 35px rgba(255,255,255,.2);
+  border-color:rgba(255,255,255,.85);
+}
+.img-card img {
+  width:100%;
+  height:260px;
+  object-fit:contain;
+  display:block;
+  margin:0 auto;
+  background:#fff;
+  transition:transform .4s ease;
+}
+/* JPGs sí usan cover */
+.img-card.is-photo img {
+  object-fit:cover;
+}
+.img-card:hover img { transform:scale(1.05); }
 
-        .destino .icono-lugar {
-            font-size: 4em;
-            text-align: center;
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
-        }
+/* ══════════════════════════════════════════
+   TEXTO DESTACADO
+══════════════════════════════════════════ */
+.texto-destacado {
+  backdrop-filter:blur(22px) saturate(1.5);
+  background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.08));
+  border:1.5px solid rgba(255,255,255,.32);
+  border-radius:28px; padding:42px 42px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.1), 0 8px 30px rgba(0,0,0,.16), 0 22px 55px rgba(120,0,60,.16), inset 0 1px 0 rgba(255,255,255,.28);
+  position:relative; overflow:hidden;
+  margin:50px 0;
+}
+.texto-destacado::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);
+}
+.texto-destacado::after {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:4px; border-radius:0 2px 2px 0;
+  background:linear-gradient(to bottom,transparent,rgba(255,255,255,.7) 30%,rgba(255,255,255,.9) 70%,transparent);
+}
+.texto-destacado .bg-deco {
+  position:absolute; font-size:8em; opacity:.04;
+  bottom:-20px; right:-10px;
+  animation:hdPulse 5s ease-in-out infinite;
+}
 
-        .destino h3 {
-            color: #ff9a9e;
-            font-size: 2em;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: 700;
-        }
+.destacado-inner {
+  backdrop-filter:blur(10px);
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:18px; padding:24px 26px; margin:20px 0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2);
+}
+.texto-destacado p {
+  color:rgba(255,255,255,.92);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.16rem; line-height:2.05;
+  text-align:justify; margin:18px 0;
+  padding-left:10px;
+  text-shadow:0 1px 5px rgba(0,0,0,.15);
+}
+.texto-destacado p:first-of-type { margin-top:0; }
+.texto-destacado p:last-of-type  { margin-bottom:0; }
+.emoji-grande { font-size:1.55em; margin-right:10px; vertical-align:middle; }
 
-        .destino .ubicacion {
-            color: #fecfef;
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 15px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+/* ══════════════════════════════════════════
+   PROMESA FINAL
+══════════════════════════════════════════ */
+.promesa-final {
+  text-align:center; margin:50px 0 30px;
+  padding:58px 42px;
+  border-radius:36px;
+  backdrop-filter:blur(22px) saturate(1.6);
+  background:linear-gradient(145deg,rgba(255,255,255,.22),rgba(255,255,255,.1));
+  border:1.5px solid rgba(255,255,255,.44);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.12),
+    0 8px 36px rgba(0,0,0,.2),
+    0 28px 70px rgba(120,0,60,.22),
+    inset 0 1px 0 rgba(255,255,255,.32);
+  position:relative; overflow:hidden;
+  animation:revealUp .9s cubic-bezier(.16,1,.3,1) .3s both;
+}
+.promesa-final::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:36px 36px 0 0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);
+}
+.promesa-final::after {
+  content:'✈️'; position:absolute;
+  font-size:9em; opacity:.04;
+  bottom:-25px; right:-15px;
+  animation:hdPulse 4s ease-in-out infinite;
+}
+/* Rotating background orb */
+.promesa-final .orb {
+  position:absolute; top:-50%; left:-50%;
+  width:200%; height:200%;
+  background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 65%);
+  animation:orbitSpin 22s linear infinite;
+  pointer-events:none;
+}
+@keyframes orbitSpin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+.promesa-final h2 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.5rem,3.5vw,2.6rem); font-weight:700; margin-bottom:26px;
+  color:#fff; text-shadow:0 0 20px rgba(255,255,255,.4), 0 2px 12px rgba(0,0,0,.18);
+  position:relative; z-index:1;
+}
+.promesa-final p {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.26rem; line-height:2;
+  color:rgba(255,255,255,.9); margin:8px 0;
+  text-shadow:0 1px 5px rgba(0,0,0,.15);
+  position:relative; z-index:1;
+}
+.promesa-final p strong { color:#fff; font-style:italic; font-weight:600; }
 
-        .destino p {
-            color: #555;
-            font-size: 1.15em;
-            line-height: 1.8;
-            text-align: center;
-        }
+/* ══════════════════════════════════════════
+   CONTROL DE MÚSICA
+══════════════════════════════════════════ */
+#musicControl {
+  position:fixed; bottom:28px; right:28px; z-index:1001;
+  background:rgba(255,255,255,.2);
+  border:1.5px solid rgba(255,255,255,.5); backdrop-filter:blur(16px) saturate(1.5);
+  color:#fff; padding:14px 22px; border-radius:50px;
+  cursor:pointer; font-weight:700; font-size:.98rem;
+  box-shadow:0 8px 30px rgba(0,0,0,.2), 0 0 0 1px rgba(255,255,255,.1), inset 0 1px 0 rgba(255,255,255,.28);
+  transition:all .3s ease; display:flex; align-items:center; gap:9px;
+  text-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+#musicControl:hover {
+  transform:translateY(-4px);
+  background:rgba(255,255,255,.32);
+  box-shadow:0 14px 42px rgba(0,0,0,.24), 0 0 28px rgba(255,255,255,.15);
+}
+#musicControl.playing { animation:mPulse 2s ease-in-out infinite; }
+@keyframes mPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+#musicNotification {
+  position:absolute; top:-8px; right:-8px;
+  background:#e91e63; color:#fff; border-radius:50%;
+  width:22px; height:22px; display:none;
+  align-items:center; justify-content:center;
+  font-size:.65em; font-weight:900; border:2px solid rgba(255,255,255,.6);
+  animation:nPulse 1.2s ease-in-out infinite;
+}
+@keyframes nPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+#songInfo {
+  position:fixed; bottom:84px; right:28px; z-index:1001;
+  background:rgba(80,0,30,.88); backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.28); color:#fff;
+  padding:12px 18px; border-radius:18px;
+  box-shadow:0 8px 26px rgba(0,0,0,.28); font-size:.87em;
+  max-width:240px; display:none;
+}
+#songInfo .si-label {
+  font-weight:700; margin-bottom:4px; color:#ffb3cc;
+  font-size:.78rem; letter-spacing:.1em; text-transform:uppercase;
+}
+#currentSongName { color:rgba(255,220,230,.9); }
 
-        .destino.destacado {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            color: white;
-            border-color: white;
-        }
-
-        .destino.destacado h3,
-        .destino.destacado .ubicacion,
-        .destino.destacado p {
-            color: white;
-        }
-
-        /* Rutas */
-        .rutas-section {
-            margin: 60px 0;
-            background: linear-gradient(135deg, #fff5f8 0%, #ffe6f0 100%);
-            padding: 50px;
-            border-radius: 30px;
-            box-shadow: 0 15px 40px rgba(255, 154, 158, 0.2);
-        }
-
-        .rutas-section h2 {
-            color: #ff9a9e;
-            font-size: 2.5em;
-            text-align: center;
-            margin-bottom: 40px;
-            font-weight: 700;
-        }
-
-        .ruta {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            margin: 25px 0;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            transition: all 0.3s ease;
-        }
-
-        .ruta:hover {
-            transform: translateX(10px);
-            box-shadow: 0 12px 35px rgba(255, 154, 158, 0.3);
-        }
-
-        .ruta .icono-ruta {
-            font-size: 3em;
-            min-width: 80px;
-            text-align: center;
-        }
-
-        .ruta .info-ruta h4 {
-            color: #ff9a9e;
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-
-        .ruta .info-ruta p {
-            color: #666;
-            font-size: 1.1em;
-            line-height: 1.6;
-        }
-
-        /* Galería mejorada */
-        .galeria-imagenes {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
-        }
-
-        .imagen-item {
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            transition: all 0.4s ease;
-            background: white;
-            position: relative;
-        }
-
-        .imagen-item::after {
-            content: '✈️';
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 2.5em;
-            opacity: 0;
-            transition: all 0.3s ease;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
-        }
-
-        .imagen-item:hover::after {
-            opacity: 1;
-            transform: scale(1.2) rotate(15deg);
-        }
-
-        .imagen-item:hover {
-            transform: translateY(-15px) scale(1.03);
-            box-shadow: 0 25px 50px rgba(255, 154, 158, 0.3);
-        }
-
-        .imagen-item img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* Mensaje principal */
-        .mensaje-principal {
-            background: linear-gradient(135deg, #fff8fb 0%, #ffe6f0 100%);
-            padding: 50px;
-            border-radius: 30px;
-            margin: 50px 0;
-            border-left: 8px solid #ff9a9e;
-            box-shadow: 0 15px 40px rgba(255, 154, 158, 0.2);
-            position: relative;
-        }
-
-        .mensaje-principal::before {
-            content: '🗺️';
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 8em;
-            opacity: 0.1;
-        }
-
-        .mensaje-principal p {
-            color: #555;
-            font-size: 1.35em;
-            line-height: 2;
-            text-align: justify;
-            margin: 20px 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .mensaje-principal .destacado {
-            background: linear-gradient(135deg, rgba(255, 154, 158, 0.15), rgba(254, 207, 239, 0.15));
-            padding: 30px;
-            border-radius: 20px;
-            margin: 30px 0;
-            border-left: 5px solid #fecfef;
-        }
-
-        /* Promesa final */
-        .promesa-final {
-            text-align: center;
-            margin: 60px 0 40px 0;
-            padding: 60px;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            border-radius: 35px;
-            color: white;
-            box-shadow: 0 20px 50px rgba(255, 154, 158, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .promesa-final::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .promesa-final h2 {
-            font-size: 2.8em;
-            margin-bottom: 25px;
-            font-weight: 700;
-            position: relative;
-            z-index: 1;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .promesa-final p {
-            font-size: 1.5em;
-            line-height: 1.9;
-            font-weight: 500;
-            position: relative;
-            z-index: 1;
-            margin: 15px 0;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
-
-        .corazon {
-            position: fixed;
-            font-size: 2em;
-            pointer-events: none;
-            z-index: 999;
-            animation: floatUp 4s linear;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0) rotate(0deg); }
-            100% { opacity: 0; transform: translateY(-1000px) rotate(360deg); }
-        }
-
-        @media (max-width: 768px) {
-            .contenido { padding: 40px 25px; }
-            h1 { font-size: 2.5em; }
-            .mapa-viajes { grid-template-columns: 1fr; }
-            .galeria-imagenes { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-            .ruta { flex-direction: column; text-align: center; }
-        }
-    </style>
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media(max-width:768px){
+  body { padding:20px 16px 80px; }
+  .hero { padding:38px 22px 34px; }
+  .notif-card { padding:28px 22px; }
+  .ruta-item { gap:16px; padding:20px 20px; }
+  .texto-destacado { padding:28px 22px; }
+  .promesa-final { padding:40px 22px; }
+  #musicControl { bottom:18px; right:18px; }
+  #songInfo      { bottom:74px; right:18px; }
+}
+</style>
 </head>
 <body>
-    <!-- Reproductor de música de fondo -->
-    <audio id="backgroundMusic">
-        <source src="" type="audio/mpeg">
-        Tu navegador no soporta el elemento de audio.
-    </audio>
 
-    <!-- Botón de control de música -->
-    <div id="musicControl">
-        <span id="musicIcon">🎵</span>
-        <span id="musicText">Reproducir Música</span>
-        <span id="musicNotification" style="position: absolute; top: -8px; right: -8px; background: #ff9a9e; color: white; border-radius: 50%; width: 24px; height: 24px; display: none; align-items: center; justify-content: center; font-size: 0.7em; font-weight: 900; animation: pulse 1s infinite; border: 2px solid white;">!</span>
+<!-- AUDIO -->
+<audio id="backgroundMusic"><source src="" type="audio/mpeg"></audio>
+
+<!-- MÚSICA UI -->
+<div id="musicControl" role="button">
+  <span id="musicIcon">🎵</span>
+  <span id="musicText">Reproducir Música</span>
+  <span id="musicNotification" aria-hidden="true">!</span>
+</div>
+<div id="songInfo">
+  <div class="si-label">🎵 Reproduciendo</div>
+  <div id="currentSongName"></div>
+</div>
+
+<!-- FONDOS -->
+<div id="blobs" aria-hidden="true">
+  <div class="blob blob-1"></div><div class="blob blob-2"></div>
+  <div class="blob blob-3"></div><div class="blob blob-4"></div>
+  <div class="blob blob-5"></div><div class="blob blob-6"></div>
+</div>
+<div id="aviones-bg" aria-hidden="true"></div>
+<div id="hearts-bg"  aria-hidden="true"></div>
+<div id="stars-bg"   aria-hidden="true"></div>
+<div id="particles"  aria-hidden="true"></div>
+
+<!-- ════════════════════════════════════
+     CONTENIDO
+════════════════════════════════════ -->
+<div class="container">
+
+  <a href="index.html" class="btn-volver">← Volver al inicio</a>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div id="hero-deco" aria-hidden="true"></div>
+    <div class="hero-plane" aria-hidden="true">✈️</div>
+    <p class="hero-eyebrow">Nuestra Historia · Cada Reencuentro</p>
+    <h1>✈️ Nuestros Reencuentros ✈️</h1>
+    <p class="hero-sub">Cada viaje nos acerca más, cada kilómetro vale la pena</p>
+    <div class="fecha-badge">🗺️ Aventuras Juntos 🗺️</div>
+    <div class="header-line"></div>
+  </section>
+
+  <!-- NOTIFICACIÓN DE MENSAJE -->
+  <section class="notif-section">
+    <div class="notif-card">
+      <div class="bg-phone">📱</div>
+      <div class="chat-bubbles">
+        <div class="bubble">💬 "Amor, voy en camino" 💕</div>
+        <div class="bubble">💬 "Amor, llego en una hora" ❤️</div>
+      </div>
+      <p><strong>No sabes lo lindo que es recibir estos mensajes.</strong> Hacen que vuelva a la vida en tan solo 1 milisegundo. Mi corazón se acelera, la emoción me invade, y sé que pronto estaremos juntos de nuevo.</p>
     </div>
-    
-    <!-- Info de la canción actual -->
-    <div id="songInfo" style="position: fixed; bottom: 90px; right: 30px; z-index: 1001; background: rgba(26, 26, 26, 0.95); color: white; padding: 12px 20px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); font-size: 0.9em; max-width: 250px; display: none; border: 2px solid #ff9a9e;">
-        <div style="font-weight: 700; margin-bottom: 5px; color: #fecfef;">🎵 Reproduciendo:</div>
-        <div id="currentSongName" style="font-size: 0.95em; color: #fff;"></div>
-    </div>
+  </section>
 
-    <div class="aviones-fondo" id="aviones"></div>
-    <div class="stars" id="stars"></div>
+  <!-- RUTAS -->
+  <section class="rutas-section">
+    <h2 class="section-title">🗺️ Nuestras Rutas de Amor 🗺️</h2>
+    <div class="ruta-list">
 
-    <div class="container">
-        <a href="index.html" class="btn-volver">← Volver al inicio</a>
-
-        <div class="contenido">
-            <h1>✈️ Nuestros Reencuentros ✈️</h1>
-            <p class="subtitulo">Cada viaje nos acerca más, cada kilómetro vale la pena</p>
-
-            <div class="mensaje-notificacion">
-                <div class="texto-mensaje">
-                    "Amor, voy en camino" 💕
-                </div>
-                <div class="texto-mensaje">
-                    "Amor, llego en una hora" ❤️
-                </div>
-                <p><strong>No sabes lo lindo que es recibir estos mensajes.</strong> Hacen que vuelva a la vida en tan solo 1 milisegundo. Mi corazón se acelera, la emoción me invade, y sé que pronto estaremos juntos de nuevo.</p>
-            </div>
-
-            <div class="rutas-section">
-                <h2>🗺️ Nuestras Rutas de Amor 🗺️</h2>
-                
-                <div class="ruta">
-                    <div class="icono-ruta">🚌</div>
-                    <div class="info-ruta">
-                        <h4>Santiago ↔ La Serena</h4>
-                        <p>Los viajes que forjaron nuestro amor eterno. Kilómetros de carretera que recorremos con las ganas de vernos, de abrazarnos, de estar juntos.</p>
-                    </div>
-                </div>
-
-                <div class="ruta">
-                    <div class="icono-ruta">🚗</div>
-                    <div class="info-ruta">
-                        <h4>Santiago ↔ Ovalle</h4>
-                        <p>Otra ruta más de nuestro amor. Sin importar la distancia, siempre encontramos el camino para estar juntos.</p>
-                    </div>
-                </div>
-
-                <div class="ruta">
-                    <div class="icono-ruta">✈️</div>
-                    <div class="info-ruta">
-                        <h4>Viajes al Sur</h4>
-                        <p>Villarrica, Pucón, Licanray, Coñaripe, Valdivia... cada destino sur es una nueva aventura juntos.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mapa-viajes">
-                <div class="destino">
-                    <div class="icono-lugar">🏞️</div>
-                    <h3>Villarrica</h3>
-                    <div class="ubicacion">
-                        <span>📍</span>
-                        <span>Región de La Araucanía</span>
-                    </div>
-                    <p>Donde comenzaron nuestras aventuras en el sur. Los paisajes, los momentos, todo fue perfecto contigo.</p>
-                </div>
-
-                <div class="destino">
-                    <div class="icono-lugar">🏔️</div>
-                    <h3>Pucón</h3>
-                    <div class="ubicacion">
-                        <span>📍</span>
-                        <span>Tierra de Aventuras</span>
-                    </div>
-                    <p>La magia de estar juntos rodeados de naturaleza. Cada vista era más hermosa porque estabas a mi lado.</p>
-                </div>
-
-                <div class="destino">
-                    <div class="icono-lugar">🌊</div>
-                    <h3>Licanray</h3>
-                    <div class="ubicacion">
-                        <span>📍</span>
-                        <span>Lago Calafquén</span>
-                    </div>
-                    <p>Aguas cristalinas y momentos únicos. Cada segundo contigo en este lugar quedó grabado en mi corazón.</p>
-                </div>
-
-                <div class="destino">
-                    <div class="icono-lugar">🌲</div>
-                    <h3>Coñaripe</h3>
-                    <div class="ubicacion">
-                        <span>📍</span>
-                        <span>Termas y Naturaleza</span>
-                    </div>
-                    <p>Relax y amor en medio de la naturaleza. Contigo todo es mejor, hasta el simple hecho de caminar.</p>
-                </div>
-
-                <div class="destino destacado">
-                    <div class="icono-lugar">🦌</div>
-                    <h3>Tour del Huilo Huilo</h3>
-                    <div class="ubicacion">
-                        <span>⭐</span>
-                        <span>El Viaje Soñado</span>
-                    </div>
-                    <p>Después de tanto esfuerzo, después de sangrar y sufrir, todo salió como queríamos. Este tour fue la recompensa a nuestra perseverancia y amor.</p>
-                </div>
-
-                <div class="destino destacado">
-                    <div class="icono-lugar">🏛️</div>
-                    <h3>Valdivia</h3>
-                    <div class="ubicacion">
-                        <span>⭐</span>
-                        <span>Ciudad de los Ríos</span>
-                    </div>
-                    <p>Las fotos que sacamos, los lugares lindos, las comidas perfectas que comimos ese día fueron lo mejor. Los paisajes verdes y las playas de la costa... pura magia.</p>
-                </div>
-            </div>
-
-            <div class="galeria-imagenes">
-                <div class="imagen-item">
-                    <img src="assent/GIF13.gif" alt="Reencuentro">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/JPG9.jpg" alt="Reencuentro">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/GIF14.gif" alt="Reencuentro">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/GIF15.gif" alt="Reencuentro">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/JPG1.jpg" alt="Momento especial">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/GIF16.gif" alt="Reencuentro">
-                </div>
-            </div>
-
-            <div class="mensaje-principal">
-                <p>Cada viaje que hacemos es una memoria más, un recuerdo andante que nos hace recordar por qué somos tan felices juntos.</p>
-                
-                <div class="destacado">
-                    <p><strong>Los viajes de Santiago a La Serena o a Ovalle</strong> forjaron nuestro amor eterno y las ganas que nos tenemos. Cada kilómetro recorrido es una prueba más de que nuestro amor puede con todo, incluso con la distancia.</p>
-                </div>
-                
-                <p>Los viajes al sur - Villarrica, Pucón, Licanray, Coñaripe - cada momento es único. Pero especialmente el tour del Huilo Huilo que hicimos después de tanto esfuerzo, después de sangrar y sufrir... todo salió como queríamos. Ese viaje fue la recompensa perfecta.</p>
-                
-                <p>El viaje a Valdivia, las fotos que sacamos, los lugares lindos y las comidas perfectas que comimos ese día fueron lo mejor. Esos paisajes verdes y las playas de la costa quedaron grabados en mi memoria junto con tu sonrisa.</p>
-                
-                <p>Cada viaje que hacemos es una memoria más, un recuerdo andante que nos hace recordar por qué somos tan felices. Porque no importa el destino, lo importante es que estamos juntos, creando recuerdos que durarán para siempre.</p>
-            </div>
-
-            <div class="promesa-final">
-                <h2>🌍 Mi Promesa de Viajes 🌍</h2>
-                <p>Seguiremos viajando juntos.</p>
-                <p>Creando más recuerdos en cada destino.</p>
-                <p>Porque cada viaje contigo es una nueva aventura.</p>
-                <p>Cada reencuentro es volver a enamorarme.</p>
-                <p><strong>Y pronto, ya no habrá más despedidas, solo un viaje eterno juntos. 💕</strong></p>
-            </div>
+      <div class="ruta-item">
+        <div class="ruta-icon">🚌</div>
+        <div class="ruta-info">
+          <h4>Santiago ↔ La Serena</h4>
+          <p>Los viajes que forjaron nuestro amor eterno. Kilómetros de carretera que recorremos con las ganas de vernos, de abrazarnos, de estar juntos.</p>
         </div>
+      </div>
+
+      <div class="ruta-item">
+        <div class="ruta-icon">🚗</div>
+        <div class="ruta-info">
+          <h4>Santiago ↔ Ovalle</h4>
+          <p>Otra ruta más de nuestro amor. Sin importar la distancia, siempre encontramos el camino para estar juntos.</p>
+        </div>
+      </div>
+
+      <div class="ruta-item">
+        <div class="ruta-icon">✈️</div>
+        <div class="ruta-info">
+          <h4>Viajes al Sur</h4>
+          <p>Villarrica, Pucón, Licanray, Coñaripe, Valdivia... cada destino sur es una nueva aventura juntos.</p>
+        </div>
+      </div>
+
     </div>
+  </section>
 
-    <script>
-        // ============ SISTEMA DE MÚSICA ============
-        const playlist = [
-            { file: 'assent/The-First-Time.mp3', name: 'The First Time' },
-            { file: 'assent/There-You-Are.mp3', name: 'There You Are' },
-            { file: 'assent/Die-With-A-Smile.mp3', name: 'Die With A Smile' },
-            { file: 'assent/i-wish-i-hated-you.mp3', name: 'I Wish I Hated You' },
-            { file: 'assent/blue.mp3', name: 'Blue' },
-            { file: 'assent/Beautiful-Things.mp3', name: 'Beautiful Things' },
-            { file: 'assent/No-One-Noticed.mp3', name: 'No One Noticed' },
-            { file: 'assent/Indigo.mp3', name: 'Indigo' },
-            { file: 'assent/With-You.mp3', name: 'With You' },
-            { file: 'assent/number-one-girl.mp3', name: 'Number One Girl' },
-            { file: 'assent/TWENTIES.mp3', name: 'Twenties' }
-        ];
+  <!-- DESTINOS -->
+  <section class="destinos-section">
+    <h2 class="section-title">📍 Nuestros Destinos 📍</h2>
+    <div class="destinos-grid">
 
-        const audio = document.getElementById('backgroundMusic');
-        const musicControl = document.getElementById('musicControl');
-        const musicIcon = document.getElementById('musicIcon');
-        const musicText = document.getElementById('musicText');
-        const songInfo = document.getElementById('songInfo');
-        const currentSongName = document.getElementById('currentSongName');
-        const musicNotification = document.getElementById('musicNotification');
-        let isPlaying = false;
-        let currentSongIndex = 0;
+      <div class="destino-card">
+        <span class="destino-icon" style="--delay:0s">🏞️</span>
+        <h3>Villarrica</h3>
+        <div class="destino-ubicacion">📍 Región de La Araucanía</div>
+        <p>Donde comenzaron nuestras aventuras en el sur. Los paisajes, los momentos, todo fue perfecto contigo.</p>
+      </div>
 
-        audio.volume = 0.7;
+      <div class="destino-card">
+        <span class="destino-icon" style="--delay:.3s">🏔️</span>
+        <h3>Pucón</h3>
+        <div class="destino-ubicacion">📍 Tierra de Aventuras</div>
+        <p>La magia de estar juntos rodeados de naturaleza. Cada vista era más hermosa porque estabas a mi lado.</p>
+      </div>
 
-        function loadSong(index) {
-            currentSongIndex = index;
-            audio.src = playlist[index].file;
-            currentSongName.textContent = playlist[index].name;
-            saveMusicState(isPlaying, 0, index);
-        }
+      <div class="destino-card">
+        <span class="destino-icon" style="--delay:.6s">🌊</span>
+        <h3>Licanray</h3>
+        <div class="destino-ubicacion">📍 Lago Calafquén</div>
+        <p>Aguas cristalinas y momentos únicos. Cada segundo contigo en este lugar quedó grabado en mi corazón.</p>
+      </div>
 
-        function playNextSong() {
-            currentSongIndex = (currentSongIndex + 1) % playlist.length;
-            loadSong(currentSongIndex);
-            if (isPlaying) { audio.play().catch(e => console.log('Error:', e)); }
-        }
+      <div class="destino-card">
+        <span class="destino-icon" style="--delay:.9s">🌲</span>
+        <h3>Coñaripe</h3>
+        <div class="destino-ubicacion">📍 Termas y Naturaleza</div>
+        <p>Relax y amor en medio de la naturaleza. Contigo todo es mejor, hasta el simple hecho de caminar.</p>
+      </div>
 
-        audio.addEventListener('ended', playNextSong);
+      <div class="destino-card destacado">
+        <span class="destino-icon" style="--delay:1.2s">🦌</span>
+        <h3>Tour del Huilo Huilo</h3>
+        <div class="destino-ubicacion">⭐ El Viaje Soñado</div>
+        <p>Después de tanto esfuerzo, después de sangrar y sufrir, todo salió como queríamos. Este tour fue la recompensa a nuestra perseverancia y amor.</p>
+      </div>
 
-        function saveMusicState(playing, time, songIndex) {
-            localStorage.setItem('musicPlaying', playing);
-            localStorage.setItem('musicTime', time);
-            localStorage.setItem('currentSong', songIndex);
-        }
+      <div class="destino-card destacado">
+        <span class="destino-icon" style="--delay:1.5s">🏛️</span>
+        <h3>Valdivia</h3>
+        <div class="destino-ubicacion">⭐ Ciudad de los Ríos</div>
+        <p>Las fotos que sacamos, los lugares lindos, las comidas perfectas que comimos ese día fueron lo mejor. Los paisajes verdes y la costa... pura magia.</p>
+      </div>
 
-        function loadMusicState() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-            const savedSong = parseInt(localStorage.getItem('currentSong')) || 0;
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            
-            loadSong(savedSong);
-            audio.load();
-            
-            if (wasPlaying) {
-                sessionStorage.setItem('musicNavigating', 'true');
-                audio.currentTime = savedTime;
-                
-                if (hasInteracted) {
-                    setTimeout(() => {
-                        audio.currentTime = savedTime;
-                        audio.play().then(() => {
-                            isPlaying = true;
-                            updateMusicButton();
-                            showSongInfo();
-                            sessionStorage.removeItem('musicNavigating');
-                        }).catch(() => activatePlanB(savedTime));
-                    }, 100);
-                } else {
-                    activatePlanB(savedTime);
-                }
-            }
-        }
-        
-        function activatePlanB(savedTime) {
-            const events = ['click', 'touchstart', 'keydown', 'mousemove', 'scroll'];
-            const resumeMusic = () => {
-                audio.currentTime = savedTime;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                    sessionStorage.removeItem('musicNavigating');
-                    localStorage.setItem('userHasInteracted', 'true');
-                });
-                events.forEach(e => document.removeEventListener(e, resumeMusic));
-            };
-            events.forEach(e => document.addEventListener(e, resumeMusic, { once: true, capture: true }));
-            isPlaying = false;
-            updateMusicButton();
-        }
+    </div>
+  </section>
 
-        function showSongInfo() { songInfo.style.display = 'block'; }
-        function hideSongInfo() { songInfo.style.display = 'none'; }
+  <!-- GALERÍA -->
+  <section class="galeria-section">
+    <h2 class="section-title">💖 Momentos del Viaje 💖</h2>
+    <div class="galeria-grid">
+      <div class="img-card"><img src="assent/GIF13.gif" alt="Reencuentro"></div>
+      <div class="img-card is-photo"><img src="assent/JPG9.jpg" alt="Reencuentro"></div>
+      <div class="img-card"><img src="assent/GIF14.gif" alt="Reencuentro"></div>
+      <div class="img-card"><img src="assent/GIF15.gif" alt="Reencuentro"></div>
+      <div class="img-card is-photo"><img src="assent/JPG1.jpg" alt="Momento especial"></div>
+      <div class="img-card"><img src="assent/GIF16.gif" alt="Reencuentro"></div>
+    </div>
+  </section>
 
-        function updateMusicButton() {
-            if (isPlaying) {
-                musicIcon.textContent = '⏸️';
-                musicText.textContent = 'Pausar Música';
-                musicControl.classList.add('playing');
-                musicControl.style.animation = 'musicPulse 2s infinite';
-                musicNotification.style.display = 'none';
-                showSongInfo();
-            } else {
-                const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-                if (wasPlaying) {
-                    musicIcon.textContent = '▶️';
-                    musicText.textContent = 'Continuar Música';
-                    musicControl.style.animation = 'pulse 1.5s infinite';
-                    musicNotification.style.display = 'flex';
-                } else {
-                    musicIcon.textContent = '🎵';
-                    musicText.textContent = 'Reproducir Música';
-                    musicControl.style.animation = 'none';
-                    musicNotification.style.display = 'none';
-                }
-                musicControl.classList.remove('playing');
-                hideSongInfo();
-            }
-        }
+  <!-- TEXTO DESTACADO -->
+  <div class="texto-destacado">
+    <div class="bg-deco">🗺️</div>
+    <p><span class="emoji-grande">✈️</span>Cada viaje que hacemos es una memoria más, un recuerdo andante que nos hace recordar por qué somos tan felices juntos.</p>
+    <div class="destacado-inner">
+      <p><span class="emoji-grande">🚌</span><strong style="color:#fff;font-style:italic;">Los viajes de Santiago a La Serena o a Ovalle</strong> forjaron nuestro amor eterno y las ganas que nos tenemos. Cada kilómetro recorrido es una prueba más de que nuestro amor puede con todo, incluso con la distancia.</p>
+    </div>
+    <p><span class="emoji-grande">🦌</span>Los viajes al sur — Villarrica, Pucón, Licanray, Coñaripe — cada momento es único. Pero especialmente el tour del Huilo Huilo que hicimos después de tanto esfuerzo, después de sangrar y sufrir... todo salió como queríamos. Ese viaje fue la recompensa perfecta.</p>
+    <p><span class="emoji-grande">🏛️</span>El viaje a Valdivia, las fotos que sacamos, los lugares lindos y las comidas perfectas que comimos ese día fueron lo mejor. Esos paisajes verdes y las playas de la costa quedaron grabados en mi memoria junto con tu sonrisa.</p>
+    <p><span class="emoji-grande">❤️</span>Porque no importa el destino, lo importante es que estamos juntos, creando recuerdos que durarán para siempre.</p>
+  </div>
 
-        musicControl.addEventListener('click', function() {
-            localStorage.setItem('userHasInteracted', 'true');
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                saveMusicState(false, audio.currentTime, currentSongIndex);
-            } else {
-                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-                audio.currentTime = savedTime;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    saveMusicState(true, audio.currentTime, currentSongIndex);
-                });
-            }
-            updateMusicButton();
-        });
+  <!-- PROMESA FINAL -->
+  <div class="promesa-final">
+    <div class="orb"></div>
+    <h2>🌍 Mi Promesa de Viajes 🌍</h2>
+    <p>Seguiremos viajando juntos.</p>
+    <p>Creando más recuerdos en cada destino.</p>
+    <p>Porque cada viaje contigo es una nueva aventura.</p>
+    <p>Cada reencuentro es volver a enamorarme.</p>
+    <p><strong>Y pronto, ya no habrá más despedidas, solo un viaje eterno juntos. 💕</strong></p>
+  </div>
 
-        audio.addEventListener('timeupdate', () => { if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIndex); });
-        audio.addEventListener('play', () => { isPlaying = true; updateMusicButton(); });
-        audio.addEventListener('pause', () => { if (!audio.ended) { isPlaying = false; updateMusicButton(); } });
-        window.addEventListener('beforeunload', () => { if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIndex); });
-        
-        audio.addEventListener('canplay', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const isNavigating = sessionStorage.getItem('musicNavigating') === 'true';
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            if (wasPlaying && isNavigating && !isPlaying && hasInteracted) {
-                audio.currentTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                    sessionStorage.removeItem('musicNavigating');
-                });
-            }
-        });
-        
-        audio.addEventListener('loadedmetadata', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            if (wasPlaying && savedTime > 0 && !isPlaying && hasInteracted) {
-                audio.currentTime = savedTime;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                });
-            }
-        });
-        
-        document.addEventListener('visibilitychange', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            if (!document.hidden && wasPlaying && !isPlaying && hasInteracted) {
-                audio.currentTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                });
-            }
-        });
+</div><!-- /container -->
 
-        // ============ RESTO DEL CÓDIGO ORIGINAL ============
-        function crearEstrellas() {
-            const starsContainer = document.getElementById('stars');
-            for (let i = 0; i < 150; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                starsContainer.appendChild(star);
-            }
-        }
+<script>
+'use strict';
 
-        function crearAviones() {
-            const avionesContainer = document.getElementById('aviones');
-            for (let i = 0; i < 5; i++) {
-                const avion = document.createElement('div');
-                avion.className = 'avion';
-                avion.textContent = '✈️';
-                avion.style.top = Math.random() * 100 + '%';
-                avion.style.animationDelay = Math.random() * 30 + 's';
-                avion.style.animationDuration = (20 + Math.random() * 15) + 's';
-                avionesContainer.appendChild(avion);
-            }
-        }
+/* ── FONDOS GENERATIVOS ── */
+(function buildBg() {
 
-        function crearCorazon() {
-            const corazones = ['❤️', '💕', '💖', '💗', '💓', '💝', '✈️', '🗺️'];
-            const corazon = document.createElement('div');
-            corazon.className = 'corazon';
-            corazon.textContent = corazones[Math.floor(Math.random() * corazones.length)];
-            corazon.style.left = Math.random() * 100 + '%';
-            corazon.style.bottom = '-50px';
-            document.body.appendChild(corazon);
-            setTimeout(() => corazon.remove(), 4000);
-        }
+  // Partículas
+  const pCont   = document.getElementById('particles');
+  const pColors = ['rgba(255,255,255,.95)','#ffd6e8','#ffb3cc','rgba(255,255,255,.7)','#fce4ec','#fff0f5'];
+  for (let i = 0; i < 70; i++) {
+    const p   = document.createElement('div');
+    p.className = 'particle';
+    const sz  = Math.random() * 3.5 + .8;
+    const clr = pColors[Math.floor(Math.random() * pColors.length)];
+    p.style.cssText = `
+      width:${sz}px;height:${sz}px;
+      left:${Math.random()*100}%;
+      background:${clr};
+      box-shadow:0 0 ${sz*3}px ${clr};
+      animation-duration:${10+Math.random()*18}s;
+      animation-delay:-${Math.random()*22}s;
+    `;
+    pCont.appendChild(p);
+  }
 
-        // Animación de aparición
-        const observador = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
+  // Estrellas
+  const sCont = document.getElementById('stars-bg');
+  for (let i = 0; i < 160; i++) {
+    const s   = document.createElement('div');
+    s.className = 'star-item';
+    const sz  = Math.random() * 2.5 + .8;
+    s.style.cssText = `
+      width:${sz}px;height:${sz}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      background:rgba(255,255,255,${.35+Math.random()*.55});
+      animation-delay:${Math.random()*5}s;
+      animation-duration:${1.5+Math.random()*3}s;
+    `;
+    sCont.appendChild(s);
+  }
 
-        if (document.readyState === 'loading') {
-            window.addEventListener('DOMContentLoaded', initializePage);
-        } else {
-            initializePage();
-        }
-        
-        function initializePage() {
-            crearEstrellas();
-            crearAviones();
-            setInterval(crearCorazon, 800);
-            loadMusicState();
-            
-            document.querySelectorAll('.destino, .ruta, .imagen-item').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'all 0.6s ease-out';
-                observador.observe(el);
-            });
-        }
-    </script>
+  // Corazones / aviones flotantes fondo
+  const hCont  = document.getElementById('hearts-bg');
+  const hearts = ['❤️','💕','💖','💗','💝','✈️','🗺️','🌸'];
+  for (let i = 0; i < 22; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+    h.style.cssText = `
+      left:${Math.random()*100}%;
+      animation-delay:${Math.random()*18}s;
+      animation-duration:${12+Math.random()*12}s;
+      font-size:${1.5+Math.random()*2}em;
+    `;
+    hCont.appendChild(h);
+  }
+
+  // Aviones de fondo
+  const aCont = document.getElementById('aviones-bg');
+  for (let i = 0; i < 5; i++) {
+    const a = document.createElement('div');
+    a.className = 'avion-bg';
+    a.textContent = '✈️';
+    a.style.cssText = `
+      top:${10 + Math.random()*80}%;
+      animation-delay:${Math.random()*30}s;
+      animation-duration:${22+Math.random()*18}s;
+    `;
+    aCont.appendChild(a);
+  }
+
+  // Decoraciones del hero
+  const decoEl = document.getElementById('hero-deco');
+  const dItems = ['✈️','💕','🗺️','💖','🌟','💗','💫','❤️'];
+  const dPos   = [
+    {top:'8%',  left:'3%',  sz:'2em',   dur:'2.8s', del:'0s',   rot:'-12deg'},
+    {top:'12%', left:'90%', sz:'1.7em', dur:'3.2s', del:'0.6s', rot:'15deg' },
+    {top:'60%', left:'2%',  sz:'1.9em', dur:'2.5s', del:'1.3s', rot:'-8deg' },
+    {top:'65%', left:'91%', sz:'2.2em', dur:'3s',   del:'0.3s', rot:'10deg' },
+    {top:'82%', left:'14%', sz:'1.5em', dur:'3.5s', del:'1.8s', rot:'5deg'  },
+    {top:'30%', left:'94%', sz:'1.8em', dur:'2.7s', del:'0.9s', rot:'-5deg' },
+    {top:'87%', left:'80%', sz:'2em',   dur:'3.1s', del:'2.1s', rot:'18deg' },
+    {top:'42%', left:'46%', sz:'1.4em', dur:'4s',   del:'1s',   rot:'-3deg' },
+  ];
+  dPos.forEach((d,i) => {
+    const el = document.createElement('div');
+    el.className = 'hdeco';
+    el.textContent = dItems[i];
+    el.style.cssText = `top:${d.top};left:${d.left};font-size:${d.sz};--dur:${d.dur};--del:${d.del};--rot:${d.rot};`;
+    decoEl.appendChild(el);
+  });
+})();
+
+/* ── CORAZONES / AVIONES FLOTANTES ── */
+function crearCorazon() {
+  const items = ['❤️','💕','💖','💗','💓','💝','✈️','🗺️'];
+  const c = document.createElement('div');
+  c.className = 'corazon';
+  c.textContent = items[Math.floor(Math.random() * items.length)];
+  c.style.left   = Math.random() * 100 + '%';
+  c.style.bottom = '-50px';
+  document.body.appendChild(c);
+  setTimeout(() => c.remove(), 4000);
+}
+setInterval(crearCorazon, 1600);
+
+/* ── SCROLL REVEAL ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.ruta-item, .destino-card, .img-card, .texto-destacado, .promesa-final, .notif-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(34px)';
+  el.style.transition = 'opacity .75s ease, transform .8s cubic-bezier(.16,1,.3,1)';
+  observer.observe(el);
+});
+
+/* ── MÚSICA — lógica original 100% preservada ── */
+const playlist = [
+  {file:'assent/The-First-Time.mp3',     name:'The First Time'    },
+  {file:'assent/There-You-Are.mp3',       name:'There You Are'     },
+  {file:'assent/Die-With-A-Smile.mp3',    name:'Die With A Smile'  },
+  {file:'assent/i-wish-i-hated-you.mp3', name:'I Wish I Hated You'},
+  {file:'assent/blue.mp3',               name:'Blue'              },
+  {file:'assent/Beautiful-Things.mp3',   name:'Beautiful Things'  },
+  {file:'assent/No-One-Noticed.mp3',     name:'No One Noticed'    },
+  {file:'assent/Indigo.mp3',             name:'Indigo'            },
+  {file:'assent/With-You.mp3',           name:'With You'          },
+  {file:'assent/number-one-girl.mp3',    name:'Number One Girl'   },
+  {file:'assent/TWENTIES.mp3',           name:'Twenties'          }
+];
+
+const audio       = document.getElementById('backgroundMusic');
+const musicCtrl   = document.getElementById('musicControl');
+const musicIcon   = document.getElementById('musicIcon');
+const musicText   = document.getElementById('musicText');
+const songInfo    = document.getElementById('songInfo');
+const songNameEl  = document.getElementById('currentSongName');
+const musicNotif  = document.getElementById('musicNotification');
+let isPlaying = false, currentSongIdx = 0;
+audio.volume = 0.7;
+
+function loadSong(idx) {
+  currentSongIdx = idx;
+  audio.src = playlist[idx].file;
+  if (songNameEl) songNameEl.textContent = playlist[idx].name;
+  saveMusicState(isPlaying, 0, idx);
+}
+function playNextSong() {
+  currentSongIdx = (currentSongIdx + 1) % playlist.length;
+  loadSong(currentSongIdx);
+  if (isPlaying) audio.play().catch(() => {});
+}
+audio.addEventListener('ended', playNextSong);
+function saveMusicState(p, t, idx) {
+  localStorage.setItem('musicPlaying', p);
+  localStorage.setItem('musicTime', t);
+  localStorage.setItem('currentSong', idx);
+}
+function updateMusicButton() {
+  const was = localStorage.getItem('musicPlaying') === 'true';
+  if (isPlaying) {
+    musicIcon.textContent = '⏸️';
+    musicText.textContent = 'Pausar Música';
+    musicCtrl.classList.add('playing');
+    musicNotif.style.display = 'none';
+    songInfo.style.display = 'block';
+  } else {
+    musicIcon.textContent = was ? '▶️' : '🎵';
+    musicText.textContent = was ? 'Continuar Música' : 'Reproducir Música';
+    musicCtrl.classList.remove('playing');
+    musicNotif.style.display = was ? 'flex' : 'none';
+    songInfo.style.display = 'none';
+  }
+}
+function activatePlanB(t) {
+  const evs = ['click','touchstart','keydown','mousemove','scroll'];
+  const go  = () => {
+    audio.currentTime = t;
+    audio.play().then(() => {
+      isPlaying = true; updateMusicButton();
+      localStorage.setItem('userHasInteracted','true');
+      sessionStorage.removeItem('musicNavigating');
+    }).catch(() => {});
+    evs.forEach(ev => document.removeEventListener(ev, go));
+  };
+  evs.forEach(ev => document.addEventListener(ev, go, {once:true, capture:true}));
+  isPlaying = false; updateMusicButton();
+}
+function loadMusicState() {
+  const was = localStorage.getItem('musicPlaying') === 'true';
+  const t   = parseFloat(localStorage.getItem('musicTime')) || 0;
+  const idx = parseInt(localStorage.getItem('currentSong')) || 0;
+  const hi  = localStorage.getItem('userHasInteracted') === 'true';
+  loadSong(idx); audio.load();
+  if (was) {
+    sessionStorage.setItem('musicNavigating', 'true');
+    audio.currentTime = t;
+    if (hi) {
+      setTimeout(() => {
+        audio.currentTime = t;
+        audio.play().then(() => {
+          isPlaying = true; updateMusicButton();
+          sessionStorage.removeItem('musicNavigating');
+        }).catch(() => activatePlanB(t));
+      }, 100);
+    } else activatePlanB(t);
+  }
+}
+musicCtrl.addEventListener('click', () => {
+  localStorage.setItem('userHasInteracted', 'true');
+  if (isPlaying) {
+    audio.pause(); isPlaying = false;
+    saveMusicState(false, audio.currentTime, currentSongIdx);
+    updateMusicButton();
+  } else {
+    const t = parseFloat(localStorage.getItem('musicTime')) || 0;
+    audio.currentTime = t;
+    audio.play().then(() => {
+      isPlaying = true;
+      saveMusicState(true, audio.currentTime, currentSongIdx);
+      updateMusicButton();
+    }).catch(() => {});
+  }
+});
+audio.addEventListener('timeupdate', () => { if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIdx); });
+audio.addEventListener('play',  () => { isPlaying = true;  updateMusicButton(); });
+audio.addEventListener('pause', () => { if (!audio.ended) { isPlaying = false; updateMusicButton(); } });
+window.addEventListener('beforeunload', () => { if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIdx); });
+['canplay','loadedmetadata'].forEach(ev => {
+  audio.addEventListener(ev, () => {
+    const was = localStorage.getItem('musicPlaying') === 'true';
+    const t   = parseFloat(localStorage.getItem('musicTime')) || 0;
+    const hi  = localStorage.getItem('userHasInteracted') === 'true';
+    const nav = sessionStorage.getItem('musicNavigating') === 'true';
+    if (was && !isPlaying && hi && (ev === 'canplay' ? nav : t > 0)) {
+      audio.currentTime = t;
+      audio.play().then(() => { isPlaying = true; updateMusicButton(); sessionStorage.removeItem('musicNavigating'); }).catch(() => {});
+    }
+  });
+});
+document.addEventListener('visibilitychange', () => {
+  const was = localStorage.getItem('musicPlaying') === 'true';
+  const hi  = localStorage.getItem('userHasInteracted') === 'true';
+  if (!document.hidden && was && !isPlaying && hi) {
+    audio.currentTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+    audio.play().then(() => { isPlaying = true; updateMusicButton(); }).catch(() => {});
+  }
+});
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', loadMusicState);
+} else { loadMusicState(); }
+</script>
 </body>
 </html>
