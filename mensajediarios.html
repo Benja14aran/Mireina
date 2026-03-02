@@ -1,859 +1,891 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuestros Mensajes Diarios 💌</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nuestros Mensajes Diarios 💌</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,600&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════════
+   RESET
+══════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
+/* ══════════════════════════════════════════
+   VARIABLES — aqua teal + coral rosa
+══════════════════════════════════════════ */
+:root {
+  --t1: #a8edea;   /* aqua claro */
+  --t2: #4dd0e1;   /* cian medio */
+  --t3: #00acc1;   /* teal */
+  --p1: #fe83a8;   /* coral rosa */
+  --p2: #f48fb1;   /* rosa medio */
+  --p3: #fed6e3;   /* rosa pálido */
+}
 
-        /* Estilos para el control de música */
-        #musicControl {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1001;
-            background: linear-gradient(135deg, #fe83a8 0%, #a8edea 100%);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(254, 131, 168, 0.5);
-            font-weight: 700;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        #musicControl #musicNotification {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-        }
+/* ══════════════════════════════════════════
+   FONDO — teal claro/oscuro + rosa claro/oscuro
+══════════════════════════════════════════ */
+body {
+  font-family:'Rajdhani',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+  padding:28px 20px 90px;
+  background:#0d2f35; /* teal muy oscuro de base */
+}
 
-        #musicControl:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(254, 131, 168, 0.7);
-        }
+/* Capas de gradiente radial: claros arriba, oscuros abajo */
+body::before {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    /* Claro teal — esquina sup izq */
+    radial-gradient(ellipse 70% 50% at 5%  8%,  #b2ebf2 0%, transparent 52%),
+    /* Claro rosa — esquina sup der */
+    radial-gradient(ellipse 58% 44% at 95% 5%,  #fce4ec 0%, transparent 48%),
+    /* Centro claro */
+    radial-gradient(ellipse 48% 36% at 50% 14%, rgba(178,235,242,.6) 0%, transparent 50%),
+    /* Oscuro teal — izq baja */
+    radial-gradient(ellipse 44% 50% at 0%  65%, #004d40 0%, transparent 52%),
+    /* Oscuro rosa — der baja */
+    radial-gradient(ellipse 50% 44% at 100% 80%, #880e4f 0%, transparent 50%),
+    /* Oscuro fondo */
+    radial-gradient(ellipse 62% 40% at 50% 100%, #00363a 0%, transparent 55%),
+    /* Degradé base diagonal teal → rosa */
+    linear-gradient(145deg, #26c6da 0%, #0097a7 28%, #006064 55%, #f06292 82%, #e91e63 100%);
+}
 
-        #musicControl.playing {
-            animation: musicPulse 2s infinite;
-        }
+/* Textura de puntos */
+body::after {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:radial-gradient(circle, rgba(255,255,255,.07) 1px, transparent 1px);
+  background-size:32px 32px;
+}
 
-        @keyframes musicPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
+/* ══════════════════════════════════════════
+   BLOBS ANIMADOS — teal + rosa
+══════════════════════════════════════════ */
+#blobs { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.blob  { position:absolute; border-radius:50%; filter:blur(72px); }
 
-        /* Burbujas flotantes de fondo */
-        .burbujas {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 1;
-        }
+/* blob teal claro arriba izq */
+.blob-1 { width:500px; height:500px; background:#b2ebf2; top:-130px; left:-90px; opacity:.5;
+  animation:b1 15s ease-in-out infinite alternate; }
+@keyframes b1 {
+  0%  { transform:translate(0,0) scale(1);       opacity:.48; }
+  50% { transform:translate(80px,60px) scale(1.14); opacity:.62; }
+  100%{ transform:translate(-40px,100px) scale(.9);  opacity:.42; }
+}
+/* blob rosa claro arriba der */
+.blob-2 { width:380px; height:380px; background:#fce4ec; top:-70px; right:-70px; opacity:.48;
+  animation:b2 18s ease-in-out infinite alternate; }
+@keyframes b2 {
+  0%  { transform:translate(0,0) scale(1);       opacity:.45; }
+  50% { transform:translate(-58px,88px) scale(1.18); opacity:.6; }
+  100%{ transform:translate(48px,36px) scale(.88);   opacity:.38; }
+}
+/* blob teal oscuro izq baja */
+.blob-3 { width:450px; height:450px; background:#004d40; bottom:-115px; left:-95px; opacity:.52;
+  animation:b3 16s ease-in-out infinite alternate; }
+@keyframes b3 {
+  0%  { transform:translate(0,0) scale(1);       opacity:.5; }
+  50% { transform:translate(95px,-65px) scale(1.15); opacity:.65; }
+  100%{ transform:translate(28px,58px) scale(.9);    opacity:.44; }
+}
+/* blob rosa oscuro der baja */
+.blob-4 { width:400px; height:400px; background:#880e4f; bottom:-100px; right:-75px; opacity:.5;
+  animation:b4 20s ease-in-out infinite alternate; }
+@keyframes b4 {
+  0%  { transform:translate(0,0) scale(1);      opacity:.5; }
+  50% { transform:translate(-88px,-48px) scale(1.1); opacity:.62; }
+  100%{ transform:translate(36px,78px) scale(.95);   opacity:.4; }
+}
+/* blob cian medio centro */
+.blob-5 { width:320px; height:320px; background:#26c6da; top:35%; left:38%; opacity:.2;
+  animation:b5 22s ease-in-out infinite alternate; }
+@keyframes b5 {
+  0%  { transform:translate(0,0) scale(.85);    opacity:.2; }
+  50% { transform:translate(-68px,78px) scale(1.06); opacity:.34; }
+  100%{ transform:translate(88px,-48px) scale(.8);   opacity:.16; }
+}
+/* blob rosa medio der */
+.blob-6 { width:280px; height:280px; background:#f06292; top:55%; right:10%; opacity:.32;
+  animation:b6 13s ease-in-out infinite alternate; }
+@keyframes b6 {
+  0%  { transform:translate(0,0) scale(1);      opacity:.3; }
+  100%{ transform:translate(-48px,-78px) scale(1.22); opacity:.48; }
+}
 
-        .burbuja {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 50%;
-            animation: floatBubble 15s infinite;
-        }
+/* ══════════════════════════════════════════
+   PARTÍCULAS / ESTRELLAS / CORAZONES
+══════════════════════════════════════════ */
+#particles { position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+.particle  { position:absolute; border-radius:50%; opacity:0; animation:pDrift linear infinite; }
+@keyframes pDrift {
+  0%  { transform:translateY(108vh) scale(.3); opacity:0; }
+  5%  { opacity:.9; }
+  95% { opacity:.6; }
+  100%{ transform:translateY(-8vh) scale(1.2); opacity:0; }
+}
 
-        @keyframes floatBubble {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
-            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
-        }
+#hearts-bg { position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+.heart-float { position:absolute; opacity:.12; animation:floatHeart linear infinite; }
+@keyframes floatHeart {
+  0%  { transform:translateY(105vh) rotate(0deg); opacity:0; }
+  8%  { opacity:.12; }
+  92% { opacity:.12; }
+  100%{ transform:translateY(-5vh) rotate(360deg); opacity:0; }
+}
 
-        .stars {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 1;
-        }
+#stars { position:fixed; inset:0; z-index:1; pointer-events:none; }
+.star  { position:absolute; border-radius:50%; animation:twinkle ease-in-out infinite; }
+@keyframes twinkle { 0%,100%{opacity:.15} 50%{opacity:1} }
 
-        .star {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
+.corazon {
+  position:fixed; font-size:1.9em; pointer-events:none;
+  z-index:999; animation:floatUp 4s linear forwards;
+}
+@keyframes floatUp {
+  0%  { opacity:1; transform:translateY(0) rotate(0deg); }
+  100%{ opacity:0; transform:translateY(-900px) rotate(360deg); }
+}
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
+/* ══════════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════════ */
+.container {
+  position:relative; z-index:2;
+  max-width:1100px;
+  margin:0 auto;
+}
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
+/* ── Botón volver ── */
+.btn-volver {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:13px 30px; border-radius:30px;
+  background:rgba(255,255,255,.2);
+  border:1.5px solid rgba(255,255,255,.5);
+  backdrop-filter:blur(16px) saturate(1.5);
+  color:#fff; font-weight:700; font-size:.95rem;
+  text-decoration:none; letter-spacing:.05em;
+  box-shadow:0 6px 20px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.28);
+  transition:all .3s ease; margin-bottom:32px;
+  text-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+.btn-volver:hover {
+  transform:translateY(-3px);
+  background:rgba(255,255,255,.3);
+  box-shadow:0 12px 35px rgba(0,0,0,.22), 0 0 20px rgba(178,235,242,.2);
+}
 
-        .btn-volver {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.95);
-            color: #fe83a8;
-            padding: 15px 35px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
+/* ══════════════════════════════════════════
+   HERO HEADER
+══════════════════════════════════════════ */
+.hero {
+  text-align:center;
+  padding:56px 36px 48px;
+  border-radius:36px;
+  backdrop-filter:blur(24px) saturate(1.6);
+  background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.08));
+  border:1.5px solid rgba(255,255,255,.35);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.1),
+    0 8px 36px rgba(0,0,0,.22),
+    0 30px 75px rgba(0,77,64,.2),
+    inset 0 1px 0 rgba(255,255,255,.3);
+  position:relative; overflow:hidden;
+  margin-bottom:36px;
+  animation:revealUp .9s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes revealUp {
+  from{opacity:0;transform:translateY(45px) scale(.97)}
+  to  {opacity:1;transform:translateY(0) scale(1)}
+}
+.hero::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:36px 36px 0 0;
+  background:linear-gradient(90deg,transparent,rgba(168,237,234,.9),rgba(255,255,255,.8),rgba(254,211,227,.9),transparent);
+}
+.hero::after {
+  content:''; position:absolute; top:-70px; right:-70px;
+  width:240px; height:240px; border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle,rgba(178,235,242,.15),transparent 70%);
+}
 
-        .btn-volver:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.35);
-            background: white;
-        }
+#hero-deco { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.hdeco {
+  position:absolute; opacity:.1;
+  animation:hdPulse var(--dur,3s) ease-in-out infinite;
+  animation-delay:var(--del,0s);
+}
+@keyframes hdPulse {
+  0%,100%{transform:scale(1) rotate(var(--rot,0deg)); opacity:.1}
+  50%    {transform:scale(1.3) rotate(var(--rot,0deg)); opacity:.2}
+}
 
-        .contenido {
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 40px;
-            padding: 60px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: fadeIn 1s ease-out;
-        }
+.hero-eyebrow {
+  font-size:.78rem; letter-spacing:.35em; text-transform:uppercase;
+  color:rgba(255,255,255,.6); margin-bottom:16px;
+}
+.hero h1 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.9rem,5vw,3.6rem);
+  font-weight:900; line-height:1.06;
+  color:#fff;
+  text-shadow:0 0 40px rgba(178,235,242,.65), 0 0 80px rgba(254,131,168,.45), 0 4px 18px rgba(0,0,0,.3);
+  animation:hGlow 3s ease-in-out infinite;
+}
+@keyframes hGlow {
+  0%,100%{text-shadow:0 0 40px rgba(178,235,242,.65),0 0 80px rgba(254,131,168,.45),0 4px 18px rgba(0,0,0,.3)}
+  50%    {text-shadow:0 0 65px rgba(178,235,242,.9),  0 0 120px rgba(254,131,168,.7), 0 4px 22px rgba(0,0,0,.4)}
+}
+.hero-sub {
+  margin-top:12px;
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.2rem; color:rgba(255,255,255,.75); letter-spacing:.08em;
+  text-shadow:0 1px 6px rgba(0,0,0,.2);
+}
 
-        h1 {
-            color: #fe83a8;
-            font-size: 3.5em;
-            text-align: center;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
+/* ══════════════════════════════════════════
+   GRID DE TIPOS DE MENSAJES — glass cards
+══════════════════════════════════════════ */
+.tipos-mensajes {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:22px;
+  margin:50px 0;
+}
 
-        .subtitulo {
-            text-align: center;
-            color: #a8edea;
-            font-size: 1.3em;
-            margin-bottom: 50px;
-            font-style: italic;
-            font-weight: 500;
-        }
+.tipo-mensaje {
+  backdrop-filter:blur(20px) saturate(1.5);
+  background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.08));
+  border:1.5px solid rgba(255,255,255,.32);
+  border-radius:26px; padding:32px 28px;
+  position:relative; overflow:hidden;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.09),
+    0 8px 28px rgba(0,0,0,.18),
+    0 20px 50px rgba(0,77,64,.15),
+    inset 0 1px 0 rgba(255,255,255,.26);
+  transition:transform .38s cubic-bezier(.16,1,.3,1), box-shadow .38s ease;
+  text-align:center;
+}
+.tipo-mensaje::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(168,237,234,.6),rgba(254,131,168,.5),transparent);
+}
+.tipo-mensaje:hover {
+  transform:translateY(-10px);
+  box-shadow:0 0 0 1px rgba(255,255,255,.16), 0 16px 44px rgba(0,0,0,.22), 0 28px 65px rgba(0,77,64,.2), inset 0 1px 0 rgba(255,255,255,.3);
+}
+.tipo-mensaje .icono {
+  font-size:3.2em; margin-bottom:18px;
+  animation:floatIcon 3s ease-in-out infinite;
+  display:block;
+  filter:drop-shadow(0 0 12px rgba(168,237,234,.5));
+}
+.tipo-mensaje:nth-child(2) .icono { animation-delay:.5s; }
+.tipo-mensaje:nth-child(3) .icono { animation-delay:1s; }
+.tipo-mensaje:nth-child(4) .icono { animation-delay:1.5s; }
+.tipo-mensaje:nth-child(5) .icono { animation-delay:2s; }
+.tipo-mensaje:nth-child(6) .icono { animation-delay:2.5s; }
+@keyframes floatIcon { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
 
-        /* Sección de tipos de mensajes */
-        .tipos-mensajes {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
-        }
+.tipo-mensaje h3 {
+  font-family:'Cinzel',serif;
+  color:#fff; font-size:clamp(1rem,1.8vw,1.3rem);
+  margin-bottom:12px; font-weight:700;
+  text-shadow:0 0 12px rgba(168,237,234,.4), 0 2px 6px rgba(0,0,0,.2);
+}
+.tipo-mensaje p {
+  color:rgba(255,255,255,.82);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem; line-height:1.85;
+  text-shadow:0 1px 4px rgba(0,0,0,.15);
+}
 
-        .tipo-mensaje {
-            background: linear-gradient(135deg, #fff8fb 0%, #ffe8f5 100%);
-            padding: 35px;
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(254, 131, 168, 0.15);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
+/* ══════════════════════════════════════════
+   CHAT SIMULADO — premium
+══════════════════════════════════════════ */
+.chat-section {
+  backdrop-filter:blur(20px) saturate(1.5);
+  background:linear-gradient(145deg,rgba(255,255,255,.15),rgba(255,255,255,.07));
+  border:1.5px solid rgba(255,255,255,.28);
+  border-radius:30px; padding:36px;
+  margin:50px 0;
+  box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 8px 28px rgba(0,0,0,.2), 0 24px 60px rgba(0,77,64,.18), inset 0 1px 0 rgba(255,255,255,.22);
+  position:relative; overflow:hidden;
+}
+.chat-section::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(168,237,234,.7),rgba(254,131,168,.5),transparent);
+}
 
-        .tipo-mensaje::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(254, 131, 168, 0.1) 0%, transparent 70%);
-            transition: all 0.6s ease;
-        }
+.chat-header {
+  text-align:center;
+  font-family:'Cinzel',serif;
+  color:#fff; font-size:1.25rem; font-weight:700;
+  margin-bottom:28px; padding-bottom:18px;
+  border-bottom:1px solid rgba(255,255,255,.18);
+  text-shadow:0 0 14px rgba(168,237,234,.4);
+}
 
-        .tipo-mensaje:hover::before {
-            top: -30%;
-            right: -30%;
-        }
+.mensaje-chat {
+  padding:16px 22px;
+  border-radius:22px;
+  margin:16px 0;
+  position:relative;
+  backdrop-filter:blur(10px);
+  transition:transform .25s ease;
+  max-width:72%;
+}
+.mensaje-chat:hover { transform:scale(1.02); }
 
-        .tipo-mensaje:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 45px rgba(254, 131, 168, 0.25);
-        }
+/* Enviado — teal glass */
+.mensaje-chat.enviado {
+  background:linear-gradient(135deg,rgba(38,198,218,.35),rgba(0,172,193,.28));
+  border:1px solid rgba(168,237,234,.4);
+  margin-left:auto;
+  border-bottom-right-radius:6px;
+  box-shadow:0 4px 18px rgba(0,172,193,.2);
+}
+/* Recibido — rosa glass */
+.mensaje-chat.recibido {
+  background:linear-gradient(135deg,rgba(254,131,168,.3),rgba(240,98,146,.22));
+  border:1px solid rgba(254,211,227,.4);
+  margin-right:auto;
+  border-bottom-left-radius:6px;
+  box-shadow:0 4px 18px rgba(254,131,168,.2);
+}
 
-        .tipo-mensaje .icono {
-            font-size: 3.5em;
-            text-align: center;
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
-        }
+.mensaje-chat p {
+  color:rgba(255,255,255,.94);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.12rem; line-height:1.6; margin:0;
+  text-shadow:0 1px 4px rgba(0,0,0,.15);
+}
+.mensaje-chat .hora {
+  font-size:.8rem; color:rgba(255,255,255,.55);
+  text-align:right; margin-top:7px;
+}
 
-        .tipo-mensaje:nth-child(2) .icono { animation-delay: 0.5s; }
-        .tipo-mensaje:nth-child(3) .icono { animation-delay: 1s; }
-        .tipo-mensaje:nth-child(4) .icono { animation-delay: 1.5s; }
-        .tipo-mensaje:nth-child(5) .icono { animation-delay: 2s; }
-        .tipo-mensaje:nth-child(6) .icono { animation-delay: 2.5s; }
+/* ══════════════════════════════════════════
+   GALERÍA — imágenes intactas
+══════════════════════════════════════════ */
+.galeria-section { margin:50px 0; }
+.section-title {
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.3rem,3vw,2rem); font-weight:700;
+  text-align:center; margin-bottom:28px;
+  color:#fff; text-shadow:0 0 22px rgba(168,237,234,.5), 0 2px 10px rgba(0,0,0,.2);
+}
 
-        .tipo-mensaje h3 {
-            color: #fe83a8;
-            font-size: 1.8em;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: 700;
-        }
+.galeria-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr); gap:18px;
+}
+@media(max-width:700px){ .galeria-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:440px){ .galeria-grid{ grid-template-columns:1fr; } }
 
-        .tipo-mensaje p {
-            color: #555;
-            font-size: 1.15em;
-            line-height: 1.8;
-            text-align: center;
-        }
+.img-card {
+  border-radius:22px; overflow:hidden;
+  background:#fff;
+  border:2px solid rgba(255,255,255,.55);
+  box-shadow:0 8px 28px rgba(0,0,0,.2);
+  position:relative;
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+}
+.img-card::before {
+  content:'💌'; position:absolute;
+  top:12px; right:14px; font-size:1.8em; z-index:2;
+  opacity:0; transform:scale(.6);
+  transition:all .3s ease;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,.3));
+}
+.img-card:hover::before { opacity:1; transform:scale(1.1); }
+.img-card:hover {
+  transform:translateY(-13px) scale(1.04);
+  box-shadow:0 24px 55px rgba(0,0,0,.28), 0 0 30px rgba(168,237,234,.2);
+  border-color:rgba(255,255,255,.8);
+}
+/* Imágenes — altura y proporción 100% respetadas */
+.img-card img {
+  width:100%; height:280px;
+  object-fit:cover; display:block;
+  background:#fff;
+  transition:transform .4s ease;
+}
+.img-card:hover img { transform:scale(1.06); }
 
-        /* Chat simulado mejorado */
-        .chat-container {
-            background: linear-gradient(135deg, #f8fbff 0%, #fff5f8 100%);
-            border-radius: 30px;
-            padding: 40px;
-            margin: 50px 0;
-            box-shadow: inset 0 5px 20px rgba(0,0,0,0.05);
-        }
+/* ══════════════════════════════════════════
+   MENSAJE PRINCIPAL — glass con cita
+══════════════════════════════════════════ */
+.mensaje-principal {
+  backdrop-filter:blur(22px) saturate(1.5);
+  background:linear-gradient(145deg,rgba(255,255,255,.17),rgba(255,255,255,.08));
+  border:1.5px solid rgba(255,255,255,.3);
+  border-radius:28px; padding:48px 44px;
+  margin:50px 0; position:relative; overflow:hidden;
+  box-shadow:0 0 0 1px rgba(255,255,255,.09), 0 8px 30px rgba(0,0,0,.18), 0 24px 60px rgba(0,77,64,.16), inset 0 1px 0 rgba(255,255,255,.25);
+}
+.mensaje-principal::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,rgba(168,237,234,.65),transparent);
+}
+/* Borde izq — degradé teal→rosa */
+.mensaje-principal::after {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:5px; border-radius:0 3px 3px 0;
+  background:linear-gradient(to bottom,transparent,#a8edea 30%,#fe83a8 70%,transparent);
+}
+/* Comilla decorativa */
+.cita-deco {
+  position:absolute; top:10px; left:28px;
+  font-size:7em; color:rgba(168,237,234,.12);
+  font-family:'Cormorant Garamond',serif; line-height:1;
+  user-select:none; pointer-events:none;
+}
 
-        .chat-header {
-            text-align: center;
-            color: #fe83a8;
-            font-size: 1.5em;
-            font-weight: 600;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid rgba(254, 131, 168, 0.2);
-        }
+.mensaje-principal p {
+  color:rgba(255,255,255,.88);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem; line-height:2.05;
+  text-align:justify; margin:18px 0;
+  padding-left:12px;
+  text-shadow:0 1px 5px rgba(0,0,0,.15);
+  position:relative; z-index:1;
+}
+.mensaje-principal p:first-of-type { margin-top:0; }
+.mensaje-principal p:last-of-type  { margin-bottom:0; }
+.firma {
+  text-align:right; margin-top:28px; padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.18);
+  font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:1.2rem; color:rgba(168,237,234,.85);
+  text-shadow:0 0 10px rgba(168,237,234,.35);
+}
 
-        .mensaje-chat {
-            background: white;
-            padding: 20px 25px;
-            border-radius: 20px;
-            margin: 20px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            animation: slideIn 0.5s ease-out;
-            position: relative;
-        }
+/* ══════════════════════════════════════════
+   PROMESA ESPECIAL — cierre dramático
+══════════════════════════════════════════ */
+.promesa-especial {
+  text-align:center; margin:50px 0 30px;
+  padding:56px 40px;
+  border-radius:32px;
+  backdrop-filter:blur(24px) saturate(1.6);
+  background:linear-gradient(145deg,rgba(255,255,255,.2),rgba(255,255,255,.09));
+  border:1.5px solid rgba(255,255,255,.4);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.12),
+    0 8px 36px rgba(0,0,0,.2),
+    0 30px 72px rgba(0,77,64,.2),
+    inset 0 1px 0 rgba(255,255,255,.3);
+  position:relative; overflow:hidden;
+  animation:revealUp .9s cubic-bezier(.16,1,.3,1) .3s both;
+}
+.promesa-especial::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:32px 32px 0 0;
+  background:linear-gradient(90deg,transparent,rgba(168,237,234,.9),rgba(254,131,168,.8),rgba(168,237,234,.9),transparent);
+}
+/* Halo giratorio interior */
+.promesa-especial .halo {
+  position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(circle at 50% 50%, rgba(168,237,234,.08) 0%, transparent 65%);
+  animation:rotar 20s linear infinite;
+}
+@keyframes rotar { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+/* Emoji deco */
+.promesa-especial::after {
+  content:'💌'; position:absolute;
+  font-size:9em; opacity:.04;
+  bottom:-25px; right:-15px;
+  animation:hdPulse 4s ease-in-out infinite;
+}
 
-        .mensaje-chat.enviado {
-            background: linear-gradient(135deg, #a8edea 0%, #c8f3f0 100%);
-            margin-left: 15%;
-            border-bottom-right-radius: 5px;
-        }
+.promesa-especial h2 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.6rem,3.5vw,2.6rem); font-weight:700; margin-bottom:24px;
+  color:#fff; text-shadow:0 0 22px rgba(178,235,242,.45), 0 2px 12px rgba(0,0,0,.2);
+  position:relative; z-index:1;
+}
+.promesa-especial p {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.25rem; line-height:2;
+  color:rgba(255,255,255,.88); margin:8px 0;
+  text-shadow:0 1px 5px rgba(0,0,0,.15);
+  position:relative; z-index:1;
+}
+.promesa-especial p strong { color:#fff; font-style:italic; }
 
-        .mensaje-chat.recibido {
-            background: linear-gradient(135deg, #fed6e3 0%, #ffe6f0 100%);
-            margin-right: 15%;
-            border-bottom-left-radius: 5px;
-        }
+/* ══════════════════════════════════════════
+   CONTROL DE MÚSICA
+══════════════════════════════════════════ */
+#musicControl {
+  position:fixed; bottom:28px; right:28px; z-index:1001;
+  background:rgba(255,255,255,.2);
+  border:1.5px solid rgba(255,255,255,.48); backdrop-filter:blur(16px) saturate(1.5);
+  color:#fff; padding:14px 22px; border-radius:50px;
+  cursor:pointer; font-weight:700; font-size:.98rem;
+  box-shadow:0 8px 30px rgba(0,0,0,.2), 0 0 0 1px rgba(255,255,255,.1), inset 0 1px 0 rgba(255,255,255,.26);
+  transition:all .3s ease; display:flex; align-items:center; gap:9px;
+  text-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+#musicControl:hover {
+  transform:translateY(-4px);
+  background:rgba(255,255,255,.3);
+  box-shadow:0 14px 42px rgba(0,0,0,.22), 0 0 28px rgba(168,237,234,.18);
+}
+#musicControl.playing { animation:mPulse 2s ease-in-out infinite; }
+@keyframes mPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+#musicNotification {
+  position:absolute; top:-8px; right:-8px;
+  background:var(--p1); color:#fff; border-radius:50%;
+  width:22px; height:22px; display:none;
+  align-items:center; justify-content:center;
+  font-size:.65em; font-weight:900; border:2px solid rgba(255,255,255,.55);
+  animation:nPulse 1.2s ease-in-out infinite;
+}
+@keyframes nPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+#songInfo {
+  position:fixed; bottom:84px; right:28px; z-index:1001;
+  background:rgba(0,60,70,.88); backdrop-filter:blur(16px);
+  border:1px solid rgba(168,237,234,.3); color:#fff;
+  padding:12px 18px; border-radius:18px;
+  box-shadow:0 8px 26px rgba(0,0,0,.28); font-size:.87em;
+  max-width:240px; display:none;
+}
+#songInfo .si-label {
+  font-weight:700; margin-bottom:4px; color:#a8edea;
+  font-size:.78rem; letter-spacing:.1em; text-transform:uppercase;
+}
+#currentSongName { color:rgba(220,245,245,.9); }
 
-        .mensaje-chat p {
-            margin: 0;
-            color: #333;
-            font-size: 1.15em;
-            line-height: 1.6;
-        }
-
-        .mensaje-chat .hora {
-            font-size: 0.85em;
-            color: #666;
-            text-align: right;
-            margin-top: 8px;
-            opacity: 0.7;
-        }
-
-        /* Galería mejorada */
-        .galeria-imagenes {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
-        }
-
-        .imagen-item {
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            transition: all 0.4s ease;
-            background: white;
-            position: relative;
-        }
-
-        .imagen-item::after {
-            content: '💌';
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 2em;
-            opacity: 0;
-            transition: all 0.3s ease;
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
-        }
-
-        .imagen-item:hover::after {
-            opacity: 1;
-            transform: scale(1.2);
-        }
-
-        .imagen-item:hover {
-            transform: translateY(-15px) scale(1.03);
-            box-shadow: 0 25px 50px rgba(254, 131, 168, 0.3);
-        }
-
-        .imagen-item img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* Mensaje principal */
-        .mensaje-principal {
-            background: linear-gradient(135deg, #fff5f8 0%, #ffe6f0 100%);
-            padding: 50px;
-            border-radius: 30px;
-            margin: 50px 0;
-            border-left: 8px solid #fe83a8;
-            box-shadow: 0 15px 40px rgba(254, 131, 168, 0.2);
-            position: relative;
-        }
-
-        .mensaje-principal::before {
-            content: '"';
-            position: absolute;
-            top: 10px;
-            left: 30px;
-            font-size: 8em;
-            color: rgba(254, 131, 168, 0.1);
-            font-family: Georgia, serif;
-        }
-
-        .mensaje-principal p {
-            color: #555;
-            font-size: 1.35em;
-            line-height: 2;
-            text-align: justify;
-            margin: 20px 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .mensaje-principal .firma {
-            text-align: right;
-            color: #fe83a8;
-            font-size: 1.4em;
-            font-weight: 600;
-            margin-top: 30px;
-            font-style: italic;
-        }
-
-        /* Promesa especial */
-        .promesa-especial {
-            text-align: center;
-            margin: 60px 0 40px 0;
-            padding: 60px;
-            background: linear-gradient(135deg, #fe83a8 0%, #a8edea 100%);
-            border-radius: 35px;
-            color: white;
-            box-shadow: 0 20px 50px rgba(254, 131, 168, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .promesa-especial::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .promesa-especial h2 {
-            font-size: 2.8em;
-            margin-bottom: 25px;
-            font-weight: 700;
-            position: relative;
-            z-index: 1;
-        }
-
-        .promesa-especial p {
-            font-size: 1.5em;
-            line-height: 1.9;
-            font-weight: 500;
-            position: relative;
-            z-index: 1;
-            margin: 15px 0;
-        }
-
-        .corazon {
-            position: fixed;
-            font-size: 2em;
-            pointer-events: none;
-            z-index: 999;
-            animation: floatUp 4s linear;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0) rotate(0deg); }
-            100% { opacity: 0; transform: translateY(-1000px) rotate(360deg); }
-        }
-
-        @media (max-width: 768px) {
-            .contenido { padding: 40px 25px; }
-            h1 { font-size: 2.5em; }
-            .tipos-mensajes { grid-template-columns: 1fr; }
-            .galeria-imagenes { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-            .mensaje-chat.enviado { margin-left: 5%; }
-            .mensaje-chat.recibido { margin-right: 5%; }
-            #musicControl { bottom: 20px; right: 20px; font-size: 0.9em; padding: 12px 20px; }
-        }
-    </style>
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media(max-width:768px){
+  body { padding:20px 16px 80px; }
+  .hero { padding:36px 20px 32px; }
+  .tipos-mensajes { grid-template-columns:1fr; }
+  .chat-section { padding:24px 18px; }
+  .mensaje-principal { padding:30px 22px; }
+  .promesa-especial { padding:38px 22px; }
+  .mensaje-chat { max-width:88%; }
+  #musicControl { bottom:18px; right:18px; }
+  #songInfo { bottom:74px; right:18px; }
+}
+</style>
 </head>
 <body>
-    <!-- Reproductor de música de fondo -->
-    <audio id="backgroundMusic">
-        <source src="" type="audio/mpeg">
-        Tu navegador no soporta el elemento de audio.
-    </audio>
 
-    <!-- Botón de control de música -->
-    <div id="musicControl">
-        <span id="musicIcon">🎵</span>
-        <span id="musicText">Reproducir Música</span>
-        <span id="musicNotification" style="position: absolute; top: -8px; right: -8px; background: #fe83a8; color: white; border-radius: 50%; width: 24px; height: 24px; display: none; align-items: center; justify-content: center; font-size: 0.7em; font-weight: 900; animation: pulse 1s infinite; border: 2px solid white;">!</span>
+<!-- AUDIO -->
+<audio id="backgroundMusic"><source src="" type="audio/mpeg"></audio>
+
+<!-- MÚSICA UI -->
+<div id="musicControl" role="button">
+  <span id="musicIcon">🎵</span>
+  <span id="musicText">Reproducir Música</span>
+  <span id="musicNotification" aria-hidden="true">!</span>
+</div>
+<div id="songInfo">
+  <div class="si-label">🎵 Reproduciendo</div>
+  <div id="currentSongName"></div>
+</div>
+
+<!-- FONDOS -->
+<div id="blobs" aria-hidden="true">
+  <div class="blob blob-1"></div><div class="blob blob-2"></div>
+  <div class="blob blob-3"></div><div class="blob blob-4"></div>
+  <div class="blob blob-5"></div><div class="blob blob-6"></div>
+</div>
+<div id="hearts-bg" aria-hidden="true"></div>
+<div id="stars"     aria-hidden="true"></div>
+<div id="particles" aria-hidden="true"></div>
+
+<!-- ════════════════════════════════════════
+     CONTENIDO
+════════════════════════════════════════ -->
+<div class="container">
+
+  <a href="index.html" class="btn-volver">← Volver al inicio</a>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div id="hero-deco" aria-hidden="true"></div>
+    <p class="hero-eyebrow">Nuestra Historia · Mensajes de Amor</p>
+    <h1>💌 Nuestros Mensajes Diarios 💌</h1>
+    <p class="hero-sub">El puente que cruza la distancia</p>
+  </section>
+
+  <!-- TIPOS DE MENSAJES -->
+  <div class="tipos-mensajes">
+    <div class="tipo-mensaje">
+      <span class="icono">🌅</span>
+      <h3>Buenos Días</h3>
+      <p>Aunque no siempre sean las primeras palabras del día, saber que estás ahí me llena de energía para comenzar.</p>
     </div>
-    
-    <!-- Info de la canción actual -->
-    <div id="songInfo" style="position: fixed; bottom: 90px; right: 30px; z-index: 1001; background: rgba(26, 26, 26, 0.95); color: white; padding: 12px 20px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); font-size: 0.9em; max-width: 250px; display: none; border: 2px solid #fe83a8;">
-        <div style="font-weight: 700; margin-bottom: 5px; color: #a8edea;">🎵 Reproduciendo:</div>
-        <div id="currentSongName" style="font-size: 0.95em; color: #fff;"></div>
+    <div class="tipo-mensaje">
+      <span class="icono">💝</span>
+      <h3>Sorpresas Inesperadas</h3>
+      <p>Esos mensajes que llegan cuando menos lo esperas y te sacan una sonrisa en momentos difíciles, o que llenan tus ojos de lágrimas de felicidad.</p>
     </div>
-
-    <div class="burbujas" id="burbujas"></div>
-    <div class="stars" id="stars"></div>
-
-    <div class="container">
-        <a href="index.html" class="btn-volver">← Volver al inicio</a>
-
-        <div class="contenido">
-            <h1>💌 Nuestros Mensajes Diarios 💌</h1>
-            <p class="subtitulo">El puente que cruza la distancia</p>
-
-            <div class="tipos-mensajes">
-                <div class="tipo-mensaje">
-                    <div class="icono">🌅</div>
-                    <h3>Buenos Días</h3>
-                    <p>Aunque no siempre sean las primeras palabras del día, saber que estás ahí me llena de energía para comenzar.</p>
-                </div>
-                <div class="tipo-mensaje">
-                    <div class="icono">💝</div>
-                    <h3>Sorpresas Inesperadas</h3>
-                    <p>Esos mensajes que llegan cuando menos lo esperas y te sacan una sonrisa en momentos difíciles, o que llenan tus ojos de lágrimas de felicidad.</p>
-                </div>
-                <div class="tipo-mensaje">
-                    <div class="icono">💭</div>
-                    <h3>Te Pienso</h3>
-                    <p>Los mensajes espontáneos que dicen "pensé en ti", recordándonos que siempre estamos presente el uno para el otro.</p>
-                </div>
-                <div class="tipo-mensaje">
-                    <div class="icono">🌙</div>
-                    <h3>Buenas Noches</h3>
-                    <p>Cerrando el día sabiendo que a pesar de la distancia, dormiremos pensando el uno en el otro.</p>
-                </div>
-                <div class="tipo-mensaje">
-                    <div class="icono">📰</div>
-                    <h3>Noticias Inesperadas</h3>
-                    <p>Esos mensajes que llegan diciendo "tengo algo que contarte", buenos o difíciles, siempre los compartimos porque sabemos que estamos juntos en todo.</p>
-                </div>
-                <div class="tipo-mensaje">
-                    <div class="icono">📸</div>
-                    <h3>Fotos de Amor</h3>
-                    <p>Las selfies sorpresa, las fotos de lo que estamos haciendo, cada imagen que enviamos es una forma de decir "desearía que estuvieras aquí viviéndolo conmigo".</p>
-                </div>
-            </div>
-
-            <div class="chat-container">
-                <div class="chat-header">
-                    📱 Nuestra Conversación de Siempre 📱
-                </div>
-                <div class="mensaje-chat recibido">
-                    <p>Hola mi amor, te extraño 💕</p>
-                    <div class="hora">10:30 AM</div>
-                </div>
-                <div class="mensaje-chat enviado">
-                    <p>Yo también te extraño muchísimo bb 🥰</p>
-                    <div class="hora">10:35 AM</div>
-                </div>
-                <div class="mensaje-chat recibido">
-                    <p>A veces quisiera estar ahí contigo 💔</p>
-                    <div class="hora">10:40 AM</div>
-                </div>
-                <div class="mensaje-chat enviado">
-                    <p>Lo sé mi amor, pero pronto estaremos juntos. Siempre cuento contigo y tú siempre puedes contar conmigo 💖</p>
-                    <div class="hora">10:45 AM</div>
-                </div>
-                <div class="mensaje-chat recibido">
-                    <p>Te amo tanto 😭💕</p>
-                    <div class="hora">10:50 AM</div>
-                </div>
-                <div class="mensaje-chat enviado">
-                    <p>Yo te amo más, mi bb hermosa ❤️✨</p>
-                    <div class="hora">10:52 AM</div>
-                </div>
-            </div>
-
-            <div class="galeria-imagenes">
-                <div class="imagen-item">
-                    <img src="assent/GIF3.gif" alt="Mensajes de amor">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/JPG3.jpg" alt="Mensajes de amor">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/GIF4.gif" alt="Mensajes de amor">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/JPG4.jpg" alt="Mensajes de amor">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/GIF5.gif" alt="Mensajes de amor">
-                </div>
-                <div class="imagen-item">
-                    <img src="assent/JPG2.jpg" alt="Momento especial">
-                </div>
-            </div>
-
-            <div class="mensaje-principal">
-                <p>Aunque no siempre sea un "buenos días" o "buenas noches", siempre sabemos que estamos el uno para el otro. A pesar de las diferencias que tenemos, siempre seremos uno.</p>
-                
-                <p>Esos mensajes sorpresa que a veces llegan y nos llenan de lágrimas los ojos, o esos mensajes que sacan una sonrisa en momentos donde menos lo esperas... cada uno de ellos es un recordatorio de que nuestro amor es real y fuerte.</p>
-                
-                <p>Quiero que sepas que a pesar de no estar siempre a tu lado, o no siempre poder estar donde quieres, siempre contarás con todo mi apoyo, pase lo que pase, mi bb. Y eso tienes que tenerlo más que segura, bb mía.</p>
-                
-                <p>Cada mensaje es una promesa silenciosa de que no importa la distancia, no importa el tiempo, siempre estaré aquí para ti. Porque eres mi persona, mi amor, mi todo.</p>
-                
-                <div class="firma">Con todo mi amor, para siempre 💕</div>
-            </div>
-
-            <div class="promesa-especial">
-                <h2>💖 Mi Promesa 💖</h2>
-                <p>Siempre que me necesites, ahí estaré.</p>
-                <p>En tus alegrías y en tus tristezas.</p>
-                <p>A través de mensajes, llamadas o silencios.</p>
-                <p>Porque somos uno, mi amor.</p>
-                <p><strong>Y eso nunca cambiará. 💕</strong></p>
-            </div>
-        </div>
+    <div class="tipo-mensaje">
+      <span class="icono">💭</span>
+      <h3>Te Pienso</h3>
+      <p>Los mensajes espontáneos que dicen "pensé en ti", recordándonos que siempre estamos presente el uno para el otro.</p>
     </div>
+    <div class="tipo-mensaje">
+      <span class="icono">🌙</span>
+      <h3>Buenas Noches</h3>
+      <p>Cerrando el día sabiendo que a pesar de la distancia, dormiremos pensando el uno en el otro.</p>
+    </div>
+    <div class="tipo-mensaje">
+      <span class="icono">📰</span>
+      <h3>Noticias Inesperadas</h3>
+      <p>Esos mensajes que llegan diciendo "tengo algo que contarte", buenos o difíciles, siempre los compartimos porque sabemos que estamos juntos en todo.</p>
+    </div>
+    <div class="tipo-mensaje">
+      <span class="icono">📸</span>
+      <h3>Fotos de Amor</h3>
+      <p>Las selfies sorpresa, las fotos de lo que estamos haciendo, cada imagen que enviamos es una forma de decir "desearía que estuvieras aquí viviéndolo conmigo".</p>
+    </div>
+  </div>
 
-    <script>
-        // ============ SISTEMA DE MÚSICA ============
-        const playlist = [
-            { file: 'assent/The-First-Time.mp3', name: 'The First Time' },
-            { file: 'assent/There-You-Are.mp3', name: 'There You Are' },
-            { file: 'assent/Die-With-A-Smile.mp3', name: 'Die With A Smile' },
-            { file: 'assent/i-wish-i-hated-you.mp3', name: 'I Wish I Hated You' },
-            { file: 'assent/blue.mp3', name: 'Blue' },
-            { file: 'assent/Beautiful-Things.mp3', name: 'Beautiful Things' },
-            { file: 'assent/No-One-Noticed.mp3', name: 'No One Noticed' },
-            { file: 'assent/Indigo.mp3', name: 'Indigo' },
-            { file: 'assent/With-You.mp3', name: 'With You' },
-            { file: 'assent/number-one-girl.mp3', name: 'Number One Girl' },
-            { file: 'assent/TWENTIES.mp3', name: 'Twenties' }
-        ];
+  <!-- CHAT SIMULADO -->
+  <div class="chat-section">
+    <div class="chat-header">📱 Nuestra Conversación de Siempre 📱</div>
+    <div class="mensaje-chat recibido">
+      <p>Hola mi amor, te extraño 💕</p>
+      <div class="hora">10:30 AM</div>
+    </div>
+    <div class="mensaje-chat enviado">
+      <p>Yo también te extraño muchísimo bb 🥰</p>
+      <div class="hora">10:35 AM</div>
+    </div>
+    <div class="mensaje-chat recibido">
+      <p>A veces quisiera estar ahí contigo 💔</p>
+      <div class="hora">10:40 AM</div>
+    </div>
+    <div class="mensaje-chat enviado">
+      <p>Lo sé mi amor, pero pronto estaremos juntos. Siempre cuento contigo y tú siempre puedes contar conmigo 💖</p>
+      <div class="hora">10:45 AM</div>
+    </div>
+    <div class="mensaje-chat recibido">
+      <p>Te amo tanto 😭💕</p>
+      <div class="hora">10:50 AM</div>
+    </div>
+    <div class="mensaje-chat enviado">
+      <p>Yo te amo más, mi bb hermosa ❤️✨</p>
+      <div class="hora">10:52 AM</div>
+    </div>
+  </div>
 
-        const audio = document.getElementById('backgroundMusic');
-        const musicControl = document.getElementById('musicControl');
-        const musicIcon = document.getElementById('musicIcon');
-        const musicText = document.getElementById('musicText');
-        const songInfo = document.getElementById('songInfo');
-        const currentSongName = document.getElementById('currentSongName');
-        const musicNotification = document.getElementById('musicNotification');
-        let isPlaying = false;
-        let currentSongIndex = 0;
+  <!-- GALERÍA -->
+  <section class="galeria-section">
+    <h2 class="section-title">💌 Momentos Compartidos 💌</h2>
+    <div class="galeria-grid">
+      <div class="img-card"><img src="assent/GIF3.gif"  alt="Mensajes de amor"></div>
+      <div class="img-card"><img src="assent/JPG3.jpg"  alt="Mensajes de amor"></div>
+      <div class="img-card"><img src="assent/GIF4.gif"  alt="Mensajes de amor"></div>
+      <div class="img-card"><img src="assent/JPG4.jpg"  alt="Mensajes de amor"></div>
+      <div class="img-card"><img src="assent/GIF5.gif"  alt="Mensajes de amor"></div>
+      <div class="img-card"><img src="assent/JPG2.jpg"  alt="Momento especial"></div>
+    </div>
+  </section>
 
-        audio.volume = 0.7;
+  <!-- MENSAJE PRINCIPAL -->
+  <div class="mensaje-principal">
+    <div class="cita-deco">"</div>
+    <p>Aunque no siempre sea un "buenos días" o "buenas noches", siempre sabemos que estamos el uno para el otro. A pesar de las diferencias que tenemos, siempre seremos uno.</p>
+    <p>Esos mensajes sorpresa que a veces llegan y nos llenan de lágrimas los ojos, o esos mensajes que sacan una sonrisa en momentos donde menos lo esperas... cada uno de ellos es un recordatorio de que nuestro amor es real y fuerte.</p>
+    <p>Quiero que sepas que a pesar de no estar siempre a tu lado, o no siempre poder estar donde quieres, siempre contarás con todo mi apoyo, pase lo que pase, mi bb. Y eso tienes que tenerlo más que segura, bb mía.</p>
+    <p>Cada mensaje es una promesa silenciosa de que no importa la distancia, no importa el tiempo, siempre estaré aquí para ti. Porque eres mi persona, mi amor, mi todo.</p>
+    <div class="firma">Con todo mi amor, para siempre 💕</div>
+  </div>
 
-        function loadSong(index) {
-            currentSongIndex = index;
-            audio.src = playlist[index].file;
-            currentSongName.textContent = playlist[index].name;
-            saveMusicState(isPlaying, 0, index);
-        }
+  <!-- PROMESA ESPECIAL -->
+  <div class="promesa-especial">
+    <div class="halo"></div>
+    <h2>💖 Mi Promesa 💖</h2>
+    <p>Siempre que me necesites, ahí estaré.</p>
+    <p>En tus alegrías y en tus tristezas.</p>
+    <p>A través de mensajes, llamadas o silencios.</p>
+    <p>Porque somos uno, mi amor.</p>
+    <p><strong>Y eso nunca cambiará. 💕</strong></p>
+  </div>
 
-        function playNextSong() {
-            currentSongIndex = (currentSongIndex + 1) % playlist.length;
-            loadSong(currentSongIndex);
-            if (isPlaying) { audio.play().catch(e => console.log('Error:', e)); }
-        }
+</div><!-- /container -->
 
-        audio.addEventListener('ended', playNextSong);
+<script>
+'use strict';
 
-        function saveMusicState(playing, time, songIndex) {
-            localStorage.setItem('musicPlaying', playing);
-            localStorage.setItem('musicTime', time);
-            localStorage.setItem('currentSong', songIndex);
-        }
+/* ── FONDOS GENERATIVOS ── */
+(function buildBg() {
 
-        function loadMusicState() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-            const savedSong = parseInt(localStorage.getItem('currentSong')) || 0;
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            
-            loadSong(savedSong);
-            audio.load();
-            
-            if (wasPlaying) {
-                sessionStorage.setItem('musicNavigating', 'true');
-                audio.currentTime = savedTime;
-                
-                if (hasInteracted) {
-                    setTimeout(() => {
-                        audio.currentTime = savedTime;
-                        audio.play().then(() => {
-                            isPlaying = true;
-                            updateMusicButton();
-                            showSongInfo();
-                            sessionStorage.removeItem('musicNavigating');
-                        }).catch(() => activatePlanB(savedTime));
-                    }, 100);
-                } else {
-                    activatePlanB(savedTime);
-                }
-            }
-        }
-        
-        function activatePlanB(savedTime) {
-            const events = ['click', 'touchstart', 'keydown', 'mousemove', 'scroll'];
-            const resumeMusic = () => {
-                audio.currentTime = savedTime;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                    sessionStorage.removeItem('musicNavigating');
-                    localStorage.setItem('userHasInteracted', 'true');
-                });
-                events.forEach(e => document.removeEventListener(e, resumeMusic));
-            };
-            events.forEach(e => document.addEventListener(e, resumeMusic, { once: true, capture: true }));
-            isPlaying = false;
-            updateMusicButton();
-        }
+  // Partículas — teal claro + rosa claro + blanco
+  const pCont  = document.getElementById('particles');
+  const pColors = [
+    'rgba(255,255,255,.9)', '#b2ebf2', '#a8edea',
+    '#fed6e3', 'rgba(255,255,255,.65)', '#e0f7fa', '#fce4ec'
+  ];
+  for (let i = 0; i < 65; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const sz  = Math.random() * 3.2 + .8;
+    const clr = pColors[Math.floor(Math.random() * pColors.length)];
+    p.style.cssText = `
+      width:${sz}px;height:${sz}px;
+      left:${Math.random()*100}%;
+      background:${clr};
+      box-shadow:0 0 ${sz*3}px ${clr};
+      animation-duration:${11+Math.random()*18}s;
+      animation-delay:-${Math.random()*22}s;
+    `;
+    pCont.appendChild(p);
+  }
 
-        function showSongInfo() { songInfo.style.display = 'block'; }
-        function hideSongInfo() { songInfo.style.display = 'none'; }
+  // Estrellas
+  const sCont = document.getElementById('stars');
+  for (let i = 0; i < 155; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 2.5 + .8;
+    s.style.cssText = `
+      width:${sz}px; height:${sz}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      background:rgba(255,255,255,${.35+Math.random()*.55});
+      animation-delay:${Math.random()*5}s;
+      animation-duration:${1.5+Math.random()*3}s;
+    `;
+    sCont.appendChild(s);
+  }
 
-        function updateMusicButton() {
-            if (isPlaying) {
-                musicIcon.textContent = '⏸️';
-                musicText.textContent = 'Pausar Música';
-                musicControl.classList.add('playing');
-                musicControl.style.animation = 'musicPulse 2s infinite';
-                musicNotification.style.display = 'none';
-                showSongInfo();
-            } else {
-                const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-                if (wasPlaying) {
-                    musicIcon.textContent = '▶️';
-                    musicText.textContent = 'Continuar Música';
-                    musicControl.style.animation = 'pulse 1.5s infinite';
-                    musicNotification.style.display = 'flex';
-                } else {
-                    musicIcon.textContent = '🎵';
-                    musicText.textContent = 'Reproducir Música';
-                    musicControl.style.animation = 'none';
-                    musicNotification.style.display = 'none';
-                }
-                musicControl.classList.remove('playing');
-                hideSongInfo();
-            }
-        }
+  // Corazones y sobres flotantes
+  const hCont  = document.getElementById('hearts-bg');
+  const hearts = ['❤️','💕','💌','💖','💗','💝','💓','✉️'];
+  for (let i = 0; i < 20; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+    h.style.cssText = `
+      left:${Math.random()*100}%;
+      animation-delay:${Math.random()*18}s;
+      animation-duration:${12+Math.random()*12}s;
+      font-size:${1.4+Math.random()*1.8}em;
+    `;
+    hCont.appendChild(h);
+  }
 
-        musicControl.addEventListener('click', function() {
-            localStorage.setItem('userHasInteracted', 'true');
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                saveMusicState(false, audio.currentTime, currentSongIndex);
-            } else {
-                const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-                audio.currentTime = savedTime;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    saveMusicState(true, audio.currentTime, currentSongIndex);
-                });
-            }
-            updateMusicButton();
-        });
+  // Decoraciones hero — teal + rosa
+  const decoEl = document.getElementById('hero-deco');
+  const dItems = ['💌','💕','✨','💝','🌟','💗','💫','❤️'];
+  const dPos   = [
+    {top:'8%',  left:'3%',  sz:'2em',   dur:'2.8s', del:'0s',   rot:'-12deg'},
+    {top:'12%', left:'90%', sz:'1.7em', dur:'3.2s', del:'0.6s', rot:'15deg' },
+    {top:'60%', left:'2%',  sz:'1.9em', dur:'2.5s', del:'1.3s', rot:'-8deg' },
+    {top:'65%', left:'91%', sz:'2.2em', dur:'3s',   del:'0.3s', rot:'10deg' },
+    {top:'82%', left:'14%', sz:'1.5em', dur:'3.5s', del:'1.8s', rot:'5deg'  },
+    {top:'30%', left:'94%', sz:'1.8em', dur:'2.7s', del:'0.9s', rot:'-5deg' },
+    {top:'87%', left:'80%', sz:'2em',   dur:'3.1s', del:'2.1s', rot:'18deg' },
+    {top:'42%', left:'46%', sz:'1.4em', dur:'4s',   del:'1s',   rot:'-3deg' },
+  ];
+  dPos.forEach((d,i) => {
+    const el = document.createElement('div');
+    el.className = 'hdeco';
+    el.textContent = dItems[i];
+    el.style.cssText = `top:${d.top};left:${d.left};font-size:${d.sz};--dur:${d.dur};--del:${d.del};--rot:${d.rot};`;
+    decoEl.appendChild(el);
+  });
+})();
 
-        audio.addEventListener('timeupdate', () => { if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIndex); });
-        audio.addEventListener('play', () => { isPlaying = true; updateMusicButton(); });
-        audio.addEventListener('pause', () => { if (!audio.ended) { isPlaying = false; updateMusicButton(); } });
-        window.addEventListener('beforeunload', () => { if (isPlaying) saveMusicState(true, audio.currentTime, currentSongIndex); });
-        
-        audio.addEventListener('canplay', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const isNavigating = sessionStorage.getItem('musicNavigating') === 'true';
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            if (wasPlaying && isNavigating && !isPlaying && hasInteracted) {
-                audio.currentTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                    sessionStorage.removeItem('musicNavigating');
-                });
-            }
-        });
-        
-        audio.addEventListener('loadedmetadata', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const savedTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            if (wasPlaying && savedTime > 0 && !isPlaying && hasInteracted) {
-                audio.currentTime = savedTime;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                });
-            }
-        });
-        
-        document.addEventListener('visibilitychange', function() {
-            const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
-            const hasInteracted = localStorage.getItem('userHasInteracted') === 'true';
-            if (!document.hidden && wasPlaying && !isPlaying && hasInteracted) {
-                audio.currentTime = parseFloat(localStorage.getItem('musicTime')) || 0;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    updateMusicButton();
-                    showSongInfo();
-                });
-            }
-        });
+/* ── CORAZONES FLOTANTES ── */
+function crearCorazon() {
+  const items = ['❤️','💕','💌','💖','💗','💓','💝','💘'];
+  const c = document.createElement('div');
+  c.className = 'corazon';
+  c.textContent = items[Math.floor(Math.random() * items.length)];
+  c.style.left   = Math.random() * 100 + '%';
+  c.style.bottom = '-50px';
+  document.body.appendChild(c);
+  setTimeout(() => c.remove(), 4000);
+}
+setInterval(crearCorazon, 1500);
 
-        // ============ RESTO DEL CÓDIGO ORIGINAL ============
-        function crearEstrellas() {
-            const starsContainer = document.getElementById('stars');
-            for (let i = 0; i < 150; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                starsContainer.appendChild(star);
-            }
-        }
+/* ── SCROLL REVEAL ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
 
-        function crearBurbujas() {
-            const burbujasContainer = document.getElementById('burbujas');
-            for (let i = 0; i < 20; i++) {
-                const burbuja = document.createElement('div');
-                burbuja.className = 'burbuja';
-                burbuja.style.left = Math.random() * 100 + '%';
-                burbuja.style.animationDelay = Math.random() * 15 + 's';
-                burbuja.style.animationDuration = (10 + Math.random() * 10) + 's';
-                burbujasContainer.appendChild(burbuja);
-            }
-        }
+document.querySelectorAll(
+  '.tipo-mensaje, .chat-section, .img-card, .mensaje-principal, .promesa-especial'
+).forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(32px)';
+  el.style.transition = 'opacity .75s ease, transform .8s cubic-bezier(.16,1,.3,1)';
+  observer.observe(el);
+});
 
-        function crearCorazon() {
-            const corazones = ['❤️', '💕', '💖', '💗', '💓', '💝', '💌', '💘'];
-            const corazon = document.createElement('div');
-            corazon.className = 'corazon';
-            corazon.textContent = corazones[Math.floor(Math.random() * corazones.length)];
-            corazon.style.left = Math.random() * 100 + '%';
-            corazon.style.bottom = '-50px';
-            document.body.appendChild(corazon);
-            setTimeout(() => corazon.remove(), 4000);
-        }
+/* ── MÚSICA — lógica original 100% preservada ── */
+const playlist = [
+  {file:'assent/The-First-Time.mp3',     name:'The First Time'    },
+  {file:'assent/There-You-Are.mp3',       name:'There You Are'     },
+  {file:'assent/Die-With-A-Smile.mp3',    name:'Die With A Smile'  },
+  {file:'assent/i-wish-i-hated-you.mp3', name:'I Wish I Hated You'},
+  {file:'assent/blue.mp3',               name:'Blue'              },
+  {file:'assent/Beautiful-Things.mp3',   name:'Beautiful Things'  },
+  {file:'assent/No-One-Noticed.mp3',     name:'No One Noticed'    },
+  {file:'assent/Indigo.mp3',             name:'Indigo'            },
+  {file:'assent/With-You.mp3',           name:'With You'          },
+  {file:'assent/number-one-girl.mp3',    name:'Number One Girl'   },
+  {file:'assent/TWENTIES.mp3',           name:'Twenties'          }
+];
 
-        const observador = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
+const audio      = document.getElementById('backgroundMusic');
+const musicCtrl  = document.getElementById('musicControl');
+const musicIcon  = document.getElementById('musicIcon');
+const musicText  = document.getElementById('musicText');
+const songInfo   = document.getElementById('songInfo');
+const songNameEl = document.getElementById('currentSongName');
+const musicNotif = document.getElementById('musicNotification');
+let isPlaying = false, currentSongIdx = 0;
+audio.volume = 0.7;
 
-        if (document.readyState === 'loading') {
-            window.addEventListener('DOMContentLoaded', initializePage);
-        } else {
-            initializePage();
-        }
-        
-        function initializePage() {
-            crearEstrellas();
-            crearBurbujas();
-            setInterval(crearCorazon, 1200);
-            loadMusicState();
-            
-            document.querySelectorAll('.tipo-mensaje, .mensaje-chat, .imagen-item').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'all 0.6s ease-out';
-                observador.observe(el);
-            });
-        }
-    </script>
+function loadSong(idx){currentSongIdx=idx;audio.src=playlist[idx].file;if(songNameEl)songNameEl.textContent=playlist[idx].name;saveMusicState(isPlaying,0,idx);}
+function playNextSong(){currentSongIdx=(currentSongIdx+1)%playlist.length;loadSong(currentSongIdx);if(isPlaying)audio.play().catch(()=>{});}
+audio.addEventListener('ended',playNextSong);
+function saveMusicState(p,t,idx){localStorage.setItem('musicPlaying',p);localStorage.setItem('musicTime',t);localStorage.setItem('currentSong',idx);}
+function updateMusicButton(){
+  const was=localStorage.getItem('musicPlaying')==='true';
+  if(isPlaying){musicIcon.textContent='⏸️';musicText.textContent='Pausar Música';musicCtrl.classList.add('playing');musicNotif.style.display='none';songInfo.style.display='block';}
+  else{musicIcon.textContent=was?'▶️':'🎵';musicText.textContent=was?'Continuar Música':'Reproducir Música';musicCtrl.classList.remove('playing');musicNotif.style.display=was?'flex':'none';songInfo.style.display='none';}
+}
+function activatePlanB(t){
+  const evs=['click','touchstart','keydown','mousemove','scroll'];
+  const go=()=>{audio.currentTime=t;audio.play().then(()=>{isPlaying=true;updateMusicButton();localStorage.setItem('userHasInteracted','true');sessionStorage.removeItem('musicNavigating');}).catch(()=>{});evs.forEach(ev=>document.removeEventListener(ev,go));};
+  evs.forEach(ev=>document.addEventListener(ev,go,{once:true,capture:true}));
+  isPlaying=false;updateMusicButton();
+}
+function loadMusicState(){
+  const was=localStorage.getItem('musicPlaying')==='true',t=parseFloat(localStorage.getItem('musicTime'))||0,idx=parseInt(localStorage.getItem('currentSong'))||0,hi=localStorage.getItem('userHasInteracted')==='true';
+  loadSong(idx);audio.load();
+  if(was){sessionStorage.setItem('musicNavigating','true');audio.currentTime=t;
+    if(hi){setTimeout(()=>{audio.currentTime=t;audio.play().then(()=>{isPlaying=true;updateMusicButton();sessionStorage.removeItem('musicNavigating');}).catch(()=>activatePlanB(t));},100);}
+    else activatePlanB(t);}
+}
+musicCtrl.addEventListener('click',()=>{localStorage.setItem('userHasInteracted','true');if(isPlaying){audio.pause();isPlaying=false;saveMusicState(false,audio.currentTime,currentSongIdx);updateMusicButton();}else{const t=parseFloat(localStorage.getItem('musicTime'))||0;audio.currentTime=t;audio.play().then(()=>{isPlaying=true;saveMusicState(true,audio.currentTime,currentSongIdx);updateMusicButton();}).catch(()=>{});}});
+audio.addEventListener('timeupdate',()=>{if(isPlaying)saveMusicState(true,audio.currentTime,currentSongIdx);});
+audio.addEventListener('play',()=>{isPlaying=true;updateMusicButton();});
+audio.addEventListener('pause',()=>{if(!audio.ended){isPlaying=false;updateMusicButton();}});
+window.addEventListener('beforeunload',()=>{if(isPlaying)saveMusicState(true,audio.currentTime,currentSongIdx);});
+['canplay','loadedmetadata'].forEach(ev=>{audio.addEventListener(ev,()=>{const was=localStorage.getItem('musicPlaying')==='true',t=parseFloat(localStorage.getItem('musicTime'))||0,hi=localStorage.getItem('userHasInteracted')==='true',nav=sessionStorage.getItem('musicNavigating')==='true';if(was&&!isPlaying&&hi&&(ev==='canplay'?nav:t>0)){audio.currentTime=t;audio.play().then(()=>{isPlaying=true;updateMusicButton();sessionStorage.removeItem('musicNavigating');}).catch(()=>{});}});});
+document.addEventListener('visibilitychange',()=>{const was=localStorage.getItem('musicPlaying')==='true',hi=localStorage.getItem('userHasInteracted')==='true';if(!document.hidden&&was&&!isPlaying&&hi){audio.currentTime=parseFloat(localStorage.getItem('musicTime'))||0;audio.play().then(()=>{isPlaying=true;updateMusicButton();}).catch(()=>{});}});
+if(document.readyState==='loading'){window.addEventListener('DOMContentLoaded',loadMusicState);}else{loadMusicState();}
+</script>
 </body>
 </html>
